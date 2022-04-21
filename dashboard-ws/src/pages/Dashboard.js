@@ -13,7 +13,7 @@ import {
 export default function Dashboard() {
 	return (
 		<>
-			<div className="flex flex-wrap">
+			<div className="flex flex-wrap overflow-hidden mx-2">
 				<CardInfo
 					title="Total Transaction"
 					value="$50,000"
@@ -35,9 +35,9 @@ export default function Dashboard() {
 					icon={<MdOutlineShield className="text-[#D6AB14]" />}
 				/>
 			</div>
-			<div className="flex flex-wrap">
+			<div className="flex flex-wrap overflow-hidden mx-2">
 				<CardTable
-					title="Data Commision"
+					title="Data Transaction"
 					alt="Information data commission employee"
 				/>
 				<CardForDataChart
@@ -47,25 +47,25 @@ export default function Dashboard() {
 					chartComponent={<ChartPie />}
 				/>
 			</div>
-			<div className="flex flex-wrap">
+			<div className="flex flex-wrap overflow-hidden mx-2">
 				<CardTable
 					title="Data Commision"
 					alt="Information data commission employee"
 				/>
 			</div>
-			<div className="flex flex-wrap">
+			<div className="flex flex-wrap overflow-hidden mx-2">
 				<CardForDataChart
 					title="Daily Average"
 					alt="15 April - 21 April"
 					chartComponent={<ChartBar />}
 				/>
 				<CardTable
-					title="Data Commision"
-					alt="Information data commission employee"
+					title="Data Presence"
+					alt="Information data"
 				/>
 				<CardTable
-					title="Data Commision"
-					alt="Information data commission employee"
+					title="Data Stock Product Retail"
+					alt="Information data"
 				/>
 			</div>
 		</>
