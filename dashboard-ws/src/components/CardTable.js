@@ -1,4 +1,4 @@
-import {NavLink} from "react-router-dom";
+// import {NavLink} from "react-router-dom";
 
 const CardTable = props => {
 	return (
@@ -12,13 +12,13 @@ const CardTable = props => {
 						{props.alt}
 					</h1>
 				</div>
-				<NavLink to="/">
-					<button className="px-3 py-2 bg-white text-black text-xs font-nunito-sans font-semibold rounded-lg">
-						See Details
-					</button>
-				</NavLink>
+				<button className="px-3 py-2 bg-white text-black text-xs font-nunito-sans font-semibold rounded-lg outline-none hover:bg-gray-200 focus:outline-none focus:ring focus:ring-blue-500">
+					See Details
+				</button>
+				{/* <NavLink to="/" className="focus:outline-none">
+				</NavLink> */}
 			</div>
-			<table className="table-fixed mt-5 font-nunito-sans text-xs">
+			<table className="mt-5 font-nunito-sans text-xs overflow-x-scroll lg:w-full">
 				<thead>
 					<tr className="bg-white text-black">
 						<th className="py-2">Date</th>
