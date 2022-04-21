@@ -60,11 +60,11 @@ export default function Dashboard() {
 					chartComponent={<ChartBar />}
 				/>
 				<CardTable
-					title="Data Commision"
+					title="Data Presence"
 					alt="Information data commission employee"
 				/>
 				<CardTable
-					title="Data Commision"
+					title="Data Stock Product Retail"
 					alt="Information data commission employee"
 				/>
 			</div>
