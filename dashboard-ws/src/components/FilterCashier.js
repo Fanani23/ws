@@ -1,5 +1,5 @@
-const DuoFilter = (props) => {
-	return (
+const FilterCashier = () => {
+  return (
 		<>
 			<div className="flex">
 				<button className="bg-white text-black rounded-lg active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
@@ -33,7 +33,7 @@ const DuoFilter = (props) => {
 				</button>
 			</div>
 		</>
-	);
-};
+  );
+}
 
-export default DuoFilter;
+export default FilterCashier
