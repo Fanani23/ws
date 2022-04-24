@@ -1,15 +1,12 @@
-const DuoFilter = (props) => {
-	return (
+const FilterReport = () => {
+  return (
 		<>
 			<div className="flex">
 				<button className="bg-white text-black rounded-lg active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Woman
+					Commission
 				</button>
 				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Men
-				</button>
-				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Product
+					Transaction
 				</button>
 			</div>
 			<div className="flex">
@@ -17,23 +14,14 @@ const DuoFilter = (props) => {
 					All
 				</button>
 				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Color
+					Service
 				</button>
 				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Styling
-				</button>
-				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Waxing
-				</button>
-				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Extensions
-				</button>
-				<button className="bg-black text-white rounded-lg hover:bg-white hover:text-black active:outline-none ml-3 my-2 px-3 py-2 font-noto-sans font-semibold">
-					Design
+					Product
 				</button>
 			</div>
 		</>
-	);
-};
+  );
+}
 
-export default DuoFilter;
+export default FilterReport
