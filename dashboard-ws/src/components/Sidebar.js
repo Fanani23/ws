@@ -1,167 +1,217 @@
-import {useState} from "react";
-import {NavLink} from "react-router-dom";
-import AdminNavbar from "./AdminNavbar";
 import {
 	MdOutlineDashboard,
 	MdAddShoppingCart,
-	MdOutlineModeEditOutline,
-	MdOutlineAssignment,
-	MdOutlineAssessment,
-	MdOutlineGroup,
-	MdOutlineHowToReg,
-	MdOutlineHeadsetMic,
-	MdOutlineShoppingBag,
 	MdOutlineLocalOffer,
+	MdOutlineShoppingBag,
+	MdOutlineAssessment,
+	MdOutlineAssignment,
+	MdOutlineGroup,
+	MdOutlineModeEditOutline,
+	MdOutlineHowToReg,
 	MdOutlineSettings,
+	MdOutlineHeadsetMic,
+	MdHistory,
 } from "react-icons/md";
+import {ReactComponent as ProductDownload} from "../img/product-downloadable.svg";
+import {NavLink} from "react-router-dom";
 
-export default function Sidebar() {
-	const [showSidebar, setShowSidebar] = useState("-left-64");
+const Sidebar = ({show}) => {
 	return (
 		<>
-			<AdminNavbar
-				showSidebar={showSidebar}
-				setShowSidebar={setShowSidebar}
-			/>
 			<div
-				className={`h-screen fixed top-0 md:left-0 ${showSidebar} scrollbar overflow-y-auto flex-row flex-nowrap overflow-hidden shadow-xl bg-primary-100 w-64 z-10 py-4 px-6 transition-all duration-300`}
+				className={
+					show
+						? "bg-primary-100 text-white hidden min-w-0 md:flex lg:min-w-[270px] p-3 overflow-y-scroll h-full scrollbar-auto-hide"
+						: "hidden"
+				}
 			>
-				<div className="flex-col items-stretch min-h-full flex-nowrap px-0 relative">
-					<a
-						href="/"
-						target="_blank"
-						rel="noreferrer"
-						className="mt-2 text-center w-full inline-block text-white font-nunito-sans text-2xl font-bold"
-					>
-						<h1>KATTO HAIR DESIGN</h1>
-					</a>
-					<div className="flex flex-col">
-						<ul className="flex-col mt-10 min-w-full flex list-none font-nunito-sans">
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineDashboard className="text-2xl" />
-									Dashboard
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/cashier"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdAddShoppingCart className="text-2xl" />
-									Cashier
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/presensi"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineModeEditOutline className="text-2xl" />
-									Presensi
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/transaction"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineAssignment className="text-2xl" />
-									Transaction
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/report"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineAssessment className="text-2xl" />
-									Report
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/costumers"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineGroup className="text-2xl" />
-									Costumers
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/employee"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineHowToReg className="text-2xl" />
-									Employee
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/settings/services"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineSettings className="text-2xl" />
-									Settings
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/settings/services"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineHeadsetMic className="text-2xl" />
-									Services
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/settings/retails"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineShoppingBag className="text-2xl" />
-									Retails
-								</NavLink>
-							</li>
-							<li className="rounded-lg mb-2">
-								<NavLink
-									to="/settings/vouchers"
-									exact
-									className="flex items-center gap-4 text-sm text-white px-4 py-3 rounded-lg hover:bg-primary-500"
-									activeClassName="bg-white text-black shadow-md hover:bg-gray-50"
-								>
-									<MdOutlineLocalOffer className="text-2xl" />
-									Vouchers
-								</NavLink>
-							</li>
-						</ul>
-					</div>
-				</div>
+				<ul className="w-full h-full">
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineDashboard className="text-2xl mr-3" />
+							Dashboard
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/cashier"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdAddShoppingCart className="text-2xl mr-3" />
+							Cashier
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/product"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<ProductDownload className="text-2xl mr-3" />
+							Product
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/product/category"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineLocalOffer className="text-2xl mr-3" />
+							Category
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/product/list"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineShoppingBag className="text-2xl mr-3" />
+							List Product
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/report"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineAssessment className="text-2xl mr-3" />
+							Report
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/report/order"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineAssignment className="text-2xl mr-3" />
+							Order
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/report/transaction"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineAssignment className="text-2xl mr-3" />
+							Transaction
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/costumers"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineGroup className="text-2xl mr-3" />
+							Costumers
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/presensi"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineModeEditOutline className="text-2xl mr-3" />
+							Presensi
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/employee"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineHowToReg className="text-2xl mr-3" />
+							Employee
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/setting"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineSettings className="text-2xl mr-3" />
+							Settings
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/setting/admin"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdOutlineHeadsetMic className="text-2xl mr-3" />
+							Admin
+						</NavLink>
+					</li>
+					<li className="rounded-lg" role="button">
+						<NavLink
+							to="/setting/log"
+							className={({isActive}) =>
+								isActive
+									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+							}
+						>
+							<MdHistory className="text-2xl mr-3" />
+							Log Login
+						</NavLink>
+					</li>
+				</ul>
 			</div>
 		</>
 	);
-}
+};
+
+export default Sidebar;

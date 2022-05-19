@@ -1,24 +1,11 @@
-import CardItems from "components/CardItems";
-import CashierDetail from "components/CashierDetail";
-import FilterCashier from "components/FilterCashier";
+import TabTitle from "../utils/GeneralFunction"
 
 const Cashier = () => {
-	return (
-		<>
-			<div className="flex flex-row max-h-screen overflow-hidden">
-				<div className="flex flex-col flex-1">
-					<FilterCashier />
-					<CardItems />
-				</div>
-				<div className="flex justify-end max-h-screen">
-					<CashierDetail />
-				</div>
-			</div>
-		</>
-	);
-};
+  TabTitle("Cashier - Kato Haircut")
 
-/* const Data1 = ["Woman", "Men", "Product"];
-const Data2 = ["Color", "Styling", "Waxing", "Extensions", "Design"]; */
+  return (
+    <></>
+  )
+}
 
-export default Cashier;
+export default Cashier

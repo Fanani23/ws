@@ -1,115 +1,66 @@
-import {useEffect} from "react";
-import Chart from "chart.js";
+import React, {useState} from "react";
+import {Line} from "react-chartjs-2";
+import {Chart as ChartJS} from "chart.js/auto";
 
-export default function ChartLine() {
-	useEffect(() => {
-		var config = {
-			type: "line",
-			data: {
-				labels: [
-					"January",
-					"February",
-					"March",
-					"April",
-					"May",
-					"June",
-					"July",
-				],
-				datasets: [
-					{
-						label: new Date().getFullYear(),
-						backgroundColor: "#03a9f4",
-						borderColor: "#03a9f4",
-						data: [65, 78, 66, 44, 56, 67, 75],
-						fill: false,
-					},
-					{
-						label: new Date().getFullYear() - 1,
-						fill: false,
-						backgroundColor: "#ff9800",
-						borderColor: "#ff9800",
-						data: [40, 68, 86, 74, 56, 60, 87],
-					},
-				],
+const Data = [
+	{
+		id: 1,
+		label: "January",
+		total: 3,
+	},
+	{
+		id: 2,
+		label: "Febrary",
+		total: 1,
+	},
+	{
+		id: 3,
+		label: "March",
+		total: 2,
+	},
+	{
+		id: 4,
+		label: "April",
+		total: 2,
+	},
+	{
+		id: 5,
+		label: "May",
+		total: 4,
+	},
+];
+
+const ChartLine = () => {
+	const [statsData, setStatsData] = useState({
+		labels: Data.map(data => data.label),
+		datasets: [
+			{
+				label: "Membership",
+				data: Data.map(data => data.total),
+				borderColor: "#147AD6",
 			},
-			options: {
-				maintainAspectRatio: false,
+		],
+	});
+
+	const [optData, setOptData] = useState({
+		options: [
+			{
 				responsive: true,
-				title: {
-					display: false,
-					text: "Sales Charts",
-					fontColor: "white",
-				},
-				legend: {
-					labels: {
-						fontColor: "black",
+				maintainAspectRatio: false,
+        bezierCurve: true,
+				plugins: {
+					legend: {
+						position: "bottom",
 					},
-					align: "end",
-					position: "bottom",
-				},
-				tooltips: {
-					mode: "index",
-					intersect: false,
-				},
-				hover: {
-					mode: "nearest",
-					intersect: true,
-				},
-				scales: {
-					xAxes: [
-						{
-							ticks: {
-								fontColor: "rgba(17,17,17,.7)",
-							},
-							display: true,
-							scaleLabel: {
-								display: false,
-								labelString: "Month",
-								fontColor: "white",
-							},
-							gridLines: {
-								display: false,
-								borderDash: [2],
-								borderDashOffset: [2],
-								color: "rgba(33, 37, 41, 0.3)",
-								zeroLineColor: "rgba(0, 0, 0, 0)",
-								zeroLineBorderDash: [2],
-								zeroLineBorderDashOffset: [2],
-							},
-						},
-					],
-					yAxes: [
-						{
-							ticks: {
-								fontColor: "rgba(17,17,17,.7)",
-							},
-							display: true,
-							scaleLabel: {
-								display: false,
-								labelString: "Value",
-								fontColor: "white",
-							},
-							gridLines: {
-								borderDash: [3],
-								borderDashOffset: [3],
-								drawBorder: false,
-								color: "rgba(17, 17, 17, 0.15)",
-								zeroLineColor: "rgba(33, 37, 41, 0)",
-								zeroLineBorderDash: [2],
-								zeroLineBorderDashOffset: [2],
-							},
-						},
-					],
 				},
 			},
-		};
-		var ctx = document.getElementById("line-chart").getContext("2d");
-		window.myLine = new Chart(ctx, config);
-	}, []);
-
+		],
+	});
 	return (
-		<div className="relative h-96 w-96">
-			<canvas id="line-chart"></canvas>
-		</div>
+		<>
+			<Line data={statsData} options={optData} />
+		</>
 	);
-}
+};
+
+export default ChartLine;
