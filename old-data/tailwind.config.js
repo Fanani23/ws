@@ -1,7 +1,9 @@
 const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-	content: ["./src/**/*.{js,jsx,ts,tsx}"],
+	mode: "jit",
+	purge: ["./src/**/*.js", "./public/index.html"],
+	darkMode: false, // or 'media' or 'class'
 	theme: {
 		extend: {
 			colors: {
@@ -16,6 +18,11 @@ module.exports = {
 				montserrat: "Montserrat",
 				"noto-sans": "Noto Sans",
 			},
+		},
+	},
+	variants: {
+		extend: {
+			backgroundColor: ["even"],
 		},
 	},
 	plugins: [
@@ -33,29 +40,9 @@ module.exports = {
 						display: "none",
 					},
 				},
-				".scrollbar-auto-hide": {
+				".scrollbar": {
 					"&::-webkit-scrollbar": {
 						width: ".5rem",
-						opacity: 0,
-					},
-					"&::-webkit-scrollbar:hover": {
-						opacity: 1,
-					},
-					"&::-webkit-scrollbar-track": {
-						"background-color": "none",
-					},
-					"&::-webkit-scrollbar-thumb:hover": {
-						"background-color": "#333340",
-						"border-radius": "1rem",
-					},
-				},
-				".scrollbar-shown": {
-					"&::-webkit-scrollbar": {
-						width: ".5rem",
-						opacity: 0,
-					},
-					"&::-webkit-scrollbar:hover": {
-						opacity: 1,
 					},
 					"&::-webkit-scrollbar-track": {
 						"background-color": "none",
