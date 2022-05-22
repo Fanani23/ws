@@ -79,21 +79,16 @@ const ChartBar = () => {
 	});
 
 	const [optData, setOptData] = useState({
-		options: [
-			{
-				responsive: true,
-				plugins: {
-					legend: {
-						position: "bottom",
-					},
-				},
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: {
+				position: "bottom",
 			},
-		],
+		},
 	});
 	return (
-		<div className="w-full">
-			<Bar data={statsData} options={optData} />
-		</div>
+		<Bar data={statsData} width={100} height={100} options={optData} />
 	);
 };
 

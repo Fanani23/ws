@@ -44,21 +44,12 @@ const ChartDoughnut = () => {
 	});
 
 	const [optData, setOptData] = useState({
-		options: [
-			{
-				responsive: true,
-				plugins: {
-					legend: {
-						position: "bottom",
-					},
-				},
-			},
-		],
+		responsive: true,
+		maintainAspectRatio: false,
 	});
+
 	return (
-		<div className="w-96">
-			<Doughnut data={statsData} options={optData} />
-		</div>
+		<Doughnut data={statsData} width={100} height={100} options={optData} />
 	);
 };
 

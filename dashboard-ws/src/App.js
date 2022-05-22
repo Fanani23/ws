@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Cashier from "./pages/Cashier";
@@ -15,7 +15,8 @@ import SettingAdmin from "./pages/SettingAdmin";
 import SettingLogLogin from "./pages/SettingLogLogin";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import { useState } from "react";
+import {useState} from "react";
+import CashierSingle from "./pages/CashierSingle";
 
 function App() {
 	const [sidebar, setSidebar] = useState(true);
@@ -30,16 +31,27 @@ function App() {
 				<Navbar toggleSidebar={toggleSidebar} />
 				<div className="flex flex-row h-full mt-20 overflow-hidden">
 					<Sidebar show={sidebar} />
-					<div className="overflow-y-auto p-3 w-full text-white scrollbar-shown">
+					<div className="overflow-y-auto p-2 w-full text-white scrollbar-shown">
 						<Routes>
 							<Route path="/">
 								<Route index element={<Dashboard />} />
 								<Route path="login" element={<Login />} />
-								<Route path="cashier" element={<Cashier />} />
+								<Route path="cashier">
+									<Route index element={<Cashier />} />
+									<Route
+										path=":transactionId"
+										element={<CashierSingle />}
+									/>
+								</Route>
 								<Route path="product">
 									<Route
-										index
-										element={<ProductCategory />}
+										path="/product"
+										element={
+											<Navigate
+												to="/product/category"
+												replace
+											/>
+										}
 									/>
 									<Route
 										path="category"
@@ -51,7 +63,15 @@ function App() {
 									/>
 								</Route>
 								<Route path="report">
-									<Route index element={<ReportOrder />} />
+									<Route
+										path="/report"
+										element={
+											<Navigate
+												to="/report/order"
+												replace
+											/>
+										}
+									/>
 									<Route
 										path="order"
 										element={<ReportOrder />}
@@ -77,7 +97,15 @@ function App() {
 									/>
 								</Route>
 								<Route path="setting">
-									<Route index element={<SettingAdmin />} />
+									<Route
+										path="/setting"
+										element={
+											<Navigate
+												to="/setting/admin"
+												replace
+											/>
+										}
+									/>
 									<Route
 										path="admin"
 										element={<SettingAdmin />}

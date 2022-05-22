@@ -1,6 +1,25 @@
 import React, {useState} from "react";
 import {Line} from "react-chartjs-2";
-import {Chart as ChartJS} from "chart.js/auto";
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend,
+} from "chart.js";
+
+ChartJS.register(
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend
+);
 
 const Data = [
 	{
@@ -26,6 +45,41 @@ const Data = [
 	{
 		id: 5,
 		label: "May",
+		total: 9,
+	},
+	{
+		id: 6,
+		label: "June",
+		total: 4,
+	},
+	{
+		id: 7,
+		label: "July",
+		total: 4,
+	},
+	{
+		id: 8,
+		label: "August",
+		total: 4,
+	},
+	{
+		id: 9,
+		label: "September",
+		total: 4,
+	},
+	{
+		id: 10,
+		label: "October",
+		total: 4,
+	},
+	{
+		id: 11,
+		label: "November",
+		total: 4,
+	},
+	{
+		id: 12,
+		label: "December",
 		total: 4,
 	},
 ];
@@ -43,23 +97,18 @@ const ChartLine = () => {
 	});
 
 	const [optData, setOptData] = useState({
-		options: [
-			{
-				responsive: true,
-				maintainAspectRatio: false,
-        bezierCurve: true,
-				plugins: {
-					legend: {
-						position: "bottom",
-					},
-				},
+		responsive: true,
+		maintainAspectRatio: false,
+		tension: 0.4,
+		plugins: {
+			legend: {
+				display: false,
+				position: "bottom",
 			},
-		],
+		},
 	});
 	return (
-		<>
-			<Line data={statsData} options={optData} />
-		</>
+		<Line data={statsData} width={100} height={100} options={optData} />
 	);
 };
 
