@@ -23,27 +23,22 @@ const ChartPie = () => {
 				label: "Membership",
 				data: Data.map(data => data.total),
 				backgroundColor: ["#147AD6", "#7388A95A"],
-				borderColor: "#00000000"
+				borderColor: "#00000000",
 			},
 		],
 	});
 
 	const [optData, setOptData] = useState({
-		options: [
-			{
-				responsive: true,
-				plugins: {
-					legend: {
-						position: "bottom",
-					},
-				},
+		responsive: true,
+		maintainAspectRatio: false,
+		plugins: {
+			legend: {
+				position: "bottom",
 			},
-		],
+		},
 	});
 	return (
-		<div className="w-96">
-			<Pie data={statsData} options={optData} />
-		</div>
+		<Pie data={statsData} width={100} height={100} options={optData} />
 	);
 };
 

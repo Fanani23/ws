@@ -21,12 +21,12 @@ const Sidebar = ({show}) => {
 			<div
 				className={
 					show
-						? "bg-primary-100 text-white hidden min-w-0 md:flex lg:min-w-[270px] p-3 overflow-y-scroll h-full scrollbar-auto-hide"
+						? "bg-primary-100 text-white fixed top-20 left-0 bottom-0 md:relative md:top-0 min-w-[270px] z-[5] p-3 overflow-y-scroll scrollbar-auto-hide"
 						: "hidden"
 				}
 			>
-				<ul className="w-full h-full">
-					<li className="rounded-lg" role="button">
+				<ul className="relative w-full min-h-full">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/"
 							className={({isActive}) =>
@@ -35,11 +35,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineDashboard className="text-2xl mr-3" />
-							Dashboard
+							<MdOutlineDashboard className="text-2xl lg:mr-3" />
+							<span>Dashboard</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/cashier"
 							className={({isActive}) =>
@@ -48,11 +48,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdAddShoppingCart className="text-2xl mr-3" />
-							Cashier
+							<MdAddShoppingCart className="text-2xl lg:mr-3" />
+							<span>Cashier</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/product"
 							className={({isActive}) =>
@@ -61,11 +61,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<ProductDownload className="text-2xl mr-3" />
-							Product
+							<ProductDownload className="text-2xl lg:mr-3" />
+							<span>Product</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/product/category"
 							className={({isActive}) =>
@@ -74,11 +74,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineLocalOffer className="text-2xl mr-3" />
-							Category
+							<MdOutlineLocalOffer className="text-2xl lg:mr-3" />
+							<span>Category</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/product/list"
 							className={({isActive}) =>
@@ -87,11 +87,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineShoppingBag className="text-2xl mr-3" />
-							List Product
+							<MdOutlineShoppingBag className="text-2xl lg:mr-3" />
+							<span>List Product</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/report"
 							className={({isActive}) =>
@@ -100,11 +100,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineAssessment className="text-2xl mr-3" />
-							Report
+							<MdOutlineAssessment className="text-2xl lg:mr-3" />
+							<span>Report</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/report/order"
 							className={({isActive}) =>
@@ -113,11 +113,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineAssignment className="text-2xl mr-3" />
-							Order
+							<MdOutlineAssignment className="text-2xl lg:mr-3" />
+							<span>Order</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/report/transaction"
 							className={({isActive}) =>
@@ -126,11 +126,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineAssignment className="text-2xl mr-3" />
-							Transaction
+							<MdOutlineAssignment className="text-2xl lg:mr-3" />
+							<span>Transaction</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/costumers"
 							className={({isActive}) =>
@@ -139,11 +139,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineGroup className="text-2xl mr-3" />
-							Costumers
+							<MdOutlineGroup className="text-2xl lg:mr-3" />
+							<span>Costumers</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/presensi"
 							className={({isActive}) =>
@@ -152,11 +152,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineModeEditOutline className="text-2xl mr-3" />
-							Presensi
+							<MdOutlineModeEditOutline className="text-2xl lg:mr-3" />
+							<span>Presensi</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/employee"
 							className={({isActive}) =>
@@ -165,11 +165,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineHowToReg className="text-2xl mr-3" />
-							Employee
+							<MdOutlineHowToReg className="text-2xl lg:mr-3" />
+							<span>Employee</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/setting"
 							className={({isActive}) =>
@@ -178,11 +178,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineSettings className="text-2xl mr-3" />
-							Settings
+							<MdOutlineSettings className="text-2xl lg:mr-3" />
+							<span>Settings</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/setting/admin"
 							className={({isActive}) =>
@@ -191,11 +191,11 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdOutlineHeadsetMic className="text-2xl mr-3" />
-							Admin
+							<MdOutlineHeadsetMic className="text-2xl lg:mr-3" />
+							<span>Admin</span>
 						</NavLink>
 					</li>
-					<li className="rounded-lg" role="button">
+					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
 							to="/setting/log"
 							className={({isActive}) =>
@@ -204,8 +204,8 @@ const Sidebar = ({show}) => {
 									: "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
 							}
 						>
-							<MdHistory className="text-2xl mr-3" />
-							Log Login
+							<MdHistory className="text-2xl lg:mr-3" />
+							<span>Log Login</span>
 						</NavLink>
 					</li>
 				</ul>
