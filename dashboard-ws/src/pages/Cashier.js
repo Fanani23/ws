@@ -1,6 +1,5 @@
 import TabTitle from "../utils/GeneralFunction";
-import {ProductSample} from "../data/ProductSample";
-import {CashierSample} from "../data/CashierSample";
+import { CashierSample } from "../data/CashierSample";
 import {
 	MdSearch,
 	MdAdd,
@@ -8,17 +7,34 @@ import {
 	MdDeleteOutline,
 	MdOutlineModeEditOutline,
 } from "react-icons/md";
-import {useState} from "react";
-import {Link} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Cashier = () => {
 	TabTitle("Cashier - Kato Haircut");
-	const [item, setItem] = useState(ProductSample);
+	const [all, setAll] = useState([]);
+	const [item, setItem] = useState([]);
+	const [cart, setCart] = useState([]);
+
+	useEffect(() => {
+		axios
+			.get("http://localhost:4000/service/")
+			.then(({ data }) => {
+				setAll(data);
+				setItem(data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [])
+
+
 	const productCategoryItem = [
-		...new Set(ProductSample.map(val => val.category)),
+		...new Set(all.map(val => val.category)),
 	];
 	const filterItem = curcat => {
-		const newItem = ProductSample.filter(newVal => {
+		const newItem = all.filter(newVal => {
 			return newVal.category === curcat;
 		});
 		setItem(newItem);
@@ -27,6 +43,12 @@ const Cashier = () => {
 	const toggleButton = () => {
 		setButtonActive(!buttonActive);
 	};
+
+	function addItemToCart(e) {
+		const item = e.target.value;
+		console.log(item);
+		setCart([...cart, item]);
+	}
 
 	return (
 		<div className="flex flex-col h-full font-nunito-sans">
@@ -52,7 +74,7 @@ const Cashier = () => {
 						<div className="w-full flex flex-row overflow-x-auto scrollbar-hide">
 							<button
 								className="bg-black text-white px-3 py-2 rounded-lg"
-								onClick={() => setItem(ProductSample)}
+								onClick={() => setItem(all)}
 							>
 								All
 							</button>
@@ -73,9 +95,9 @@ const Cashier = () => {
 						{item.map(val => {
 							return (
 								<div className="flex basis-full md:basis-1/2 lg:basis-1/5 xl:basis-1/6 p-1">
-									<div
+									<button
 										className="bg-white w-full h-full flex flex-col rounded-lg text-center items-center text-black p-5"
-										role="button"
+										role="button" value={val.name} onClick={addItemToCart}
 									>
 										<img
 											src="https://via.placeholder.com/150"
@@ -88,7 +110,7 @@ const Cashier = () => {
 										<h1 className="font-bold text-xl">
 											Rp{val.price}
 										</h1>
-									</div>
+									</button>
 								</div>
 							);
 						})}
@@ -105,40 +127,34 @@ const Cashier = () => {
 							</button>
 						</div>
 						<div className="p-2 overflow-y-scroll scrollbar-shown">
-							{CashierSample.map((data, index, {length}) => {
-								return length - 1 === index ? (
-									""
-								) : (
-									<>
-										<div className="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
-											<span className="font-semibold mb-auto p-2 text-black">
-												{index + 1}
-											</span>
-											<div className="flex flex-col p-2">
-												<h1 className="font-semibold text-black">
-													{data.label}
-												</h1>
-												<h5 className="font-medium text-gray-500">
-													By {data.customer}
-												</h5>
-											</div>
-											<div className="flex items-center ml-auto">
-												<h1 className="font-semibold mr-2 text-black">
-													Rp {data.total}
-												</h1>
-												<div className="flex flex-col h-full">
-													<button className="bg-red-400 text-white px-3 py-1 flex-1">
-														<MdDeleteOutline />
-													</button>
-													<button className="bg-yellow-500 text-white px-3 py-1 flex-1">
-														<MdOutlineModeEditOutline />
-													</button>
-												</div>
-											</div>
-										</div>
-									</>
-								);
-							})}
+							{cart.map(item => 
+							<div className="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
+								<span className="font-semibold mb-auto p-2 text-black">
+
+								</span>
+								<div className="flex flex-col p-2">
+									<h1 className="font-semibold text-black" key={item}>
+									{item}
+									</h1>
+									<h5 className="font-medium text-gray-500" >
+										By Test
+									</h5>
+								</div>
+								<div className="flex items-center ml-auto">
+									<h1 className="font-semibold mr-2 text-black">
+										Rp 213132
+									</h1>
+									<div className="flex flex-col h-full">
+										<button className="bg-red-400 text-white px-3 py-1 flex-1">
+											<MdDeleteOutline />
+										</button>
+										<button className="bg-yellow-500 text-white px-3 py-1 flex-1">
+											<MdOutlineModeEditOutline />
+										</button>
+									</div>
+								</div>
+							</div>
+							)}
 						</div>
 						<div className="flex flex-col mt-auto">
 							<div className="flex justify-end p-2">
@@ -153,7 +169,7 @@ const Cashier = () => {
 								<div className="flex space-x-3">
 									<div className="flex flex-col flex-1 text-black">
 										{CashierSample.map(
-											(data, index, {length}) => {
+											(data, index, { length }) => {
 												return length - 1 === index ? (
 													<>
 														<div className="flex justify-between">
