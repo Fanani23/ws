@@ -1,9 +1,12 @@
 import {NavLink, useLocation} from "react-router-dom";
 import {MdMenu, MdNotificationsNone, MdExpandMore} from "react-icons/md";
 import logo from "../img/kato-logo.png";
+import {useState} from "react";
 
 const Navbar = ({toggleSidebar}) => {
 	const location = useLocation().pathname;
+	const [profileOpen, setProfileOpen] = useState(false);
+	const [notificationOpen, setNotificationOpen] = useState(false);
 	const capitalize = string => {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
@@ -34,21 +37,36 @@ const Navbar = ({toggleSidebar}) => {
 							: capitalize(location.replace("/", ""))}
 					</h1>
 					<div className="flex flex-row items-center space-x-3">
-						<div
-							role="button"
-							className="relative hover:bg-primary-500 group px-3 py-3.5 rounded-lg"
+						<button
+							className={`${
+								notificationOpen
+									? "bg-primary-500"
+									: "hover:bg-primary-500"
+							} relative group px-3 py-3.5 rounded-lg`}
+							onClick={() =>
+								setNotificationOpen(!notificationOpen)
+							}
 						>
 							<MdNotificationsNone className="text-2xl" />
-							<div className="hidden absolute top-16 right-0 w-48">
+							<div
+								className={`${
+									notificationOpen ? "" : "hidden"
+								} absolute top-16 right-0 w-48`}
+							>
 								<div className="bg-white p-3 rounded-lg shadow-lg">
 									<h1 className="text-red-500">
 										Hello World
 									</h1>
 								</div>
 							</div>
-						</div>
+						</button>
 						<button
-							className="relative flex flex-col sm:flex-row items-center group hover:bg-primary-500 active:bg-white rounded-lg px-3 py-2"
+							className={`${
+								profileOpen
+									? "bg-primary-500"
+									: "hover:bg-primary-500"
+							} relative flex flex-col sm:flex-row items-center group  active:bg-white rounded-lg px-3 py-2`}
+							onClick={() => setProfileOpen(!profileOpen)}
 						>
 							<img
 								src="https://via.placeholder.com/35/ffffff/000000/?text=profile"
@@ -64,7 +82,11 @@ const Navbar = ({toggleSidebar}) => {
 								</h5>
 							</div>
 							<MdExpandMore className="text-2xl hidden sm:block relative z-20" />
-							<div className="hidden group-active:flex absolute top-16 left-0 right-0 pt-3 px-3 pb-3 z-10 bg-white shadow-lg rounded-lg">
+							<div
+								className={`${
+									profileOpen ? "" : "hidden"
+								} group-active:flex absolute top-16 left-0 right-0 pt-3 px-3 pb-3 z-10 bg-white shadow-lg rounded-lg`}
+							>
 								<div className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-left px-3 py-2">
 									Keluar
 								</div>

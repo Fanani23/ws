@@ -1,13 +1,14 @@
-import TabTitle from "../utils/GeneralFunction"
+import TabTitle from "../utils/GeneralFunction";
 
 const Costumers = () => {
-  TabTitle("Costumers - Kato Haircut")
+	TabTitle("Costumers - Kato Haircut");
 
-  return (
-    <>
-      <h1>Costumers</h1>
-    </>
-  )
-}
+	return (
+		<>
+			<h1>Costumers</h1>
+			
+		</>
+	);
+};
 
-export default Costumers
+export default Costumers;

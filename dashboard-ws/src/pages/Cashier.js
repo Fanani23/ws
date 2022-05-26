@@ -1,5 +1,6 @@
 import TabTitle from "../utils/GeneralFunction";
 import {ProductSample} from "../data/ProductSample";
+import {CashierSample} from "../data/CashierSample";
 import {
 	MdSearch,
 	MdAdd,
@@ -8,6 +9,7 @@ import {
 	MdOutlineModeEditOutline,
 } from "react-icons/md";
 import {useState} from "react";
+import {Link} from "react-router-dom";
 
 const Cashier = () => {
 	TabTitle("Cashier - Kato Haircut");
@@ -45,7 +47,7 @@ const Cashier = () => {
 				</button>
 			</div>
 			<div className="w-full flex flex-col md:flex-row grow overflow-hidden">
-				<div className="flex flex-col basis-full lg:basis-4/6">
+				<div className="flex flex-col basis-full md:basis-1/2 lg:basis-4/6">
 					<div className="flex">
 						<div className="w-full flex flex-row overflow-x-auto scrollbar-hide">
 							<button
@@ -92,128 +94,106 @@ const Cashier = () => {
 						})}
 					</div>
 				</div>
-				<div className="flex flex-col basis-full xl:ml-2 lg:basis-2/6">
-					<div class="bg-white flex flex-col rounded-tl-lg h-full">
-						<div class="flex flex-row justify-between p-2">
-							<button class="bg-black text-white px-3 py-2 rounded-lg flex items-center">
+				<div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
+					<div className="bg-white flex flex-col rounded-tl-lg h-full">
+						<div className="flex flex-row justify-between p-2">
+							<button className="bg-black text-white px-3 py-2 rounded-lg flex items-center">
 								<MdAdd className="mr-3" /> Add Customer
 							</button>
-							<button class="bg-black text-white px-3 py-2 rounded-lg">
+							<button className="bg-black text-white px-3 py-2 rounded-lg">
 								<MdReplay />
 							</button>
 						</div>
-						<div class="p-2 overflow-y-scroll scrollbar-shown">
-							<div class="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
-								<span class="font-semibold mb-auto p-2 text-black">1</span>
-								<div class="flex flex-col p-2">
-									<h1 class="font-semibold text-black">
-										Hair cut woman
-									</h1>
-									<h5 class="font-medium text-gray-500">
-										By Arini Sukandar
-									</h5>
-								</div>
-								<div class="flex items-center ml-auto">
-									<h1 class="font-semibold mr-2 text-black">$41.00</h1>
-									<div class="flex flex-col h-full">
-										<button class="bg-red-400 text-white px-3 py-1 flex-1">
-											<MdDeleteOutline />
-										</button>
-										<button class="bg-yellow-500 text-white px-3 py-1 flex-1">
-											<MdOutlineModeEditOutline />
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
-								<span class="font-semibold mb-auto p-2 text-black">1</span>
-								<div class="flex flex-col p-2">
-									<h1 class="font-semibold text-black">
-										Hair cut woman
-									</h1>
-									<h5 class="font-medium text-gray-500">
-										By Arini Sukandar
-									</h5>
-								</div>
-								<div class="flex items-center ml-auto">
-									<h1 class="font-semibold mr-2 text-black">$41.00</h1>
-									<div class="flex flex-col h-full">
-										<button class="bg-red-400 text-white px-3 py-1 flex-1">
-											<MdDeleteOutline />
-										</button>
-										<button class="bg-yellow-500 text-white px-3 py-1 flex-1">
-											<MdOutlineModeEditOutline />
-										</button>
-									</div>
-								</div>
-							</div>
-							<div class="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
-								<span class="font-semibold mb-auto p-2 text-black">1</span>
-								<div class="flex flex-col p-2">
-									<h1 class="font-semibold text-black">
-										Hair cut woman
-									</h1>
-									<h5 class="font-medium text-gray-500">
-										By Arini Sukandar
-									</h5>
-								</div>
-								<div class="flex items-center ml-auto">
-									<h1 class="font-semibold mr-2 text-black">$41.00</h1>
-									<div class="flex flex-col h-full">
-										<button class="bg-red-400 text-white px-3 py-1 flex-1">
-											<MdDeleteOutline />
-										</button>
-										<button class="bg-yellow-500 text-white px-3 py-1 flex-1">
-											<MdOutlineModeEditOutline />
-										</button>
-									</div>
-								</div>
-							</div>
+						<div className="p-2 overflow-y-scroll scrollbar-shown">
+							{CashierSample.map((data, index, {length}) => {
+								return length - 1 === index ? (
+									""
+								) : (
+									<>
+										<div className="flex bg-gray-200 mb-2 rounded-lg overflow-hidden">
+											<span className="font-semibold mb-auto p-2 text-black">
+												{index + 1}
+											</span>
+											<div className="flex flex-col p-2">
+												<h1 className="font-semibold text-black">
+													{data.label}
+												</h1>
+												<h5 className="font-medium text-gray-500">
+													By {data.customer}
+												</h5>
+											</div>
+											<div className="flex items-center ml-auto">
+												<h1 className="font-semibold mr-2 text-black">
+													Rp {data.total}
+												</h1>
+												<div className="flex flex-col h-full">
+													<button className="bg-red-400 text-white px-3 py-1 flex-1">
+														<MdDeleteOutline />
+													</button>
+													<button className="bg-yellow-500 text-white px-3 py-1 flex-1">
+														<MdOutlineModeEditOutline />
+													</button>
+												</div>
+											</div>
+										</div>
+									</>
+								);
+							})}
 						</div>
-						<div class="flex flex-col mt-auto">
-							<div class="flex justify-end p-2">
-								<button class="bg-black text-white px-3 py-2 rounded-lg mr-2">
+						<div className="flex flex-col mt-auto">
+							<div className="flex justify-end p-2">
+								<button className="bg-black text-white px-3 py-2 rounded-lg mr-2">
 									Discount
 								</button>
-								<button class="bg-black text-white px-3 py-2 rounded-lg">
+								<button className="bg-black text-white px-3 py-2 rounded-lg">
 									Coupon Code
 								</button>
 							</div>
-							<div class="bg-gray-200 p-2">
-								<div class="flex space-x-3">
-									<div class="flex flex-col flex-1 text-black">
-										<div class="flex justify-between">
-											<p>Sub Total</p>
-											<p>$150.00</p>
-										</div>
-										<div class="flex justify-between">
-											<p>Discount</p>
-											<p>$0.00</p>
-										</div>
-										<div class="flex justify-between">
-											<p></p>
-											<p>0</p>
-										</div>
-										<div class="flex justify-between">
-											<p>Total Payment</p>
-											<p>$150.00</p>
-										</div>
+							<div className="bg-gray-200 p-2">
+								<div className="flex space-x-3">
+									<div className="flex flex-col flex-1 text-black">
+										{CashierSample.map(
+											(data, index, {length}) => {
+												return length - 1 === index ? (
+													<>
+														<div className="flex justify-between">
+															<p>Sub Total</p>
+															<p>Rp {data.priceTotal}</p>
+														</div>
+														<div className="flex justify-between">
+															<p>Discount</p>
+															<p>{data.discountTotal}%</p>
+														</div>
+														<div className="flex justify-between">
+															<p></p>
+															<p>Rp {data.priceTotal * data.discountTotal}</p>
+														</div>
+														<div className="flex justify-between">
+															<p>Total Payment</p>
+															<p>Rp {data.priceFinal}</p>
+														</div>
+													</>
+												) : (
+													""
+												);
+											}
+										)}
 									</div>
-									<div class="flex items-center">
-										<button class="flex items-center justify-center p-0 m-0 bg-slate-400 text-white rounded-full h-6 w-6">
+									<div className="flex items-center">
+										<button className="flex items-center justify-center p-0 m-0 bg-slate-400 text-white rounded-full h-6 w-6">
 											x
 										</button>
 									</div>
 								</div>
-								<div class="flex">
-									<button class="flex-1 py-2 rounded-lg mr-1 bg-yellow-500">
+								<div className="flex">
+									<button className="flex-1 py-2 rounded-lg mr-1 bg-yellow-500">
 										Cart
 									</button>
-									<button
-										class="flex-1 py-2 rounded-lg ml-1  bg-green-400"
-									>
-										Process
-									</button>
+									<Link to="1" className="flex-1">
+										<button className="py-2 w-full rounded-lg ml-1 bg-green-400">
+											Process
+										</button>
+									</Link>
 								</div>
 							</div>
 						</div>
