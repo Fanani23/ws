@@ -15,6 +15,10 @@ import InfoStats from "../components/InfoStats";
 import {TransactionReportSample1} from "../data/TransactionReportSample1";
 import {useState} from "react";
 import ButtonFilterGraph from "../components/ButtonFilterGraph";
+import InfoStatsTransaction from "../components/InfoStatsTransaction";
+import InfoStatsMember from "../components/InfoStatsMember";
+import InfoStatsRevenue from "../components/InfoStatsRevenue";
+import ChartPieMember from "../components/ChartPieMember";
 
 const Dashboard = () => {
 	TabTitle("Dashboard - Kato Haircut");
@@ -28,47 +32,13 @@ const Dashboard = () => {
 			<div className="flex flex-wrap overflow-hidden mr-2">
 				<div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
 					<div className="h-full p-5 bg-primary-500 rounded-lg">
-						<InfoStats
-							title="Total Transaction"
-							value="$50,000"
-							icon={
-								<MdOutlineShoppingCart className="text-[#C14040]" />
-							}
-							status={
-								latestData > oldData ? (
-									<>
-										<MdTrendingUp className="text-[#48C134] mr-3" />
-										Up From Yesterday
-									</>
-								) : (
-									<>
-										<MdTrendingDown className="text-[#C14040] mr-3" />
-										Down From Yesterday
-									</>
-								)
-							}
+						<InfoStatsTransaction
 						/>
 					</div>
 				</div>
 				<div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
 					<div className="h-full p-5 bg-primary-500 rounded-lg">
-						<InfoStats
-							title="Total Revenue"
-							value="$2,000"
-							icon={<MdOutlinePaid className="text-[#48C134]" />}
-							status={
-								latestData > oldData ? (
-									<>
-										<MdTrendingUp className="text-[#48C134] mr-3" />
-										Up From Yesterday
-									</>
-								) : (
-									<>
-										<MdTrendingDown className="text-[#C14040] mr-3" />
-										Down From Yesterday
-									</>
-								)
-							}
+						<InfoStatsRevenue
 						/>
 					</div>
 				</div>
@@ -98,25 +68,7 @@ const Dashboard = () => {
 				</div>
 				<div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
 					<div className="h-full p-5 bg-primary-500 rounded-lg">
-						<InfoStats
-							title="Total Members"
-							value="20"
-							icon={
-								<MdOutlineShield className="text-[#D6AB14]" />
-							}
-							status={
-								latestData > oldData ? (
-									<>
-										<MdTrendingUp className="text-[#48C134] mr-3" />
-										Up From Yesterday
-									</>
-								) : (
-									<>
-										<MdTrendingDown className="text-[#C14040] mr-3" />
-										Down From Yesterday
-									</>
-								)
-							}
+						<InfoStatsMember
 						/>
 					</div>
 				</div>
@@ -162,7 +114,7 @@ const Dashboard = () => {
 						</div>
 						<div className="grow lg:p-3">
 							<div className="h-full">
-								<ChartPie />
+								<ChartPieMember />
 							</div>
 						</div>
 					</div>
