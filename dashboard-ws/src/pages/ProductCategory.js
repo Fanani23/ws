@@ -4,7 +4,9 @@ const ProductCategory = () => {
   TabTitle("Category - Kato Haircut")
 
   return (
-    <></>
+    <>
+      
+    </>
   )
 }
 

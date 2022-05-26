@@ -1,7 +1,7 @@
 import TabTitle from "../utils/GeneralFunction"
 
 const ProductList = () => {
-  TabTitle("List Category - Kato Haircut")
+  TabTitle("List Product - Kato Haircut")
 
   return (
     <></>

@@ -230,11 +230,19 @@ const Dashboard = () => {
 									setSelectComparison(e.target.value)
 								}
 							>
-								<option selected value="1" className="text-black">
+								<option
+									selected
+									value="1"
+									className="text-black"
+								>
 									Transaction
 								</option>
-								<option value="2" className="text-black">Revenue</option>
-								<option value="3" className="text-black">Membership</option>
+								<option value="2" className="text-black">
+									Revenue
+								</option>
+								<option value="3" className="text-black">
+									Membership
+								</option>
 							</select>
 						</div>
 						<div className="grow lg:p-3">
