@@ -4,7 +4,9 @@ const SettingAdmin = () => {
   TabTitle("Admin - Kato Haircut")
 
   return (
-    <></>
+    <>
+      
+    </>
   )
 }
 
