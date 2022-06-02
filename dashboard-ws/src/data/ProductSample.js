@@ -17,7 +17,7 @@ export const ProductSample = [
     id: 3,
     name: "Hair Cut Design",
     category: "Coloring",
-    price: 15000,
+    price: 1500,
     image: "./"
   },
   {

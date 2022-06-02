@@ -6,7 +6,7 @@ import {
 	MdClose,
 } from "react-icons/md";
 import {Fragment, useState} from "react";
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
 import TabTitle from "../utils/GeneralFunction";
 

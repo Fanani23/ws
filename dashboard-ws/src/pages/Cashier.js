@@ -377,19 +377,19 @@ const Cashier = () => {
 						</div>
 					</div>
 					<div className="relative flex overflow-y-auto pt-1">
-						<div className="flex w-full flex-wrap overflow-y-auto scrollbar-shown">
+						<div className="flex flex-wrap overflow-y-auto scrollbar-shown">
 							{item.map(val => {
 								return (
-									<div className="flex basis-full md:basis-1/2 lg:basis-1/5 xl:basis-1/6 pb-2 pr-0 md:pr-2">
+									<div className="basis-full md:basis-1/2 lg:basis-1/5 xl:basis-1/6 pb-2 pr-0 md:pr-2">
 										<div
-											className="bg-white w-full h-full flex flex:row md:flex-col rounded-lg md:text-center items-center text-black p-5"
+											className="bg-white h-full flex flex:row md:flex-col rounded-lg md:text-center items-center text-black p-5"
 											role="button"
 											onClick={openDetailServiceModal}
 										>
 											<img
 												src="https://via.placeholder.com/150"
 												alt="place holder"
-												class="rounded-full"
+												class="rounded-full w-fit"
 											/>
 											<div className="ml-5 md:ml-0">
 												<h1 className="font-regular">
@@ -517,9 +517,6 @@ const Cashier = () => {
 									</div>
 								</div>
 								<div className="flex">
-									<button className="flex-1 py-2 rounded-lg mr-1 bg-yellow-500">
-										Cart
-									</button>
 									<Link to="1" className="flex-1">
 										<button className="py-2 w-full rounded-lg ml-1 bg-green-400">
 											Process
