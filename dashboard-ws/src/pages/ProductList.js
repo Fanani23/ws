@@ -226,21 +226,31 @@ const ProductList = () => {
 						onClick={openAddDataProductModal}
 					>
 						<MdAdd className="text-white mr-2" />
-						<span>Add Services</span>
+						<span>Add Service</span>
 					</button>
 				</div>
 				<table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll">
 					<thead>
 						<tr className="bg-[#F9F9FC] text-black text-left">
-							<th className="py-2">ID Category</th>
+							<th className="py-2">ID Product</th>
 							<th className="py-2">Category Name</th>
+							<th className="py-2">Product Name</th>
+							<th className="py-2">Image</th>
+							<th className="py-2">Price</th>
+							<th className="py-2">Fee (Nominal)</th>
+							<th className="py-2">Fee (%)</th>
 							<th className="py-2">Action</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr className="even:bg-[#F9F9FC] text-black">
-							<td className="py-2">#M081234567892</td>
-							<td className="py-2">Categori 01</td>
+							<td className="py-2">IDPRDCT001</td>
+							<td className="py-2">Categori 001</td>
+							<td className="py-2">Service 001</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">10.000</td>
+							<td className="py-2">2.000</td>
+							<td className="py-2">20%</td>
 							<td className="py-2">
 								<button>
 									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
@@ -251,8 +261,13 @@ const ProductList = () => {
 							</td>
 						</tr>
 						<tr className="even:bg-[#F9F9FC] text-black">
-							<td className="py-2">#M081234567892</td>
-							<td className="py-2">Categori 01</td>
+							<td className="py-2">IDPRDCT002</td>
+							<td className="py-2">Categori 002</td>
+							<td className="py-2">Service 002</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">20.000</td>
+							<td className="py-2">4.000</td>
+							<td className="py-2">20%</td>
 							<td className="py-2">
 								<button>
 									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
@@ -263,8 +278,13 @@ const ProductList = () => {
 							</td>
 						</tr>
 						<tr className="even:bg-[#F9F9FC] text-black">
-							<td className="py-2">#M081234567892</td>
-							<td className="py-2">Categori 01</td>
+							<td className="py-2">IDPRDCT003</td>
+							<td className="py-2">Categori 003</td>
+							<td className="py-2">Service 003</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">10.000</td>
+							<td className="py-2">2.000</td>
+							<td className="py-2">20%</td>
 							<td className="py-2">
 								<button>
 									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
@@ -275,8 +295,13 @@ const ProductList = () => {
 							</td>
 						</tr>
 						<tr className="even:bg-[#F9F9FC] text-black">
-							<td className="py-2">#M081234567892</td>
-							<td className="py-2">Categori 01</td>
+							<td className="py-2">IDPRDCT004</td>
+							<td className="py-2">Categori 004</td>
+							<td className="py-2">Service 004</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">40.000</td>
+							<td className="py-2">8.000</td>
+							<td className="py-2">20%</td>
 							<td className="py-2">
 								<button>
 									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
@@ -287,8 +312,98 @@ const ProductList = () => {
 							</td>
 						</tr>
 						<tr className="even:bg-[#F9F9FC] text-black">
-							<td className="py-2">#M081234567892</td>
-							<td className="py-2">Categori 01</td>
+							<td className="py-2">IDPRDCT005</td>
+							<td className="py-2">Categori 005</td>
+							<td className="py-2">Service 005</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">10.000</td>
+							<td className="py-2">2.000</td>
+							<td className="py-2">20%</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">IDPRDCT006</td>
+							<td className="py-2">Categori 006</td>
+							<td className="py-2">Service 006</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">20.000</td>
+							<td className="py-2">4.000</td>
+							<td className="py-2">20%</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">IDPRDCT007</td>
+							<td className="py-2">Categori 007</td>
+							<td className="py-2">Service 007</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">60.000</td>
+							<td className="py-2">12.000</td>
+							<td className="py-2">20%</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">IDPRDCT008</td>
+							<td className="py-2">Categori 008</td>
+							<td className="py-2">Service 008</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">10.000</td>
+							<td className="py-2">1.000</td>
+							<td className="py-2">10%</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">IDPRDCT009</td>
+							<td className="py-2">Categori 009</td>
+							<td className="py-2">Service 009</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">20.000</td>
+							<td className="py-2">2.000</td>
+							<td className="py-2">10%</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">IDPRDCT010</td>
+							<td className="py-2">Categori 010</td>
+							<td className="py-2">Service 010</td>
+							<td className="py-2">Image</td>
+							<td className="py-2">10.000</td>
+							<td className="py-2">500</td>
+							<td className="py-2">5%</td>
 							<td className="py-2">
 								<button>
 									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
