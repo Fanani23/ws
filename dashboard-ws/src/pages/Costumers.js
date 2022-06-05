@@ -11,7 +11,7 @@ import {Dialog, Transition} from "@headlessui/react";
 import TabTitle from "../utils/GeneralFunction";
 
 const Customers = () => {
-	TabTitle("Customers - Kato Haircut");
+	TabTitle("Costomers - Kato Haircut");
 	const [openAddCustomers, setOpenAddCustomers] = useState(false);
 
 	const closeAddCustomersModal = () => {
@@ -55,16 +55,16 @@ const Customers = () => {
 							>
 								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
 									<Dialog.Title
-										as="div" 
+										as="div"
 										className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
 									>
 										<h3>Add Member</h3>
-										<div 
+										<div
 											onClick={closeAddCustomersModal}
 											className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
 											role="button"
 										>
-											<MdClose className="relative"/>
+											<MdClose className="relative" />
 										</div>
 									</Dialog.Title>
 									<div className="mt-2 border-t-2">
@@ -72,7 +72,7 @@ const Customers = () => {
 											<div className="flex flex-row items-center mb-2">
 												<label
 													htmlFor="num-customers"
-													className="font-semibold w-28" 
+													className="font-semibold w-28"
 												>
 													Handphone Number
 												</label>
@@ -148,160 +148,160 @@ const Customers = () => {
 						<span>Add Member</span>
 					</button>
 				</div>
-					<table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll">
-						<thead>
-								<tr className="bg-[#F9F9FC] text-black text-left">
-									<th className="py-2">Member ID</th>
-									<th className="py-2">Birthday</th>
-									<th className="py-2">Name</th>
-									<th className="py-2">Membership</th>
-									<th className="py-2">Action</th>
-								</tr>
-						</thead>
-						<tbody>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">001</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 1</td>
-								<td className="py-2">VIP</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">002</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 2</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">003</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 3</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">004</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 4</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">004</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 5</td>
-								<td className="py-2">VIP</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">005</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 6</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">006</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 7</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">007</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 8</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">008</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 9</td>
-								<td className="py-2">Reguler</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-							<tr className="even:bg-[#F9F9FC] text-black">
-								<td className="py-2">009</td>
-								<td className="py-2">--/--/----</td>
-								<td className="py-2">Customer 10</td>
-								<td className="py-2">VIP</td>
-								<td className="py-2">
-									<button>
-										<MdModeEditOutline className="text-red-500 hover:text-red-800" />
-									</button>
-									<button>
-										<MdDeleteOutline className="text-red-500 hover:text-red-800" />
-									</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-					<nav
+				<table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll">
+					<thead>
+						<tr className="bg-[#F9F9FC] text-black text-left">
+							<th className="py-2">Member ID</th>
+							<th className="py-2">Birthday</th>
+							<th className="py-2">Name</th>
+							<th className="py-2">Membership</th>
+							<th className="py-2">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">001</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 1</td>
+							<td className="py-2">VIP</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">002</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 2</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">003</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 3</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">004</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 4</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">004</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 5</td>
+							<td className="py-2">VIP</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">005</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 6</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">006</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 7</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">007</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 8</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">008</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 9</td>
+							<td className="py-2">Reguler</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+						<tr className="even:bg-[#F9F9FC] text-black">
+							<td className="py-2">009</td>
+							<td className="py-2">--/--/----</td>
+							<td className="py-2">Customer 10</td>
+							<td className="py-2">VIP</td>
+							<td className="py-2">
+								<button>
+									<MdModeEditOutline className="text-red-500 hover:text-red-800" />
+								</button>
+								<button>
+									<MdDeleteOutline className="text-red-500 hover:text-red-800" />
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<nav
 					class="flex flex-row space-x-3 mx-auto"
 					aria-label="Pagination"
 				>
@@ -368,10 +368,6 @@ const Customers = () => {
 				</nav>
 			</div>
 		</div>
-
-
-		
-		
 	);
 };
 
