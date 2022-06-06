@@ -1,11 +1,10 @@
 import React, {useMemo} from "react";
 import {useTable, usePagination} from "react-table";
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
-import CostumersDataSample from "../data/CostumersDataSample.json";
 
-const Table = () => {
-	const columns = useMemo(() => COLUMNS, []);
-	const data = useMemo(() => CostumersDataSample, []);
+const Table = ({ColumnLists, DataSample}) => {
+	const columns = useMemo(() => ColumnLists, []);
+	const data = useMemo(() => DataSample, []);
 	const tableInstance = useTable(
 		{
 			columns,
@@ -124,33 +123,5 @@ const Table = () => {
 		</>
 	);
 };
-
-const COLUMNS = [
-	{
-		Header: "ID",
-		accessor: "id",
-		disableFilters: true,
-	},
-	{
-		Header: "Category",
-		accessor: "category",
-	},
-	{
-		Header: "Product Name",
-		accessor: "product",
-	},
-	{
-		Header: "Price",
-		accessor: "price",
-	},
-	{
-		Header: "Fee (Nominal)",
-		accessor: "fee_nominal",
-	},
-	{
-		Header: "Fee (Percent)",
-		accessor: "fee_percent",
-	},
-];
 
 export default Table;

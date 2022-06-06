@@ -187,7 +187,7 @@ const Employee = () => {
           </thead>
           <tbody>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID001 </td>
+              <td className="py-2"> EMPL001 </td>
               <td className="py-2"> Employee 001 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Senior </td>
@@ -201,7 +201,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID002 </td>
+              <td className="py-2"> EMPL002 </td>
               <td className="py-2"> Employee 002 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Senior </td>
@@ -215,7 +215,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID003 </td>
+              <td className="py-2"> EMPL003 </td>
               <td className="py-2"> Employee 003 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Senior </td>
@@ -229,7 +229,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID004 </td>
+              <td className="py-2"> EMPL004 </td>
               <td className="py-2"> Employee 004 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>
@@ -243,7 +243,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID005 </td>
+              <td className="py-2"> EMPL005 </td>
               <td className="py-2"> Employee 005 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>
@@ -257,7 +257,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID006 </td>
+              <td className="py-2"> EMPL006 </td>
               <td className="py-2"> Employee 006 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Senior </td>
@@ -271,7 +271,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID007 </td>
+              <td className="py-2"> EMPL007 </td>
               <td className="py-2"> Employee 007 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>
@@ -285,7 +285,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID008 </td>
+              <td className="py-2"> EMPL008 </td>
               <td className="py-2"> Employee 008 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>
@@ -299,7 +299,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID009 </td>
+              <td className="py-2"> EMPL009 </td>
               <td className="py-2"> Employee 009 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>
@@ -313,7 +313,7 @@ const Employee = () => {
 								</td>
             </tr>
             <tr className="even:bg-[#F9F9FC] text-black">
-              <td className="py-2"> ID010 </td>
+              <td className="py-2"> EMPL010 </td>
               <td className="py-2"> Employee 010 </td>
               <td className="py-2"> 08xxxxxxxxxx </td>
               <td className="py-2"> Junior </td>

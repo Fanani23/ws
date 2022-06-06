@@ -8,6 +8,7 @@ import {
 import {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
+import CostumersDataSample from "../data/CostumersDataSample.json";
 import TabTitle from "../utils/GeneralFunction";
 import Table from "../components/Table";
 
@@ -22,6 +23,34 @@ const ProductList = () => {
 	const openAddDataProductModal = () => {
 		setOpenAddDataProduct(true);
 	};
+
+	const COLUMNS = [
+		{
+			Header: "ID",
+			accessor: "id",
+			disableFilters: true,
+		},
+		{
+			Header: "Category",
+			accessor: "category",
+		},
+		{
+			Header: "Product Name",
+			accessor: "product",
+		},
+		{
+			Header: "Price",
+			accessor: "price",
+		},
+		{
+			Header: "Fee (Nominal)",
+			accessor: "fee_nominal",
+		},
+		{
+			Header: "Fee (Percent)",
+			accessor: "fee_percent",
+		},
+	];
 
 	return (
 		<div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
@@ -230,7 +259,7 @@ const ProductList = () => {
 						<span>Add Service</span>
 					</button>
 				</div>
-				<Table />
+				<Table ColumnLists={COLUMNS} DataSample={CostumersDataSample}/>
 			</div>
 		</div>
 	);
