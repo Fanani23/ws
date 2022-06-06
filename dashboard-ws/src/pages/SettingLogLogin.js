@@ -13,16 +13,6 @@ import TabTitle from "../utils/GeneralFunction"
 const SettingLogLogin = () => {
   TabTitle("Log - Kato Haircut")
 
-  const [openAddLogLogin, setOpenAddLogLogin] = useState(false);
-
-	const closeAddLogLoginModal = () => {
-		setOpenAddLogLogin(false);
-	};
-
-	const openAddLogLoginModal = () => {
-		setOpenAddLogLogin(true);
-	};
-
   return (
     <div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
     <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
