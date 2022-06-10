@@ -8,10 +8,15 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Product $products)
     {
-        $products = Product::orderBy('name')->paginate(6);
-        return ProductResource::collection($products);
+        $products = $products->newQuery();
+
+        if (request()->has('name')) {
+            $products->where('name','like',"%".request()->name."%");
+        }
+
+        return ProductResource::collection($products->orderBy('name')->paginate(6));
     }
 
     public function create()
