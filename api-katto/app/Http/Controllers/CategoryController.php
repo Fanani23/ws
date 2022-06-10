@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\Category\CategoryCollection;
+use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Category $categories)
     {
-        $categories = Category::with('products')->orderBy('name')->paginate(6);
-        return CategoryResource::collection($categories);
+        $categories = $categories->newQuery();
+
+        if (request()->has('name')) {
+            $categories->where('name','like',"%".request()->name."%");
+        }
+
+        return new CategoryCollection($categories->orderBy('name')->paginate(6));
     }
 
     public function show(Category $category)
