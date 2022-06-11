@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\MeController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PresenceController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -19,6 +20,13 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('me', MeController::class);
     Route::post('auth/logout', LogoutController::class);
+
+    Route::prefix('admin')->group(function () {
+        Route::get('', [UserController::class, 'index']);
+        Route::post('/create', [UserController::class, 'create']);
+        Route::put('/update/{user:id}', [UserController::class, 'update']);
+        Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
+    });
 
     Route::prefix('products')->group(function () {
         Route::get('', [ProductController::class, 'index']);
