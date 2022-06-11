@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginActivityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
@@ -26,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [UserController::class, 'create']);
         Route::put('/update/{user:id}', [UserController::class, 'update']);
         Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
+
+        Route::get('login-activities', LoginActivityController::class);
     });
 
     Route::prefix('products')->group(function () {
@@ -34,15 +37,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [ProductController::class, 'create']);
         Route::put('/update/{product:code}', [ProductController::class, 'update']);
         Route::delete('/delete/{product:code}', [ProductController::class, 'destroy']);
+        
+        Route::prefix('categories')->group(function () {
+            Route::get('', [CategoryController::class, 'index']);
+            Route::get('{category:code}', [CategoryController::class, 'show']);
+            Route::post('/create', [CategoryController::class, 'create']);
+            Route::put('/update/{category:code}', [CategoryController::class, 'update']);
+            Route::delete('/delete/{category:code}', [CategoryController::class, 'destroy']);
+        });
     });
     
-    Route::prefix('categories')->group(function () {
-        Route::get('', [CategoryController::class, 'index']);
-        Route::get('{category:code}', [CategoryController::class, 'show']);
-        Route::post('/create', [CategoryController::class, 'create']);
-        Route::put('/update/{category:code}', [CategoryController::class, 'update']);
-        Route::delete('/delete/{category:code}', [CategoryController::class, 'destroy']);
-    });
     
     Route::prefix('customers')->group(function () {
         Route::get('', [CustomerController::class, 'index']);

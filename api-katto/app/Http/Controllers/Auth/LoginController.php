@@ -36,6 +36,10 @@ class LoginController extends Controller
         $user->tokens()->delete();
         $token = $user->createToken('web-token')->plainTextToken;
 
+        $user->loginActivities()->create([
+            'datetime' => now()
+        ]);
+
         return (new UserResource($user))->additional(compact('token'));
     }
 }
