@@ -32,12 +32,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('products')->group(function () {
-        Route::get('', [ProductController::class, 'index']);
-        Route::get('{product:code}', [ProductController::class, 'show']);
-        Route::post('/create', [ProductController::class, 'create']);
-        Route::put('/update/{product:code}', [ProductController::class, 'update']);
-        Route::delete('/delete/{product:code}', [ProductController::class, 'destroy']);
-        
         Route::prefix('categories')->group(function () {
             Route::get('', [CategoryController::class, 'index']);
             Route::get('{category:code}', [CategoryController::class, 'show']);
@@ -45,6 +39,12 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::put('/update/{category:code}', [CategoryController::class, 'update']);
             Route::delete('/delete/{category:code}', [CategoryController::class, 'destroy']);
         });
+
+        Route::get('', [ProductController::class, 'index']);
+        Route::post('/create', [ProductController::class, 'create']);
+        Route::put('/update/{product:code}', [ProductController::class, 'update']);
+        Route::delete('/delete/{product:code}', [ProductController::class, 'destroy']);
+        Route::get('{product:code}', [ProductController::class, 'show']);
     });
     
     
