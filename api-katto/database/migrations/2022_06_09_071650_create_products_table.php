@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('name');
             $table->integer('price');
             $table->integer('fee_commission_rupiah');
-            $table->integer('fee_commission_percent');
+            $table->double('fee_commission_percent');
             $table->string('image')->nullable();
             $table->timestamps();
         });

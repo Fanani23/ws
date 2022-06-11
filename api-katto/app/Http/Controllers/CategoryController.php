@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
 use App\Models\Category;
@@ -25,11 +26,11 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-    public function create()
+    public function create(CategoryRequest $request)
     {
         Category::create([
-            'code' => request()->code,
-            'name' => request()->name
+            'code' => $request->code,
+            'name' => $request->name
         ]);
 
         return response()->json([
@@ -37,11 +38,11 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
         $category->update([
-            'code' => request()->code,
-            'name' => request()->name
+            'code' => $request->code,
+            'name' => $request->name
         ]);
 
         return response()->json([

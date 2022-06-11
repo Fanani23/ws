@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -13,22 +14,31 @@ class ProductController extends Controller
         $products = $products->newQuery();
 
         if (request()->has('name')) {
-            $products->where('name','like',"%".request()->name."%");
+            $products->where('name', 'like', "%" . request()->name . "%");
         }
 
         return ProductResource::collection($products->orderBy('name')->paginate(6));
     }
 
-    public function create()
+    public function create(ProductRequest $request)
     {
+        $code = $request->code;
+        $date = date('Y-m-d');
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
+        } else {
+            $imageUrl = 'null';
+        }
+
         Product::create([
-            'category_id' => request()->category_id,
-            'code' => request()->code,
-            'name' => request()->name,
-            'price' => request()->price,
-            'fee_commission_rupiah' => request()->fee_commission_rupiah,
-            'fee_commission_percent' => request()->fee_commission_percent,
-            'image' => request()->image,
+            'category_id' => $request->category_id,
+            'code' => $code,
+            'name' => $request->name,
+            'price' => $request->price,
+            'fee_commission_rupiah' => $request->fee_commission_rupiah,
+            'fee_commission_percent' => $request->fee_commission_percent,
+            'image' => $imageUrl,
         ]);
 
         return response()->json([
@@ -41,16 +51,27 @@ class ProductController extends Controller
         return new ProductResource($product);
     }
 
-    public function update(Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
+        $code = $request->code;
+        $date = date('Y-m-d');
+        if ($request->file('image')) {
+            \Storage::delete($product->image);
+
+            $image = $request->file('image');
+            $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
+        } else {
+            $imageUrl = $product->image;
+        }
+
         $product->update([
-            'category_id' => request()->category_id,
-            'code' => request()->code,
-            'name' => request()->name,
-            'price' => request()->price,
-            'fee_commission_rupiah' => request()->fee_commission_rupiah,
-            'fee_commission_percent' => request()->fee_commission_percent,
-            'image' => request()->image,
+            'category_id' => $request->category_id,
+            'code' => $code,
+            'name' => $request->name,
+            'price' => $request->price,
+            'fee_commission_rupiah' => $request->fee_commission_rupiah,
+            'fee_commission_percent' => $request->fee_commission_percent,
+            'image' => $imageUrl,
         ]);
 
         return response()->json([
@@ -61,6 +82,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        \Storage::delete($product->image);
 
         return response()->json([
             'message' => 'Successfully deleted.'
