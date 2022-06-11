@@ -10,10 +10,10 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'job_id',
         'code',
         'name',
         'phone',
-        'job'
     ];
 
     public function presences()

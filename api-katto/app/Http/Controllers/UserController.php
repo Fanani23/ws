@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 
@@ -18,12 +19,12 @@ class UserController extends Controller
         return UserResource::collection($user->orderBy('name')->paginate(6));
     }
 
-    public function create()
+    public function create(UserRequest $request)
     {
         User::create([
-            'name' => request()->name,
-            'email' => request()->email,
-            'password' => bcrypt(request()->password)
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->password)
         ]);
 
         return response()->json([
@@ -36,12 +37,12 @@ class UserController extends Controller
         //
     }
 
-    public function update(User $user)
+    public function update(UserRequest $request, User $user)
     {
         $user->update([
-            'name' => request()->name,
-            'email' => request()->email,
-            'password' => bcrypt(request()->password)
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'password' => bcrypt($request->password)
         ]);
 
         return response()->json([

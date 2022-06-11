@@ -17,7 +17,7 @@ class LoginActivityCollection extends ResourceCollection
         return [
             'data' => collect($this->collection)->map(function ($loginActivities) {
                 return [
-                    'name' => $loginActivities->user->name,
+                    'name' => $loginActivities->user->username,
                     'datetime' => $loginActivities->datetime,
                 ];
             })

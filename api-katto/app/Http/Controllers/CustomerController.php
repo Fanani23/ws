@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -28,14 +29,14 @@ class CustomerController extends Controller
         return new CustomerResource($customer);
     }
 
-    public function create()
+    public function create(CustomerRequest $request)
     {
         Customer::create([
-            'code' => request()->code,
-            'name' => request()->name,
-            'phone' => request()->phone,
-            'birthday' => request()->birthday,
-            'membership' => request()->membership,
+            'code' => $request->code,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'birthday' => $request->birthday,
+            'membership' => $request->membership,
         ]);
 
         return response()->json([
@@ -43,14 +44,14 @@ class CustomerController extends Controller
         ]);
     }
 
-    public function update(Customer $customer)
+    public function update(CustomerRequest $request, Customer $customer)
     {
         $customer->update([
-            'code' => request()->code,
-            'name' => request()->name,
-            'phone' => request()->phone,
-            'birthday' => request()->birthday,
-            'membership' => request()->membership,
+            'code' => $request->code,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'birthday' => $request->birthday,
+            'membership' => $request->membership,
         ]);
 
         return response()->json([
@@ -65,17 +66,5 @@ class CustomerController extends Controller
         return response()->json([
             'message' => 'Successfully deleted.'
         ]);
-    }
-
-    public function membershipReguler()
-    {
-        $customers = Customer::where('membership', 'reguler')->orderBy('name')->paginate(6);
-        return CustomerResource::collection($customers);
-    }
-
-    public function membershipVip()
-    {
-        $customers = Customer::where('membership', 'vip')->orderBy('name')->paginate(6);
-        return CustomerResource::collection($customers);
     }
 }

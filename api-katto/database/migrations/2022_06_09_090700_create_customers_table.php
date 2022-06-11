@@ -18,7 +18,7 @@ class CreateCustomersTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->string('phone')->unique();
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
             $table->enum('membership', ['vip', 'reguler']);
             $table->timestamps();
         });

@@ -17,8 +17,8 @@ class RegisterController extends Controller
     public function __invoke(Request $request)
     {
         $attributes = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
+            'username' => 'required|string|min:4|unique:users',
+            'phone' => 'required|string|unique:users',
             'password' => 'required|min:8|confirmed',
         ]);
 
