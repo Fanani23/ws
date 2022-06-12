@@ -2,10 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Job;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class EmployeeFactory extends Factory
+class CustomerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -15,10 +14,11 @@ class EmployeeFactory extends Factory
     public function definition()
     {
         return [
-            'job_id' => Job::factory(),
             'code' => \Str::random(6),
             'name' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
+            'birthday' => $this->faker->date('Y-m-d'),
+            'membership' => $this->faker->randomElement(['vip', 'reguler'])
         ];
     }
 }

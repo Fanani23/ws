@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('price');
-            $table->integer('fee_commission_rupiah');
-            $table->double('fee_commission_percent');
+            $table->integer('fee_commission_rupiah')->nullable();
+            $table->double('fee_commission_percent')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });
