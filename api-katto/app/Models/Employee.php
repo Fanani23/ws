@@ -16,6 +16,11 @@ class Employee extends Model
         'phone',
     ];
 
+    public function job()
+    {
+        return $this->belongsTo(Job::class);
+    }
+
     public function presences()
     {
         return $this->hasMany(Presence::class);

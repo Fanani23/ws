@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Job;
 
+use App\Http\Resources\EmployeeResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmployeeResource extends JsonResource
+class JobResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +18,7 @@ class EmployeeResource extends JsonResource
         return [
             'code' => $this->code,
             'name' => $this->name,
-            'phone' => $this->phone,
-            'job' => $this->job->name,
+            'employees' => EmployeeResource::collection($this->employees)
         ];
     }
 }

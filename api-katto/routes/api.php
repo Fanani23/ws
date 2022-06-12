@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, PresenceController, ProductController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
 use Illuminate\Support\Facades\Route;
 
@@ -25,10 +25,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('products')->group(function () {
         Route::prefix('categories')->group(function () {
             Route::get('', [CategoryController::class, 'index']);
-            Route::get('{category:id}', [CategoryController::class, 'show']);
             Route::post('/create', [CategoryController::class, 'create']);
             Route::put('/update/{category:id}', [CategoryController::class, 'update']);
             Route::delete('/delete/{category:id}', [CategoryController::class, 'destroy']);
+            Route::get('{category:id}', [CategoryController::class, 'show']);
         });
 
         Route::get('', [ProductController::class, 'index']);
@@ -48,16 +48,24 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('employees')->group(function () {
+        Route::prefix('jobs')->group(function () {
+            Route::get('', [JobController::class, 'index']);
+            Route::post('/create', [JobController::class, 'create']);
+            Route::put('/update/{job:id}', [JobController::class, 'update']);
+            Route::delete('/delete/{job:id}', [JobController::class, 'destroy']);
+            Route::get('{job:id}', [JobController::class, 'show']);
+        });
+
         Route::get('', [EmployeeController::class, 'index']);
-        Route::get('{employee:id}', [EmployeeController::class, 'show']);
         Route::post('/create', [EmployeeController::class, 'create']);
         Route::put('/update/{employee:id}', [EmployeeController::class, 'update']);
         Route::delete('/delete/{employee:id}', [EmployeeController::class, 'destroy']);
+        Route::get('{employee:id}', [EmployeeController::class, 'show']);
     });
 
     Route::prefix('presences')->group(function () {
         Route::get('', [PresenceController::class, 'index']);
-        Route::get('{employee:id}', [PresenceController::class, 'show']);
         Route::post('create', [PresenceController::class, 'presence']);
+        Route::get('{employee:id}', [PresenceController::class, 'show']);
     });
 });
