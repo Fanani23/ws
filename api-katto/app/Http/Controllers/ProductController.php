@@ -17,7 +17,7 @@ class ProductController extends Controller
             $products->where('name', 'like', "%" . request()->name . "%");
         }
 
-        return ProductResource::collection($products->orderBy('name')->paginate(6));
+        return ProductResource::collection($products->with('category')->orderBy('name')->paginate(6));
     }
 
     public function create(ProductRequest $request)

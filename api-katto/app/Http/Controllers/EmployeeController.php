@@ -21,7 +21,7 @@ class EmployeeController extends Controller
             $employees->where('job', request()->job);
         }
     
-        return EmployeeResource::collection($employees->orderBy('name')->paginate(6));
+        return EmployeeResource::collection($employees->with('job')->orderBy('name')->paginate(6));
     }
 
     public function show(Employee $employee)
