@@ -17,6 +17,7 @@ class CategoryCollection extends ResourceCollection
         return [
             'data' => collect($this->collection)->map(function ($category) {
                 return [
+                    'id' => $category->id,
                     'code' => $category->code,
                     'name' => $category->name,
                 ];

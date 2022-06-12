@@ -17,6 +17,7 @@ class JobCollection extends ResourceCollection
         return [
             'data' => collect($this->collection)->map(function ($jobs) {
                 return [
+                    'id' => $jobs->id,
                     'code' => $jobs->code,
                     'name' => $jobs->name,
                 ];
