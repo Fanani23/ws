@@ -8,9 +8,8 @@ import {
 import {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
-import CategoryDataSample from "../data/CategoryDataSample.json";
 import TabTitle from "../utils/GeneralFunction";
-import Table from "../components/Table";
+import TableCategories from "../components/TableCategories";
 
 const ProductCategory = () => {
 	TabTitle("Category - Kato Haircut");
@@ -23,18 +22,6 @@ const ProductCategory = () => {
 	const openAddCategoryModal = () => {
 		setOpenAddCategory(true);
 	};
-
-	const COLUMNS = [
-		{
-			Header: "ID Category",
-			accessor: "id",
-			disableFilters: true,
-		},
-		{
-			Header: "Category Name",
-			accessor: "category",
-		}
-	];
 
 	return (
 		<div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
@@ -163,7 +150,7 @@ const ProductCategory = () => {
 						<span>Add Category</span>
 					</button>
 				</div>
-				<Table ColumnLists={COLUMNS} DataSample={CategoryDataSample}/>
+				<TableCategories />
 			</div>
 		</div>
 	);
