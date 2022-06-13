@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
+use App\Http\Controllers\Order\CartController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -67,5 +68,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('', [PresenceController::class, 'index']);
         Route::post('create', [PresenceController::class, 'presence']);
         Route::get('{employee:id}', [PresenceController::class, 'show']);
+    });
+
+    Route::prefix('cashier')->group(function () {
+        Route::post('create', [CartController::class, 'create']);
+        Route::get('show', [CartController::class, 'showCartCashier']);
     });
 });

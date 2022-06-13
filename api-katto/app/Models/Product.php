@@ -14,7 +14,7 @@ class Product extends Model
         'code',
         'name',
         'price',
-        'fee_commission_rupiah',
+        'fee_commission_nominal',
         'fee_commission_percent',
         'image',
     ];

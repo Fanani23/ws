@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
             'code' => 'required|min:6|regex:/^\S*$/u|unique:products,code',
             'name' => 'required|min:4',
             'price' => 'required|integer',
-            'fee_commission_rupiah' => 'required|integer',
+            'fee_commission_nominal' => 'required|integer',
             'fee_commission_percent' => 'required',
             'image' => 'mimes:jpg,jpeg,bmp,png',
         ];
