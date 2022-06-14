@@ -73,15 +73,15 @@ const ProductCategory = () => {
 											<div className="text-sm p-6 text-gray-500">
 												<div className="flex flex-row items-center mb-2">
 													<label
-														htmlFor="id-category"
+														htmlFor="code"
 														className="font-semibold w-28"
 													>
 														ID Category
 													</label>
 													<input
 														type="text"
-														name="id-category"
-														id="id-category"
+														name="code"
+														id="code"
 														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 													/>
 												</div>
@@ -94,8 +94,8 @@ const ProductCategory = () => {
 													</label>
 													<input
 														type="text"
-														name="category-name"
-														id="category-name"
+														name="name"
+														id="name"
 														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 													/>
 												</div>
@@ -106,7 +106,6 @@ const ProductCategory = () => {
 											<button
 												type="submit"
 												className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-												
 											>
 												Save
 											</button>
@@ -140,7 +139,7 @@ const ProductCategory = () => {
 							type="submit"
 							className="ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
 						>
-							<MdSearch className="text-white" />
+							<MdSearch className="text-black" />
 						</button>
 					</div>
 					<button
