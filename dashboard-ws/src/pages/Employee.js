@@ -13,23 +13,23 @@ import TableEmployee from "../components/TableEmployee";
 
 const Employee = () => {
 	TabTitle("Employee - Kato Haircut");
-	const [openAddEmployee, setOpenAddEmployee] = useState(false);
+	const [openAddCategory, setOpenAddCategory] = useState(false);
 
-	const closeAddEmployeeModal = () => {
-		setOpenAddEmployee(false);
+	const closeAddCategoryModal = () => {
+		setOpenAddCategory(false);
 	};
 
-	const openAddEmployeeModal = () => {
-		setOpenAddEmployee(true);
+	const openAddCategoryModal = () => {
+		setOpenAddCategory(true);
 	};
 
 	return (
 		<div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
-			<Transition appear show={openAddEmployee} as={Fragment}>
+			<Transition appear show={openAddCategory} as={Fragment}>
 				<Dialog
 					as="div"
 					className="relative z-10"
-					onClose={closeAddEmployeeModal}
+					onClose={closeAddCategoryModal}
 				>
 					<Transition.Child
 						as={Fragment}
@@ -58,9 +58,9 @@ const Employee = () => {
 										as="div"
 										className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
 									>
-										<h3>Add Employee</h3>
+										<h3>Add Data Employee</h3>
 										<div
-											onClick={closeAddEmployeeModal}
+											onClick={closeAddCategoryModal}
 											className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
 											role="button"
 										>
@@ -71,57 +71,57 @@ const Employee = () => {
 										<div className="text-sm p-6 text-gray-500">
 											<div className="flex flex-row items-center mb-2">
 												<label
-													htmlFor="id-employee"
+													htmlFor="code"
 													className="font-semibold w-28"
 												>
 													Employee ID
 												</label>
 												<input
 													type="number"
-													name="id-employee"
-													id="id-employee"
+													name="code"
+													id="code"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
 											<div className="flex flex-row items-center">
 												<label
-													htmlFor="employee-name"
+													htmlFor="name"
 													className="font-semibold w-28"
 												>
 													Name
 												</label>
 												<input
 													type="text"
-													name="name-employee"
-													id="name-employee"
+													name="name"
+													id="name"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
 											<div className="flex flex-row items-center">
 												<label
-													htmlFor="telp-employee"
+													htmlFor="phone"
 													className="font-semibold w-28"
 												>
 													Telephone
 												</label>
 												<input
 													type="number"
-													name="telp-employee"
-													id="telp-employee"
+													name="phone"
+													id="phone"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
 											<div className="flex flex-row items-center">
 												<label
-													htmlFor="status-employee"
+													htmlFor="job"
 													className="font-semibold w-28"
 												>
-													Status
+													Job
 												</label>
 												<input
 													type="text"
-													name="status-employee"
-													id="status-employee"
+													name="job"
+													id="job"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
@@ -131,14 +131,13 @@ const Employee = () => {
 										<button
 											type="button"
 											className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-											onCLick={closeAddEmployeeModal}
 										>
 											Save
 										</button>
 										<button
 											type="button"
 											className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-											onClick={closeAddEmployeeModal}
+											onClick={closeAddCategoryModal}
 										>
 											Cancel
 										</button>
@@ -154,7 +153,7 @@ const Employee = () => {
 					<div className="flex grow text-gray-600">
 						<MdSearch className="absolute top-3 left-0 text-white" />
 						<input
-							className="border-b-2 border-gray-300 bg-transparent w-full md:w-1/2 lg:w-1/3 text-white h-10 pl-5 text-sm focus:outline-none"
+							className="border-b-2 border-gray-300 bg-transparent w-full md:w-1/2 lg:w-1/3 text-black h-10 pl-5 text-sm focus:outline-none"
 							type="search"
 							name="search"
 							id="search"
@@ -170,7 +169,7 @@ const Employee = () => {
 					<button
 						type="submit"
 						className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-						onClick={openAddEmployeeModal}
+						onClick={openAddCategoryModal}
 					>
 						<MdAdd className="text-white mr-2" />
 						<span>Add Employee</span>
