@@ -12,7 +12,7 @@ import TabTitle from "../utils/GeneralFunction";
 import TableCustomers from "../components/TableCustomers";
 
 const Customers = () => {
-	TabTitle("Costomers - Kato Haircut");
+	TabTitle("Customers - Kato Haircut");
 	const [openAddCategory, setOpenAddCategory] = useState(false);
 
 	const closeAddCategoryModal = () => {
@@ -59,7 +59,7 @@ const Customers = () => {
 										as="div"
 										className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
 									>
-										<h3>Add Data Category</h3>
+										<h3>Add Data Customers</h3>
 										<div
 											onClick={closeAddCategoryModal}
 											className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
