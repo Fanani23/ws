@@ -12,7 +12,7 @@ import TabTitle from "../utils/GeneralFunction";
 import TableEmployee from "../components/TableEmployee";
 
 const Employee = () => {
-	TabTitle("Employee - Kato Haircut");
+	TabTitle("Category - Kato Haircut");
 	const [openAddCategory, setOpenAddCategory] = useState(false);
 
 	const closeAddCategoryModal = () => {
