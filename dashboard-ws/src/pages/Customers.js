@@ -73,29 +73,57 @@ const Customers = () => {
 											<div className="text-sm p-6 text-gray-500">
 												<div className="flex flex-row items-center mb-2">
 													<label
-														htmlFor="id-category"
+														htmlFor="phone"
 														className="font-semibold w-28"
 													>
-														ID Category
+														ID Customers
 													</label>
 													<input
 														type="text"
-														name="id-category"
-														id="id-category"
+														name="phone"
+														id="phone"
 														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 													/>
 												</div>
 												<div className="flex flex-row items-center">
 													<label
-														htmlFor="category-name"
+														htmlFor="birthday"
 														className="font-semibold w-28"
 													>
-														Category Name
+														Birthday
 													</label>
 													<input
 														type="text"
-														name="category-name"
-														id="category-name"
+														name="birthday"
+														id="birthday"
+														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+													/>
+												</div>
+												<div className="flex flex-row items-center mb-2">
+													<label
+														htmlFor="name"
+														className="font-semibold w-28"
+													>
+														Name
+													</label>
+													<input
+														type="text"
+														name="name"
+														id="name"
+														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+													/>
+												</div>
+												<div className="flex flex-row items-center mb-2">
+													<label
+														htmlFor="membership"
+														className="font-semibold w-28"
+													>
+														Membership
+													</label>
+													<input
+														type="text"
+														name="membership"
+														id="membership"
 														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 													/>
 												</div>
@@ -106,7 +134,6 @@ const Customers = () => {
 											<button
 												type="submit"
 												className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-												onClick={closeAddCategoryModal}
 											>
 												Save
 											</button>
@@ -130,7 +157,7 @@ const Customers = () => {
 					<div className="flex grow text-gray-600">
 						<MdSearch className="absolute top-3 left-0 text-white" />
 						<input
-							className="border-b-2 border-gray-300 bg-transparent w-full md:w-1/2 lg:w-1/3 text-white h-10 pl-5 text-sm focus:outline-none"
+							className="border-b-2 border-gray-300 bg-transparent w-full md:w-1/2 lg:w-1/3 text-black h-10 pl-5 text-sm focus:outline-none"
 							type="search"
 							name="search"
 							id="search"
