@@ -12,7 +12,7 @@ const TableCategories = () => {
 	const fetchData = async () => {
 		try {
 			const pageData = await axios.get(
-				`https://katto.osorateam.com/api/products?page=${currentPage}`
+				`https://katto.osorateam.com/api/products/categories?page=${currentPage}`
 			);
 			setTableData(pageData.data.data);
 		} catch (err) {
@@ -24,7 +24,7 @@ const TableCategories = () => {
 		const getTotalCount = async () => {
 			try {
 				const AllData = await axios.get(
-					"https://katto.osorateam.com/api/products"
+					"https://katto.osorateam.com/api/products/categories"
 				);
 				setTableCount(AllData.data.meta.total);
 			} catch (err) {
@@ -38,7 +38,7 @@ const TableCategories = () => {
 		const getItemsPerPage = async () => {
 			try {
 				const CountPerPage = await axios.get(
-					"https://katto.osorateam.com/api/products"
+					"https://katto.osorateam.com/api/products/categories"
 				);
 				setItemsPerPage(CountPerPage.data.meta.per_page);
 			} catch (err) {
