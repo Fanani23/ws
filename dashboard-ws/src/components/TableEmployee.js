@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
 
-const TableCategories = () => {
+const TableEmployee = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableCount, setTableCount] = useState(null);
 	const [currentTablePage, setTablePage] = useState(1);
@@ -12,7 +12,7 @@ const TableCategories = () => {
 	const fetchData = async () => {
 		try {
 			const pageData = await axios.get(
-				`https://katto.osorateam.com/api/products?page=${currentPage}`
+				`https://katto.osorateam.com/api/employees?page=${currentPage}`
 			);
 			setTableData(pageData.data.data);
 		} catch (err) {
@@ -24,7 +24,7 @@ const TableCategories = () => {
 		const getTotalCount = async () => {
 			try {
 				const AllData = await axios.get(
-					"https://katto.osorateam.com/api/products"
+					"https://katto.osorateam.com/api/employees"
 				);
 				setTableCount(AllData.data.meta.total);
 			} catch (err) {
@@ -38,7 +38,7 @@ const TableCategories = () => {
 		const getItemsPerPage = async () => {
 			try {
 				const CountPerPage = await axios.get(
-					"https://katto.osorateam.com/api/products"
+					"https://katto.osorateam.com/api/employees"
 				);
 				setItemsPerPage(CountPerPage.data.meta.per_page);
 			} catch (err) {
@@ -59,8 +59,10 @@ const TableCategories = () => {
 			<table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
 				<thead className="sticky top-0">
 					<tr className="bg-[#F9F9FC] text-black text-left">
-						<th className="py-2">Id</th>
+						<th className="py-2">Employee Id</th>
 						<th className="py-2">Name</th>
+						<th className="py-2">Telephone</th>
+						<th className="py-2">Job</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,6 +74,8 @@ const TableCategories = () => {
 							>
 								<td className="py-2">{row.code}</td>
 								<td className="py-2">{row.name}</td>
+								<td className="py-2">{row.phone}</td>
+								<td className="py-2">{row.job}</td>
 							</tr>
 						))}
 				</tbody>
@@ -87,4 +91,4 @@ const TableCategories = () => {
 	);
 };
 
-export default TableCategories;
+export default TableEmployee;

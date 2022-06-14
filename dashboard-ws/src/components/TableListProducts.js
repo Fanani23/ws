@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Pagination from "./Pagination";
 
-const TableCategories = () => {
+const TableListProducts = () => {
 	const [tableData, setTableData] = useState([]);
 	const [tableCount, setTableCount] = useState(null);
 	const [currentTablePage, setTablePage] = useState(1);
@@ -60,7 +60,11 @@ const TableCategories = () => {
 				<thead className="sticky top-0">
 					<tr className="bg-[#F9F9FC] text-black text-left">
 						<th className="py-2">Id</th>
-						<th className="py-2">Name</th>
+						<th className="py-2">Category</th>
+						<th className="py-2">Product Name</th>
+						<th className="py-2">Price</th>
+						<th className="py-2">Fee (Nominal)</th>
+						<th className="py-2">Fee (Percent)</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,7 +75,15 @@ const TableCategories = () => {
 								className="even:bg-[#F9F9FC] text-black"
 							>
 								<td className="py-2">{row.code}</td>
+								<td className="py-2">{row.category}</td>
 								<td className="py-2">{row.name}</td>
+								<td className="py-2">{row.price}</td>
+								<td className="py-2">
+									{row.fee_commission_rupiah}
+								</td>
+								<td className="py-2">
+									{row.fee_commission_percent}
+								</td>
 							</tr>
 						))}
 				</tbody>
@@ -87,4 +99,4 @@ const TableCategories = () => {
 	);
 };
 
-export default TableCategories;
+export default TableListProducts;

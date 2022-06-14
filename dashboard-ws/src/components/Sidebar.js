@@ -159,7 +159,7 @@ const Sidebar = ({show}) => {
 					</li>
 					<li className="rounded-lg mb-3 last:mb-0" role="button">
 						<NavLink
-							to="/costumers"
+							to="/customers"
 							className={({isActive}) =>
 								isActive
 									? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
@@ -167,7 +167,7 @@ const Sidebar = ({show}) => {
 							}
 						>
 							<MdOutlineGroup className="text-2xl lg:mr-3" />
-							<span>Costumers</span>
+							<span>Customers</span>
 						</NavLink>
 					</li>
 					<li className="rounded-lg mb-3 last:mb-0" role="button">
@@ -214,7 +214,9 @@ const Sidebar = ({show}) => {
 							)}
 						</div>
 						<ul
-							className={`${menuSettingOpen ? "" : "hidden"} ml-4`}
+							className={`${
+								menuSettingOpen ? "" : "hidden"
+							} ml-4`}
 						>
 							<li className="rounded-lg mt-3">
 								<NavLink

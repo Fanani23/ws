@@ -9,27 +9,27 @@ import {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
 import TabTitle from "../utils/GeneralFunction";
-import TableEmployee from "../components/TableEmployee";
+import TableCustomers from "../components/TableCustomers";
 
-const Employee = () => {
-	TabTitle("Employee - Kato Haircut");
-	const [openAddEmployee, setOpenAddEmployee] = useState(false);
+const Customers = () => {
+	TabTitle("Costomers - Kato Haircut");
+	const [openAddCustomers, setOpenAddCustomers] = useState(false);
 
-	const closeAddEmployeeModal = () => {
-		setOpenAddEmployee(false);
+	const closeAddCustomersModal = () => {
+		setOpenAddCustomers(false);
 	};
 
-	const openAddEmployeeModal = () => {
-		setOpenAddEmployee(true);
+	const openAddCustomersModal = () => {
+		setOpenAddCustomers(true);
 	};
 
 	return (
 		<div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
-			<Transition appear show={openAddEmployee} as={Fragment}>
+			<Transition appear show={openAddCustomers} as={Fragment}>
 				<Dialog
 					as="div"
 					className="relative z-10"
-					onClose={closeAddEmployeeModal}
+					onClose={closeAddCustomersModal}
 				>
 					<Transition.Child
 						as={Fragment}
@@ -42,6 +42,7 @@ const Employee = () => {
 					>
 						<div className="fixed insert-0 bg-black bg-opacity-50"></div>
 					</Transition.Child>
+
 					<div className="fixed insert-0 overflow-y-auto">
 						<div className="flex min-h-full items-center justify-center text-center">
 							<Transition.Child
@@ -58,9 +59,9 @@ const Employee = () => {
 										as="div"
 										className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
 									>
-										<h3>Add Employee</h3>
+										<h3>Add Member</h3>
 										<div
-											onClick={closeAddEmployeeModal}
+											onClick={closeAddCustomersModal}
 											className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
 											role="button"
 										>
@@ -71,57 +72,29 @@ const Employee = () => {
 										<div className="text-sm p-6 text-gray-500">
 											<div className="flex flex-row items-center mb-2">
 												<label
-													htmlFor="id-employee"
+													htmlFor="num-customers"
 													className="font-semibold w-28"
 												>
-													Employee ID
+													Handphone Number
 												</label>
 												<input
 													type="number"
-													name="id-employee"
-													id="id-employee"
+													name="num-customers"
+													id="num-customers"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
 											<div className="flex flex-row items-center">
 												<label
-													htmlFor="employee-name"
+													htmlFor="customers-name"
 													className="font-semibold w-28"
 												>
 													Name
 												</label>
 												<input
 													type="text"
-													name="name-employee"
-													id="name-employee"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
-											</div>
-											<div className="flex flex-row items-center">
-												<label
-													htmlFor="telp-employee"
-													className="font-semibold w-28"
-												>
-													Telephone
-												</label>
-												<input
-													type="number"
-													name="telp-employee"
-													id="telp-employee"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
-											</div>
-											<div className="flex flex-row items-center">
-												<label
-													htmlFor="status-employee"
-													className="font-semibold w-28"
-												>
-													Status
-												</label>
-												<input
-													type="text"
-													name="status-employee"
-													id="status-employee"
+													name="customers-name"
+													id="customers-name"
 													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
 												/>
 											</div>
@@ -131,14 +104,14 @@ const Employee = () => {
 										<button
 											type="button"
 											className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-											onCLick={closeAddEmployeeModal}
+											onClick={closeAddCustomersModal}
 										>
 											Save
 										</button>
 										<button
 											type="button"
 											className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-											onClick={closeAddEmployeeModal}
+											onClick={closeAddCustomersModal}
 										>
 											Cancel
 										</button>
@@ -170,16 +143,16 @@ const Employee = () => {
 					<button
 						type="submit"
 						className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-						onClick={openAddEmployeeModal}
+						onClick={openAddCustomersModal}
 					>
 						<MdAdd className="text-white mr-2" />
-						<span>Add Employee</span>
+						<span>Add Member</span>
 					</button>
 				</div>
-				<TableEmployee />
+				<TableCustomers />
 			</div>
 		</div>
 	);
 };
 
-export default Employee;
+export default Customers;

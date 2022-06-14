@@ -78,7 +78,7 @@ const Table = ({ColumnLists, DataSample}) => {
 				</tbody>
 			</table>
 			<nav
-				class="flex flex-row space-x-3 mx-auto"
+				className="flex flex-row space-x-3 mx-auto"
 				aria-label="Pagination"
 			>
 				<button
