@@ -68,55 +68,57 @@ const ProductCategory = () => {
 											<MdClose className="relative" />
 										</div>
 									</Dialog.Title>
-									<div className="mt-2 border-t-2">
-										<div className="text-sm p-6 text-gray-500">
-											<div className="flex flex-row items-center mb-2">
-												<label
-													htmlFor="id-category"
-													className="font-semibold w-28"
-												>
-													ID Category
-												</label>
-												<input
-													type="text"
-													name="id-category"
-													id="id-category"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
-											</div>
-											<div className="flex flex-row items-center">
-												<label
-													htmlFor="category-name"
-													className="font-semibold w-28"
-												>
-													Category Name
-												</label>
-												<input
-													type="number"
-													name="category-name"
-													id="category-name"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
+									<form autoComplete="off" noValidate>
+										<div className="mt-2 border-t-2">
+											<div className="text-sm p-6 text-gray-500">
+												<div className="flex flex-row items-center mb-2">
+													<label
+														htmlFor="id-category"
+														className="font-semibold w-28"
+													>
+														ID Category
+													</label>
+													<input
+														type="text"
+														name="id-category"
+														id="id-category"
+														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+													/>
+												</div>
+												<div className="flex flex-row items-center">
+													<label
+														htmlFor="category-name"
+														className="font-semibold w-28"
+													>
+														Category Name
+													</label>
+													<input
+														type="text"
+														name="category-name"
+														id="category-name"
+														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+													/>
+												</div>
 											</div>
 										</div>
-									</div>
 
-									<div className="mt-4 px-6 pb-6 flex justify-center">
-										<button
-											type="button"
-											className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-											onClick={closeAddCategoryModal}
-										>
-											Save
-										</button>
-										<button
-											type="button"
-											className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-											onClick={closeAddCategoryModal}
-										>
-											Cancel
-										</button>
-									</div>
+										<div className="mt-4 px-6 pb-6 flex justify-center">
+											<button
+												type="submit"
+												className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
+												onClick={closeAddCategoryModal}
+											>
+												Save
+											</button>
+											<button
+												type="button"
+												className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+												onClick={closeAddCategoryModal}
+											>
+												Cancel
+											</button>
+										</div>
+									</form>
 								</Dialog.Panel>
 							</Transition.Child>
 						</div>

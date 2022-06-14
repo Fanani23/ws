@@ -6,8 +6,8 @@ import ProductCategory from "./pages/ProductCategory";
 import ProductList from "./pages/ProductList";
 import ReportOrder from "./pages/ReportOrder";
 import ReportTransaction from "./pages/ReportTransaction";
-import CostumerSingle from "./pages/CostumerSingle";
-import Costumers from "./pages/Costumers";
+import CustomerSingle from "./pages/CustomerSingle";
+import Customers from "./pages/Customers";
 import Presensi from "./pages/Presensi";
 import Employee from "./pages/Employee";
 import EmployeeSingle from "./pages/EmployeeSingle";
@@ -81,11 +81,11 @@ function App() {
 										element={<ReportTransaction />}
 									/>
 								</Route>
-								<Route path="costumers">
-									<Route index element={<Costumers />} />
+								<Route path="customers">
+									<Route index element={<Customers />} />
 									<Route
-										path=":costumerId"
-										element={<CostumerSingle />}
+										path=":customerId"
+										element={<CustomerSingle />}
 									/>
 								</Route>
 								<Route path="presensi" element={<Presensi />} />

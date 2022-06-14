@@ -8,9 +8,10 @@ import {
 import {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
-import CostumersDataSample from "../data/CostumersDataSample.json";
+import CustomersDataSample from "../data/CustomersDataSample.json";
 import TabTitle from "../utils/GeneralFunction";
 import Table from "../components/Table";
+import TableListProducts from "../components/TableListProducts";
 
 const ProductList = () => {
 	TabTitle("List Product - Kato Haircut");
@@ -259,7 +260,7 @@ const ProductList = () => {
 						<span>Add Service</span>
 					</button>
 				</div>
-				<Table ColumnLists={COLUMNS} DataSample={CostumersDataSample}/>
+				<TableListProducts />
 			</div>
 		</div>
 	);
