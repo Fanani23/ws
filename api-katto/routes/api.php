@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
 use App\Http\Controllers\Order\CartController;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('{product:id}', [ProductController::class, 'show']);
     });
 
-
     Route::prefix('customers')->group(function () {
         Route::get('', [CustomerController::class, 'index']);
         Route::post('/create', [CustomerController::class, 'create']);
@@ -74,5 +73,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('create', [CartController::class, 'create']);
         Route::get('show', [CartController::class, 'showCartCashier']);
         Route::post('confirm', [CartController::class, 'confirm']);
+    });
+
+    Route::prefix('order')->group(function () {
+        Route::get('customer/{id}', [CustomerController::class, 'orderHistory']);
+        Route::get('show/{transaction:id}', [TransactionController::class, 'show']);
     });
 });

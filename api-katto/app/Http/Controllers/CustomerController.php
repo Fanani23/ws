@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
+use App\Http\Resources\TransactionCollection;
 use App\Models\Customer;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -66,5 +68,11 @@ class CustomerController extends Controller
         return response()->json([
             'message' => 'Successfully deleted.'
         ]);
+    }
+
+    public function orderHistory($id)
+    {
+        $transactions = Transaction::where('customer_id', $id)->with('customer')->get();
+        return new TransactionCollection($transactions);
     }
 }

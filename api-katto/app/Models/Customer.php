@@ -16,4 +16,9 @@ class Customer extends Model
         'birthday',
         'membership',
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
