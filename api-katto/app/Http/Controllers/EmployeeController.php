@@ -17,10 +17,6 @@ class EmployeeController extends Controller
             $employees->where('name','like',"%".request()->name."%");
         }
     
-        if (request()->has('job')) {
-            $employees->where('job', request()->job);
-        }
-    
         return EmployeeResource::collection($employees->with('job')->orderBy('name')->paginate(6));
     }
 
