@@ -19,7 +19,7 @@ class CartResource extends JsonResource
             "customer_name" => $this->customer->name,
             "code" => $this->code,
             "subtotal" => $this->subtotal,
-            "discount" => $this->subtotal -$this->grand_total,
+            "discount_total" => $this->discount_total,
             "grand_total" => $this->grand_total,
             "datetime" => $this->datetime,
             "service_items" => ServiceItemResource::collection($this->serviceItems)

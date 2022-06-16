@@ -46,14 +46,15 @@ class CartController extends Controller
         $cart = Cart::create([
             'user_id' => $request->user_id,
             'customer_id' => $request->customer_id,
+            'code' => time(),
             'discount_type' => $request->discount_type,
             'discount_amount' => $request->discount_amount,
             'coupon_type' => $request->coupon_type,
             'coupon_amount' => $request->coupon_amount,
-            'code' => time(),
-            'datetime' => now(),
             'subtotal' => $subtotal,
+            'discount_total' => $subtotal - $grand_total,
             'grand_total' => $grand_total,
+            'datetime' => now(),
         ]);
 
 

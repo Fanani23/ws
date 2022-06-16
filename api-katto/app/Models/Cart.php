@@ -18,6 +18,7 @@ class Cart extends Model
         'coupon_type',
         'coupon_amount',
         'subtotal',
+        'discount_total',
         'grand_total',
         'datetime',
     ];

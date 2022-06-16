@@ -23,6 +23,7 @@ class CreateCartsTable extends Migration
             $table->enum('coupon_type', ['percent', 'nominal'])->nullable();
             $table->double('coupon_amount')->nullable();
             $table->double('subtotal')->nullable();
+            $table->double('discount_total')->nullable();
             $table->double('grand_total')->nullable();
             $table->dateTime('datetime');
             $table->timestamps();
