@@ -22,7 +22,7 @@ class CartResource extends JsonResource
             "discount_total" => $this->discount_total,
             "grand_total" => $this->grand_total,
             "datetime" => $this->datetime,
-            "service_items" => ServiceItemResource::collection($this->serviceItems)
+            "service_items" => ServiceItemResource::collection($this->cartItems)
         ];
     }
 }

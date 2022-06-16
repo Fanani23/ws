@@ -30,4 +30,14 @@ class Employee extends Model
     {
         return $this->presences()->whereDate('when', '>=', date('Y-m-d'));
     }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItem::class);
+    }
 }

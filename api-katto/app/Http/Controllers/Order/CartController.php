@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -62,7 +63,7 @@ class CartController extends Controller
             $product = Product::where('id', $service['product_id'])->first();
             $product_price = $product['price'];
 
-            $cart->serviceItems()->create([
+            $cart->cartItems()->create([
                 'employee_id' => $service['stylist_id'],
                 'product_id' => $service['product_id'],
                 'discount_type' => $service['service_discount_type'],
@@ -81,7 +82,46 @@ class CartController extends Controller
     public function showCartCashier(Request $request)
     {
         $user_id = $request->user_id;
-        $cart = Cart::where('user_id', $user_id)->with('serviceItems')->latest()->first();
+        $cart = Cart::where('user_id', $user_id)->with('cartItems')->latest()->first();
         return new CartResource($cart);
+    }
+
+    public function confirm(Request $request)
+    {
+        $user_id = $request->user_id;
+        $cart = Cart::where('user_id', $user_id)->latest()->first();
+
+        $transaction = Transaction::create([
+            'user_id' => $cart->user_id,
+            'customer_id' => $cart->customer_id,
+            'code' => $cart->code,
+            'discount_type' => $cart->discount_type,
+            'discount_amount' => $cart->discount_amount,
+            'coupon_type' => $cart->coupon_type,
+            'coupon_amount' => $cart->coupon_amount,
+            'subtotal' => $cart->subtotal,
+            'discount_total' => $cart->discount_total,
+            'grand_total' => $cart->grand_total,
+            'datetime' => $cart->datetime,
+            'method' => $request->method,
+            'status' => 'paid'
+        ]);
+
+        foreach ($cart->cartItems as $item) {
+            $transaction->transactionItems()->create([
+                'employee_id' => $item->employee_id,
+                'product_id' => $item->product_id,
+                'discount_type' => $item->discount_type,
+                'discount_amount' => $item->discount_amount,
+                'price' => $item->price,
+                'net_price' => $item->net_price,
+                'datetime' => $item->datetime,
+            ]);
+        }
+
+        $cart->cartItems()->delete();
+        $cart->delete();
+
+        return 'ok';
     }
 }

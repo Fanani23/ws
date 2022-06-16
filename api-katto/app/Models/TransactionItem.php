@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ServiceItem extends Model
+class TransactionItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'cart_id',
+        'transaction_id',
         'employee_id',
         'product_id',
         'discount_type',
@@ -20,9 +20,9 @@ class ServiceItem extends Model
         'datetime',
     ];
 
-    public function cart()
+    public function transaction()
     {
-        return $this->belongsTo(Cart::class);
+        return $this->belongsTo(Transaction::class);
     }
 
     public function employee()

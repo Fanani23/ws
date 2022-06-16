@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateServiceItemsTable extends Migration
+class CreateTransactionItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateServiceItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('service_items', function (Blueprint $table) {
+        Schema::create('transaction_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cart_id');
+            $table->foreignId('transaction_id');
             $table->foreignId('employee_id');
             $table->foreignId('product_id');
             $table->enum('discount_type', ['percent', 'nominal'])->nullable();
@@ -34,6 +34,6 @@ class CreateServiceItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('service_items');
+        Schema::dropIfExists('transaction_items');
     }
 }
