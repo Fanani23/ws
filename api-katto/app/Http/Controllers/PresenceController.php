@@ -11,7 +11,7 @@ class PresenceController extends Controller
 {
     public function index()
     {
-        $presences = Presence::with('employee')->latest()->paginate(6);
+        $presences = Presence::with('employee')->whereDate('when', date('Y-m-d'))->latest()->paginate(6);
         return PresenceResource::collection($presences);
     }
 
