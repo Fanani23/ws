@@ -11,6 +11,17 @@ use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        $transactions = Transaction::latest()->paginate(6);
+
+        if (request()->has('from') && request()->has('to')) {
+            $transactions = Transaction::whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(6);
+        }
+
+        return new TransactionCollection($transactions);
+    }
+
     public function orderHistoryCustomer($id)
     {
         $transactions = Transaction::where('customer_id', $id)->with('customer');
@@ -19,7 +30,7 @@ class TransactionController extends Controller
             $transactions = $transactions->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
         }
 
-        return new TransactionCollection($transactions->get());
+        return new TransactionCollection($transactions->latest()->paginate(6));
     }
 
     public function show(Transaction $transaction)

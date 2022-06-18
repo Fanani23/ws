@@ -18,10 +18,10 @@ class PresenceController extends Controller
     public function show(Employee $employee)
     {
         if (request()->has('from') && request()->has('to')) {
-            return PresenceResource::collection($employee->presences()->whereBetween('when', [request()->from, request()->to." 23:59:59"])->paginate(2))->additional(["employee" => $employee]);
+            return PresenceResource::collection($employee->presences()->whereBetween('when', [request()->from, request()->to." 23:59:59"])->paginate(2));
         }
 
-        return PresenceResource::collection($employee->presences()->paginate(2))->additional(["employee" => $employee]);
+        return PresenceResource::collection($employee->presences()->paginate(2));
     }
 
     public function presence()

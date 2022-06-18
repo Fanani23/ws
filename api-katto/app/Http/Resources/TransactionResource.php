@@ -17,10 +17,12 @@ class TransactionResource extends JsonResource
         return [
             "id" => $this->id,
             "code" => $this->code,
+            "customer" => $this->customer->name,
             "subtotal" => $this->subtotal,
             "discount_total" => $this->discount_total,
             "grand_total" => $this->grand_total,
             "datetime" => $this->datetime,
+            "status" => $this->status,
             "transactionItems" => TransactionItemResource::collection($this->transactionItems)
         ];
     }

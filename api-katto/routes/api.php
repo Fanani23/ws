@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, ReportController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
 use App\Http\Controllers\Order\CartController;
 use Illuminate\Support\Facades\Route;
@@ -77,9 +77,13 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('order')->group(function () {
+        
+    });
+    
+    Route::prefix('transactions')->group(function () {
+        Route::get('', [TransactionController::class, 'index']);
+        Route::get('{transaction:id}', [TransactionController::class, 'show']);
         Route::get('customer/{id}', [TransactionController::class, 'orderHistoryCustomer']);
-        Route::get('show/{transaction:id}', [TransactionController::class, 'show']);
-
         Route::get('employee/{employee:id}', [TransactionController::class, 'orderHistoryEmployee']);
     });
 });
