@@ -12,13 +12,7 @@ class CategoryController extends Controller
 {
     public function index(Category $categories)
     {
-        $categories = $categories->newQuery();
-
-        if (request()->has('name')) {
-            $categories->where('name','like',"%".request()->name."%");
-        }
-
-        return new CategoryCollection($categories->orderBy('name')->paginate(6));
+        return searchByName($categories, '', 'App\Http\Resources\Category\CategoryCollection', true, '');
     }
 
     public function show(Category $category)
@@ -28,8 +22,9 @@ class CategoryController extends Controller
 
     public function create(CategoryRequest $request)
     {
+        $code = getCode('CA-');
         Category::create([
-            'code' => $request->code,
+            'code' => $code,
             'name' => $request->name
         ]);
 
@@ -41,7 +36,6 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update([
-            'code' => $request->code,
             'name' => $request->name
         ]);
 

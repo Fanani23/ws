@@ -25,18 +25,12 @@ class ProductRequest extends FormRequest
     {
         $rules = [
             'category_id' => 'required|exists:categories,id',
-            'code' => 'required|min:6|regex:/^\S*$/u|unique:products,code',
             'name' => 'required|min:4',
             'price' => 'required|integer',
-            'fee_commission_nominal' => 'required|integer',
-            'fee_commission_percent' => 'required',
+            'fee_commission_nominal' => 'integer',
+            'fee_commission_percent' => 'nullable|numeric',
             'image' => 'mimes:jpg,jpeg,bmp,png',
         ];
-
-        if (isset($this->product->id)) {
-            $id = $this->product->id;
-            $rules['code'] .= ",$id";
-        }
 
         return $rules;
     }

@@ -25,14 +25,12 @@ class EmployeeRequest extends FormRequest
     {
         $rules = [
             'job_id' => 'required|exists:jobs,id',
-            'code' => 'required|min:6|regex:/^\S*$/u|unique:employees,code',
             'phone' => 'required|unique:employees,phone',
             'name' => 'required|min:4',
         ];
 
         if (isset($this->employee->id)) {
             $id = $this->employee->id;
-            $rules['code'] .= ",$id";
             $rules['phone'] .= ",$id";
         }
 

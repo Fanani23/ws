@@ -11,13 +11,7 @@ class EmployeeController extends Controller
 {
     public function index(Employee $employees)
     {
-        $employees = $employees->newQuery();
-
-        if (request()->has('name')) {
-            $employees->where('name','like',"%".request()->name."%");
-        }
-    
-        return EmployeeResource::collection($employees->with('job')->orderBy('name')->paginate(6));
+        return searchByName($employees, 'job', 'App\Http\Resources\EmployeeResource', false, '');
     }
 
     public function show(Employee $employee)
@@ -29,7 +23,7 @@ class EmployeeController extends Controller
     {
         Employee::create([
             'job_id' => $request->job_id,
-            'code' => $request->code,
+            'code' => getCode('E-'),
             'name' => $request->name,
             'phone' => $request->phone,
         ]);
@@ -42,10 +36,9 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, Employee $employee)
     {
         $employee->update([
-            'code' => $request->code,
+            'job_id' => $request->job_id,
             'name' => $request->name,
             'phone' => $request->phone,
-            'job' => $request->job,
         ]);
 
         return response()->json([

@@ -9,6 +9,8 @@ class Job extends Model
 {
     use HasFactory;
 
+    // protected $with = ['employees'];
+
     protected $fillable = [
         'code',
         'name'

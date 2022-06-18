@@ -12,13 +12,7 @@ class JobController extends Controller
 {
     public function index(Job $jobs)
     {
-        $jobs = $jobs->newQuery();
-
-        if (request()->has('name')) {
-            $jobs->where('name', 'like', "%" . request()->name . "%");
-        }
-
-        return new JobCollection($jobs->orderBy('name')->paginate(6));
+        return searchByName($jobs, '', 'App\Http\Resources\Job\JobCollection', true, '');
     }
 
     public function show(Job $job)
@@ -29,7 +23,7 @@ class JobController extends Controller
     public function create(JobRequest $request)
     {
         Job::create([
-            'code' => $request->code,
+            'code' => getCode('J-'),
             'name' => $request->name
         ]);
 
@@ -41,7 +35,6 @@ class JobController extends Controller
     public function update(JobRequest $request, Job $job)
     {
         $job->update([
-            'code' => $request->code,
             'name' => $request->name
         ]);
 

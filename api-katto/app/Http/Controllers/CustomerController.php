@@ -4,26 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomerRequest;
 use App\Http\Resources\CustomerResource;
-use App\Http\Resources\TransactionCollection;
 use App\Models\Customer;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
     public function index(Customer $customers)
     {
-        $customers = $customers->newQuery();
-
-        if (request()->has('name')) {
-            $customers->where('name','like',"%".request()->name."%");
-        }
-    
-        if (request()->has('membership')) {
-            $customers->where('membership', request()->membership);
-        }
-    
-        return CustomerResource::collection($customers->orderBy('name')->paginate(6));
+        return searchByName($customers, '', 'App\Http\Resources\CustomerResource', false, 'membership');
     }
 
     public function show(Customer $customer)
@@ -34,7 +21,7 @@ class CustomerController extends Controller
     public function create(CustomerRequest $request)
     {
         Customer::create([
-            'code' => $request->code,
+            'code' => getCode('C-'),
             'name' => $request->name,
             'phone' => $request->phone,
             'birthday' => $request->birthday,
@@ -49,7 +36,6 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, Customer $customer)
     {
         $customer->update([
-            'code' => $request->code,
             'name' => $request->name,
             'phone' => $request->phone,
             'birthday' => $request->birthday,

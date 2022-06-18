@@ -16,7 +16,7 @@ class CreateJobsTable extends Migration
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('code')->unique();
-            $table->enum('name', ['stylist', 'assistant stylist', 'helper']);
+            $table->string('name');
             $table->timestamps();
         });
     }

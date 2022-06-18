@@ -17,12 +17,12 @@ class ProductController extends Controller
             $products->where('name', 'like', "%" . request()->name . "%");
         }
 
-        return ProductResource::collection($products->with('category')->orderBy('name')->paginate(6));
+        return ProductResource::collection($products->orderBy('name')->paginate(6));
     }
 
     public function create(ProductRequest $request)
     {
-        $code = $request->code;
+        $code = getCode('P-');
         $date = date('Y-m-d');
         if ($request->file('image')) {
             $image = $request->file('image');
@@ -53,20 +53,18 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
-        $code = $request->code;
         $date = date('Y-m-d');
         if ($request->file('image')) {
             \Storage::delete($product->image);
 
             $image = $request->file('image');
-            $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
+            $imageUrl = $image->storeAs("images/products", "{$product->code}-{$date}.{$image->extension()}");
         } else {
             $imageUrl = $product->image;
         }
 
         $product->update([
             'category_id' => $request->category_id,
-            'code' => $code,
             'name' => $request->name,
             'price' => $request->price,
             'fee_commission_nominal' => $request->fee_commission_nominal,

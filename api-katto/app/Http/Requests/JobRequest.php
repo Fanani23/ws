@@ -24,14 +24,8 @@ class JobRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'code' => 'required|min:6|regex:/^\S*$/u|unique:jobs,code',
             'name' => 'required|min:2'
         ];
-
-        if (isset($this->job->id)) {
-            $id = $this->job->id;
-            $rules['code'] .= ",$id";
-        }
 
         return $rules;
     }
