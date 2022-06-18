@@ -15,7 +15,7 @@ class JobFactory extends Factory
     {
         return [
             'code' => \Str::random(6),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->randomElement(['stylist', 'assistant stylist', 'helper']),
         ];
     }
 }

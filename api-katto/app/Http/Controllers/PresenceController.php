@@ -11,14 +11,14 @@ class PresenceController extends Controller
 {
     public function index()
     {
-        $presences = Presence::with('employee')->whereDate('when', date('Y-m-d'))->latest()->paginate(6);
+        $presences = Presence::with('employee')->whereDate('datetime', date('Y-m-d'))->latest()->paginate(6);
         return PresenceResource::collection($presences);
     }
 
     public function show(Employee $employee)
     {
         if (request()->has('from') && request()->has('to')) {
-            return PresenceResource::collection($employee->presences()->whereBetween('when', [request()->from, request()->to." 23:59:59"])->paginate(2));
+            return PresenceResource::collection($employee->presences()->whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->paginate(2));
         }
 
         return PresenceResource::collection($employee->presences()->paginate(2));
@@ -34,7 +34,7 @@ class PresenceController extends Controller
             ]);
         } else {
             $employee->presences()->create([
-                'when' => now()
+                'datetime' => now()
             ]);
         }
 
