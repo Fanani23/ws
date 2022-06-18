@@ -73,11 +73,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('create', [CartController::class, 'create']);
         Route::get('show', [CartController::class, 'showCartCashier']);
         Route::delete('delete/{cart:id}', [CartController::class, 'destroy']);
-        Route::post('confirm', [CartController::class, 'confirm']);
+        Route::post('confirm/{cart:id}', [CartController::class, 'confirm']);
     });
 
     Route::prefix('order')->group(function () {
-        Route::get('customer/{id}', [CustomerController::class, 'orderHistory']);
+        Route::get('customer/{id}', [TransactionController::class, 'orderHistoryCustomer']);
         Route::get('show/{transaction:id}', [TransactionController::class, 'show']);
     });
 });

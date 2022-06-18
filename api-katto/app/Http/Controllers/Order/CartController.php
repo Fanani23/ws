@@ -86,11 +86,8 @@ class CartController extends Controller
         return new CartResource($cart);
     }
 
-    public function confirm(Request $request)
+    public function confirm(Request $request, Cart $cart)
     {
-        $user_id = $request->user_id;
-        $cart = Cart::where('user_id', $user_id)->latest()->first();
-
         $transaction = Transaction::create([
             'user_id' => $cart->user_id,
             'customer_id' => $cart->customer_id,

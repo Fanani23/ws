@@ -69,10 +69,4 @@ class CustomerController extends Controller
             'message' => 'Successfully deleted.'
         ]);
     }
-
-    public function orderHistory($id)
-    {
-        $transactions = Transaction::where('customer_id', $id)->with('customer')->get();
-        return new TransactionCollection($transactions);
-    }
 }
