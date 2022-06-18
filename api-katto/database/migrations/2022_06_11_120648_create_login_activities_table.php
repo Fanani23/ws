@@ -15,7 +15,7 @@ class CreateLoginActivitiesTable extends Migration
     {
         Schema::create('login_activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->dateTime('datetime');
             $table->timestamps();
         });

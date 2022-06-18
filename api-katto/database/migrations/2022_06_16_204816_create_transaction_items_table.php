@@ -15,8 +15,8 @@ class CreateTransactionItemsTable extends Migration
     {
         Schema::create('transaction_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id');
-            $table->foreignId('employee_id');
+            $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->foreignId('product_id');
             $table->enum('discount_type', ['percent', 'nominal'])->nullable();
             $table->double('discount_amount')->nullable();

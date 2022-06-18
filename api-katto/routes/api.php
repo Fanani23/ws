@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, ReportController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
-use App\Http\Controllers\Order\CartController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
