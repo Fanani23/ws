@@ -79,5 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('order')->group(function () {
         Route::get('customer/{id}', [TransactionController::class, 'orderHistoryCustomer']);
         Route::get('show/{transaction:id}', [TransactionController::class, 'show']);
+
+        Route::get('employee/{employee:id}', [TransactionController::class, 'orderHistoryEmployee']);
     });
 });
