@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Resources\Transaction\TransactionItemResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CartResource extends JsonResource
@@ -22,7 +23,7 @@ class CartResource extends JsonResource
             "discount_total" => $this->discount_total,
             "grand_total" => $this->grand_total,
             "datetime" => $this->datetime,
-            "service_items" => ServiceItemResource::collection($this->cartItems)
+            "service_items" => TransactionItemResource::collection($this->cartItems)
         ];
     }
 }

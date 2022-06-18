@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Order;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class TransactionItemCollection extends ResourceCollection
+class OrderTransactionItemCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -19,7 +19,10 @@ class TransactionItemCollection extends ResourceCollection
                 return [
                     'id' => $transactionItems->id,
                     'code' => $transactionItems->transaction->code,
+                    'employee' => $transactionItems->employee->name,
                     'product' => $transactionItems->product->name,
+                    'category' => $transactionItems->product->category->name,
+                    'qty' => 1,
                     'price' => $transactionItems->price,
                     'net_price' => $transactionItems->net_price,
                 ];

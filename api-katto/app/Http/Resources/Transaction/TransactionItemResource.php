@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Transaction;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,10 +17,12 @@ class TransactionItemResource extends JsonResource
         return [
             "id" => $this->id,
             "transaction_id" => $this->transaction_id,
-            "employee_id" => $this->employee->name,
-            "product_id" => $this->product->name,
+            "employee" => $this->employee->name,
+            "product" => $this->product->name,
             "price" => $this->price,
             "net_price" => $this->net_price,
+            "discount_type" => $this->discount_type,
+            "discount_amount" => $this->discount_amount,
         ];
     }
 }

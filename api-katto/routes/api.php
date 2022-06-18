@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, PresenceController, ProductController, ReportController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, ReportController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
 use App\Http\Controllers\Order\CartController;
 use Illuminate\Support\Facades\Route;
@@ -75,15 +75,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('delete/{cart:id}', [CartController::class, 'destroy']);
         Route::post('confirm/{cart:id}', [CartController::class, 'confirm']);
     });
-
-    Route::prefix('order')->group(function () {
-        
-    });
     
+    Route::prefix('orders')->group(function () {
+        Route::get('', [OrderController::class, 'index']);
+        Route::get('{transaction:id}', [OrderController::class, 'show']);
+        Route::get('customer/{id}', [OrderController::class, 'orderHistoryCustomer']);
+        Route::get('employee/{employee:id}', [OrderController::class, 'orderHistoryEmployee']);
+    });
+
     Route::prefix('transactions')->group(function () {
         Route::get('', [TransactionController::class, 'index']);
         Route::get('{transaction:id}', [TransactionController::class, 'show']);
-        Route::get('customer/{id}', [TransactionController::class, 'orderHistoryCustomer']);
-        Route::get('employee/{employee:id}', [TransactionController::class, 'orderHistoryEmployee']);
     });
 });
