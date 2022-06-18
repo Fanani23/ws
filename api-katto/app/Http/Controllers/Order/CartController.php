@@ -122,6 +122,18 @@ class CartController extends Controller
         $cart->cartItems()->delete();
         $cart->delete();
 
-        return 'ok';
+        return response()->json([
+            'message' => 'Successfully confirmed.'
+        ]);
+    }
+
+    public function destroy(Cart $cart)
+    {
+        $cart->cartItems()->delete();
+        $cart->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted.'
+        ]);
     }
 }

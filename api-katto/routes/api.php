@@ -72,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('cashier')->group(function () {
         Route::post('create', [CartController::class, 'create']);
         Route::get('show', [CartController::class, 'showCartCashier']);
+        Route::delete('delete/{cart:id}', [CartController::class, 'destroy']);
         Route::post('confirm', [CartController::class, 'confirm']);
     });
 
