@@ -16,7 +16,10 @@ class CartItem extends Model
         'discount_type',
         'discount_amount',
         'price',
-        'net_price',
+        'price_after_discount',
+        'commission_type',
+        'commission_value',
+        'fee',
         'datetime',
     ];
 

@@ -23,6 +23,9 @@ class TransactionItemResource extends JsonResource
             "net_price" => $this->net_price,
             "discount_type" => $this->discount_type,
             "discount_amount" => $this->discount_amount,
+            "commission_type" => $this->commission_type,
+            "commission_value" => $this->commission_value,
+            "total_fee" => $this->fee
         ];
     }
 }

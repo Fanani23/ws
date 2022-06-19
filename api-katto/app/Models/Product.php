@@ -16,8 +16,8 @@ class Product extends Model
         'code',
         'name',
         'price',
-        'fee_commission_nominal',
-        'fee_commission_percent',
+        'commission_type',
+        'commission_value',
         'image',
     ];
 

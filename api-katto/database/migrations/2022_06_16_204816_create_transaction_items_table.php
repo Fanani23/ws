@@ -21,7 +21,10 @@ class CreateTransactionItemsTable extends Migration
             $table->enum('discount_type', ['percent', 'nominal'])->nullable();
             $table->double('discount_amount')->nullable();
             $table->double('price');
-            $table->double('net_price');
+            $table->double('price_after_discount');
+            $table->enum('commission_type', ['percent', 'nominal'])->nullable();
+            $table->double('commission_value')->nullable();
+            $table->integer('fee');
             $table->dateTime('datetime');
             $table->timestamps();
         });

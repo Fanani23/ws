@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\Transaction\TransactionCollection;
 use App\Http\Resources\Transaction\TransactionItemCollection;
 use App\Http\Resources\Transaction\TransactionResource;
+use App\Models\Employee;
 use App\Models\Transaction;
 
 class OrderController extends Controller
@@ -44,6 +45,9 @@ class OrderController extends Controller
             $transactionItems = $transactionItems->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
         }
 
-        return new TransactionItemCollection($transactionItems->get());
+        // price or subprice?
+        $salary = $transactionItems->sum('fee');
+
+        return (new TransactionItemCollection($transactionItems->get()))->additional(compact('salary', 'employee'));
     }
 }

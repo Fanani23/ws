@@ -14,7 +14,7 @@ class CartController extends Controller
     public function create(Request $request)
     {
         $subtotal = 0;
-        $net_price = [];
+        $price_after_discount = [];
 
         // discount per service
         foreach ($request->service_items as $key => $service) {
@@ -24,13 +24,14 @@ class CartController extends Controller
             $subtotal += $product_price;
 
             if ($service['service_discount_type'] == 'nominal') {
-                $net_price[$key] = $product_price - $service['service_discount_amount'];
+                $price_after_discount[$key] = $product_price - $service['service_discount_amount'];
             } elseif ($service['service_discount_type'] == 'percent') {
-                $net_price[$key] = $product_price - ($product_price * ($service['service_discount_amount'] / 100));
+                $price_after_discount[$key] = $product_price - ($product_price * ($service['service_discount_amount'] / 100));
             }
         }
 
-        $grand_total = array_sum($net_price);
+        $grand_total = array_sum($price_after_discount);
+
         // discount order
         if ($request->discount_type == 'nominal') {
             $grand_total = $grand_total - $request->discount_amount;
@@ -58,10 +59,17 @@ class CartController extends Controller
             'datetime' => now(),
         ]);
 
-
         foreach ($request->service_items as $key => $service) {
             $product = Product::where('id', $service['product_id'])->first();
             $product_price = $product['price'];
+            
+            $fee = 0;
+            if ($product->commission_type == 'percent') {
+                // product price or price after discount
+                $fee = $product_price * ($product['commission_value'] / 100);
+            } elseif ($product->commission_type == 'nominal') {
+                $fee = $product['commission_value'];
+            }
 
             $cart->cartItems()->create([
                 'employee_id' => $service['stylist_id'],
@@ -69,7 +77,10 @@ class CartController extends Controller
                 'discount_type' => $service['service_discount_type'],
                 'discount_amount' => $service['service_discount_amount'],
                 'price' => $product_price,
-                'net_price' => $net_price[$key],
+                'price_after_discount' => $price_after_discount[$key],
+                'commission_type' => $product->commission_type,
+                'commission_value' => $product->commission_value,
+                'fee' => $fee,
                 'datetime' => now(),
             ]);
         }
@@ -111,7 +122,10 @@ class CartController extends Controller
                 'discount_type' => $item->discount_type,
                 'discount_amount' => $item->discount_amount,
                 'price' => $item->price,
-                'net_price' => $item->net_price,
+                'price_after_discount' => $item->price_after_discount,
+                'commission_type' => $item->commission_type,
+                'commission_value' => $item->commission_value,
+                'fee' => $item->fee,
                 'datetime' => $item->datetime,
             ]);
         }

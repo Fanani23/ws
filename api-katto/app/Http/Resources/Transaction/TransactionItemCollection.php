@@ -21,7 +21,10 @@ class TransactionItemCollection extends ResourceCollection
                     'code' => $transactionItems->transaction->code,
                     'product' => $transactionItems->product->name,
                     'price' => $transactionItems->price,
-                    'net_price' => $transactionItems->net_price,
+                    'price_after_discount' => $transactionItems->price_after_discount,
+                    'commission_type' => $transactionItems->commission_type,
+                    'commission_value' => $transactionItems->commission_value,
+                    'fee' => $transactionItems->fee,
                 ];
             })
         ];

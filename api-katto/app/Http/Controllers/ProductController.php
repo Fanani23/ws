@@ -36,8 +36,8 @@ class ProductController extends Controller
             'code' => $code,
             'name' => $request->name,
             'price' => $request->price,
-            'fee_commission_nominal' => $request->fee_commission_nominal,
-            'fee_commission_percent' => $request->fee_commission_percent,
+            'commission_type' => $request->commission_type,
+            'commission_value' => $request->fee_commission_value,
             'image' => $imageUrl,
         ]);
 
@@ -67,8 +67,8 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'name' => $request->name,
             'price' => $request->price,
-            'fee_commission_nominal' => $request->fee_commission_nominal,
-            'fee_commission_percent' => $request->fee_commission_percent,
+            'commission_type' => $request->commission_type,
+            'commission_value' => $request->fee_commission_value,
             'image' => $imageUrl,
         ]);
 

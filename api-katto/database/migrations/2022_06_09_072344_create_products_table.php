@@ -19,8 +19,8 @@ class CreateProductsTable extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('price');
-            $table->integer('fee_commission_nominal')->nullable();
-            $table->double('fee_commission_percent')->nullable();
+            $table->enum('commission_type', ['percent', 'nominal'])->nullable();
+            $table->double('commission_value')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });
