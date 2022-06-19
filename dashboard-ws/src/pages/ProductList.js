@@ -1,269 +1,185 @@
-import {
-	MdSearch,
-	MdAdd,
-	MdModeEditOutline,
-	MdDeleteOutline,
-	MdClose,
-} from "react-icons/md";
-import {Fragment, useState} from "react";
-import {Link} from "react-router-dom";
-import {Dialog, Transition} from "@headlessui/react";
-import CustomersDataSample from "../data/CustomersDataSample.json";
+import {MdAdd} from "react-icons/md";
+import React, {useState, useEffect} from "react";
 import TabTitle from "../utils/GeneralFunction";
-import Table from "../components/Table";
 import TableListProducts from "../components/TableListProducts";
+import axios from "axios";
+import Pagination from "../components/Pagination";
+import Search from "../components/Search";
+import ModalCreateProduct from "../components/ModalCreateProduct";
 
 const ProductList = () => {
-	TabTitle("List Product - Kato Haircut");
-	const [openAddDataProduct, setOpenAddDataProduct] = useState(false);
+  TabTitle("List Product - Kato Haircut");
+  // modal
+  const [openAddProduct, setOpenAddProduct] = useState(false);
+  const closeAddProductModal = () => setOpenAddProduct(false);
+  const openAddProductModal = () => setOpenAddProduct(true);
+  const [openEditProduct, setOpenEditProduct] = useState(false);
+  const closeEditProductModal = () => setOpenEditProduct(false);
+  const [openDeleteProduct, setOpenDeleteProduct] = useState(false);
+  const closeDeleteProductModal = () => setOpenDeleteProduct(false);
+  // table and pagination
+  const [tableData, setTableData] = useState([]);
+  const [tableCount, setTableCount] = useState(null);
+  const [currentTablePage, setCurrentTablePage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
+  // search
+  const [searchValue, setSearchValue] = useState();
+  // handle create
+  const [code, setCode] = useState("");
+  const [dataCategory, setDataCategory] = useState("");
+  const [category, setCategory] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState();
+  const [feePercent, setFeePercent] = useState();
+  const [feeRupiah, setFeeRupiah] = useState();
+  const [image, setImage] = useState();
+  const fetchData = async (page = currentTablePage, search = "") => {
+    try {
+      const pageData = await axios.get(
+        `https://api.kattohair.com/api/products${
+          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        }`
+      );
+      setTableData(pageData.data.data);
+    } catch (err) {
+      console.log("error in fetching table data", err);
+    }
+  };
 
-	const closeAddDataProductModal = () => {
-		setOpenAddDataProduct(false);
-	};
+  const getTotalCount = async (page = currentTablePage, search = "") => {
+    try {
+      const AllData = await axios.get(
+        `https://api.kattohair.com/api/products${
+          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        }`
+      );
+      setTableCount(AllData.data.meta.total);
+    } catch (err) {
+      console.log("error in fetching table data", err);
+    }
+  };
 
-	const openAddDataProductModal = () => {
-		setOpenAddDataProduct(true);
-	};
+  const getItemsPerPage = async (page = currentTablePage, search = "") => {
+    try {
+      const CountPerPage = await axios.get(
+        `https://api.kattohair.com/api/products${
+          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        }`
+      );
+      setItemsPerPage(CountPerPage.data.meta.per_page);
+    } catch (err) {
+      console.log("error in fetching table data", err);
+    }
+  };
 
-	const COLUMNS = [
-		{
-			Header: "ID",
-			accessor: "id",
-			disableFilters: true,
-		},
-		{
-			Header: "Category",
-			accessor: "category",
-		},
-		{
-			Header: "Product Name",
-			accessor: "product",
-		},
-		{
-			Header: "Price",
-			accessor: "price",
-		},
-		{
-			Header: "Fee (Nominal)",
-			accessor: "fee_nominal",
-		},
-		{
-			Header: "Fee (Percent)",
-			accessor: "fee_percent",
-		},
-	];
+  const fetchDataCategory = async () => {
+    try {
+      const getData = await axios.get(
+        `https://api.kattohair.com/api/products/categories`
+      );
+      setDataCategory(getData.data.data);
+    } catch (err) {
+      console.log("error in fetching table data", err);
+    }
+  };
 
-	return (
-		<div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
-			<Transition appear show={openAddDataProduct} as={Fragment}>
-				<Dialog
-					as="div"
-					className="relative z-10"
-					onClose={closeAddDataProductModal}
-				>
-					<Transition.Child
-						as={Fragment}
-						enter="ease-out duration-300"
-						enterFrom="opacity-0"
-						enterTo="opacity-100"
-						leave="ease-in duration-200"
-						leaveFrom="opacity-100"
-						leaveTo="opacity-0"
-					>
-						<div className="fixed inset-0 bg-black bg-opacity-50" />
-					</Transition.Child>
+  useEffect(() => {
+    fetchData();
+    getTotalCount();
+    getItemsPerPage();
+    fetchDataCategory();
+  }, []);
 
-					<div className="fixed inset-0 overflow-y-auto">
-						<div className="flex min-h-full items-center justify-center text-center">
-							<Transition.Child
-								as={Fragment}
-								enter="ease-out duration-300"
-								enterFrom="opacity-0 scale-95"
-								enterTo="opacity-100 scale-100"
-								leave="ease-in duration-200"
-								leaveFrom="opacity-100 scale-100"
-								leaveTo="opacity-0 scale-95"
-							>
-								<Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-									<Dialog.Title
-										as="div"
-										className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
-									>
-										<h3>Add Data Product</h3>
-										<div
-											onClick={closeAddDataProductModal}
-											className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
-											role="button"
-										>
-											<MdClose className="relative" />
-										</div>
-									</Dialog.Title>
-									<div className="mt-2 border-t-2">
-										<div className="text-sm p-6 text-gray-500">
-											<div className="flex flex-row items-center mb-2">
-												<label
-													htmlFor="id-product"
-													className="font-semibold w-28"
-												>
-													ID Product
-												</label>
-												<input
-													type="text"
-													name="id-product"
-													id="id-product"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
-											</div>
-											<div className="flex flex-row items-center mb-2">
-												<label
-													htmlFor="category-product"
-													className="font-semibold w-28"
-												>
-													Category Product
-												</label>
-												<select
-													class="bg-transparent border-2 w-full border-gray-200 rounded-lg px-3 py-2"
-													name="category-product"
-													id="category-product"
-													aria-label="Default select example"
-												>
-													<option
-														selected
-														value="1"
-														className="text-black"
-													>
-														Transaction
-													</option>
-													<option
-														value="2"
-														className="text-black"
-													>
-														Revenue
-													</option>
-													<option
-														value="3"
-														className="text-black"
-													>
-														Membership
-													</option>
-												</select>
-											</div>
-											<div className="flex flex-row items-center">
-												<label
-													htmlFor="product-name"
-													className="font-semibold w-28"
-												>
-													Product Name
-												</label>
-												<input
-													type="number"
-													name="product-name"
-													id="product-name"
-													className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-												/>
-											</div>
-											<div className="flex flex-row w-full">
-												<div className="basis-1/3">
-													<label
-														htmlFor="product-price"
-														className="font-semibold"
-													>
-														Price{" "}
-														<span className="text-gray-400">
-															(Rp)
-														</span>
-													</label>
-													<input
-														type="number"
-														name="product-price"
-														id="product-price"
-														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-													/>
-												</div>
-												<div className="basis-1/3">
-													<label
-														htmlFor="fee-coms-persen"
-														className="font-semibold"
-													>
-														Fee Commission{" "}
-														<span className="text-gray-400">
-															(%)
-														</span>
-													</label>
-													<input
-														type="number"
-														name="fee-coms-persen"
-														id="fee-coms-persen"
-														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-													/>
-												</div>
-												<div className="basis-1/3">
-													<label
-														htmlFor="fee-coms-rp"
-														className="font-semibold"
-													>
-														Fee Commission{" "}
-														<span className="text-gray-400">
-															(Rp)
-														</span>
-													</label>
-													<input
-														type="number"
-														name="fee-coms-rp"
-														id="fee-coms-rp"
-														className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-													/>
-												</div>
-											</div>
-										</div>
-									</div>
+  const showTablePage = (page) => {
+    setCurrentTablePage(page);
+    fetchData(page);
+  };
 
-									<div className="mt-4 px-6 pb-6 flex justify-center">
-										<button
-											type="button"
-											className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm w-full font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-											onClick={closeAddDataProductModal}
-										>
-											Save
-										</button>
-									</div>
-								</Dialog.Panel>
-							</Transition.Child>
-						</div>
-					</div>
-				</Dialog>
-			</Transition>
-			<div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
-				<div className="flex justify-between">
-					<div className="flex grow text-gray-600">
-						<MdSearch className="absolute top-3 left-0 text-white" />
-						<input
-							className="border-b-2 border-gray-300 bg-transparent w-full md:w-1/2 lg:w-1/3 text-white h-10 pl-5 text-sm focus:outline-none"
-							type="search"
-							name="search"
-							id="search"
-							placeholder="Search"
-						/>
-						<button
-							type="submit"
-							className="ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-						>
-							<MdSearch className="text-white" />
-						</button>
-					</div>
-					<button
-						type="submit"
-						className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-						onClick={openAddDataProductModal}
-					>
-						<MdAdd className="text-white mr-2" />
-						<span>Add Service</span>
-					</button>
-				</div>
-				<TableListProducts />
-			</div>
-		</div>
-	);
+  const showSearchedTablePage = (searchValue) => {
+    setSearchValue(searchValue);
+    setCurrentTablePage(1);
+    fetchData(currentTablePage, searchValue);
+    getTotalCount(currentTablePage, searchValue);
+    getItemsPerPage(currentTablePage, searchValue);
+  };
+
+  const handleSubmit = async (e) => {
+    console.log(e);
+    // e.preventDefault();
+    // try {
+    //   await axios.post("https://api.kattohair.com/api/products/create", {
+    //     "code": code,
+    //     "name": name,
+    //     "category": category,
+    //     "price": price,
+    //     "fee_commission_rupiah": feeRupiah,
+    //     "fee_commission_percent": feePercent,
+    //     "image": image
+    //   });
+    //   fetchData();
+    //   getTotalCount();
+    //   getItemsPerPage();
+    // } catch (err) {
+    //   console.log(err);
+    // }
+  };
+
+  return (
+    <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
+      <ModalCreateProduct
+        show={openAddProduct}
+        close={closeAddProductModal}
+        codeValue={code}
+        setCodeValue={setCode}
+        dataCategory={dataCategory}
+        categoryValue={category}
+        setCategoryValue={setCategory}
+        nameValue={name}
+        setNameValue={setName}
+        priceValue={price}
+        setPriceValue={setPrice}
+        feePercentValue={feePercent}
+        setFeePercentValue={setFeePercent}
+        feeRupiahValue={feeRupiah}
+        setFeeRupiahValue={setFeeRupiah}
+        submit={handleSubmit}
+      />
+      <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
+        <div className="flex justify-between">
+          <Search
+            textColor={"text-black"}
+            bgColor={"bg-white"}
+            placeholder={"Search by product name..."}
+            searchValue={searchValue}
+            setSearchValue={showSearchedTablePage}
+          />
+          <button
+            type="submit"
+            className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+            onClick={openAddProductModal}
+          >
+            <MdAdd className="text-white mr-2" />
+            <span>Add Service</span>
+          </button>
+        </div>
+        {tableCount ? (
+          <>
+            <TableListProducts
+              tableData={tableData}
+              dataCategory={dataCategory}
+            />
+            <Pagination
+              maxPage={Math.ceil(tableCount / itemsPerPage)}
+              currentPage={currentTablePage}
+              showTablePage={showTablePage}
+            />
+          </>
+        ) : (
+          <p className="w-full text-black">No result</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ProductList;

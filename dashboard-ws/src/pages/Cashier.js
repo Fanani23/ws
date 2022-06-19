@@ -382,7 +382,7 @@ const Cashier = () => {
 								return (
 									<div className="basis-full md:basis-1/2 lg:basis-1/5 xl:basis-1/6 pb-2 pr-0 md:pr-2">
 										<div
-											className="bg-white h-full flex flex:row md:flex-col rounded-lg md:text-center items-center text-black p-5"
+											className="bg-white w-full h-full flex flex:row md:flex-col rounded-lg md:text-center items-center text-black p-5"
 											role="button"
 											onClick={openDetailServiceModal}
 										>

@@ -1,6 +1,5 @@
 import {MdAdd} from "react-icons/md";
-import {Fragment, useEffect, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
+import React, {useEffect, useState} from "react";
 import TabTitle from "../utils/GeneralFunction";
 import TableCategories from "../components/TableCategories";
 import axios from "axios";
