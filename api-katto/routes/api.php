@@ -84,6 +84,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('transactions')->group(function () {
         Route::get('', [TransactionController::class, 'index']);
-        Route::get('{transaction:id}', [TransactionController::class, 'show']);
+        // Route::get('{transaction:id}', [TransactionController::class, 'show']);
     });
 });

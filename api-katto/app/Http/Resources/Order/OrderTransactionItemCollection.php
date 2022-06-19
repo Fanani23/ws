@@ -24,7 +24,10 @@ class OrderTransactionItemCollection extends ResourceCollection
                     'category' => $transactionItems->product->category->name,
                     'qty' => 1,
                     'price' => $transactionItems->price,
-                    'net_price' => $transactionItems->net_price,
+                    'price_after_discount' => $transactionItems->price_after_discount,
+                    'commission_type' => $transactionItems->commission_type,
+                    'commission_value' => $transactionItems->commission_value,
+                    'fee' => $transactionItems->fee,
                 ];
             })
         ];
