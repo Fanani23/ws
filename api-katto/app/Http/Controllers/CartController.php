@@ -59,6 +59,7 @@ class CartController extends Controller
             'datetime' => now(),
         ]);
 
+        $count_services = count($request->service_items);
         foreach ($request->service_items as $key => $service) {
             $product = Product::where('id', $service['product_id'])->first();
             $product_price = $product['price'];
@@ -71,13 +72,40 @@ class CartController extends Controller
                 $fee = $product['commission_value'];
             }
 
+            $service_discount_type = $service['service_discount_type'];
+            $service_discount_amount = $service['service_discount_amount'];
+            $price_after_discountaa = $price_after_discount[$key];
+
+            // discount
+            if ($request->discount_type == 'nominal') {
+                $service_discount_type = 'nominal';
+                $service_discount_amount = $request->discount_amount / $count_services;
+                $price_after_discountaa = $product_price - ($request->discount_amount / $count_services);
+            } elseif ($request->discount_type == 'percent') {
+                $service_discount_type = 'percent';
+                $service_discount_amount = $request->discount_amount;
+                $price_after_discountaa = $product_price - ($product_price * ($request->discount_amount / 100));
+            }
+            
+            // coupon
+            if ($request->coupon_type == 'nominal') {
+                $service_discount_type = 'nominal';
+                $service_discount_amount = $request->coupon_amount / $count_services;
+                $price_after_discountaa = $product_price - ($request->coupon_amount / $count_services);
+            } elseif ($request->coupon_type == 'percent') {
+                $service_discount_type = 'percent';
+                $service_discount_amount = $request->coupon_amount;
+                $price_after_discountaa = $product_price - ($product_price * ($request->coupon_amount / 100));
+            }
+
+
             $cart->cartItems()->create([
                 'employee_id' => $service['stylist_id'],
                 'product_id' => $service['product_id'],
-                'discount_type' => $service['service_discount_type'],
-                'discount_amount' => $service['service_discount_amount'],
+                'discount_type' => $service_discount_type,
+                'discount_amount' => $service_discount_amount,
                 'price' => $product_price,
-                'price_after_discount' => $price_after_discount[$key],
+                'price_after_discount' => $price_after_discountaa,
                 'commission_type' => $product->commission_type,
                 'commission_value' => $product->commission_value,
                 'fee' => $fee,
