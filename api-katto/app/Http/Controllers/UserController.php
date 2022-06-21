@@ -13,10 +13,10 @@ class UserController extends Controller
         $user = $user->newQuery();
 
         if (request()->has('name')) {
-            $user->where('name','like',"%".request()->name."%");
+            $user->where('username','like',"%".request()->name."%");
         }
 
-        return UserResource::collection($user->orderBy('name')->paginate(6));
+        return UserResource::collection($user->orderBy('username')->paginate(6));
     }
 
     public function create(UserRequest $request)

@@ -26,6 +26,10 @@ class PresenceController extends Controller
 
     public function presence()
     {
+        request()->validate([
+            'code' => 'exists:employees,code'
+        ]);
+
         $employee = Employee::where('code', request()->code)->first();
 
         if ($employee->presenced->count() > 0) {

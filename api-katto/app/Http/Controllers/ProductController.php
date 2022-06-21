@@ -11,13 +11,12 @@ class ProductController extends Controller
 {
     public function index(Product $products)
     {
-        $products = $products->newQuery();
+        return searchByName($products, '', 'App\Http\Resources\ProductResource', false, '');
+    }
 
-        if (request()->has('name')) {
-            $products->where('name', 'like', "%" . request()->name . "%");
-        }
-
-        return ProductResource::collection($products->orderBy('name')->paginate(6));
+    public function show(Product $product)
+    {
+        return new ProductResource($product);
     }
 
     public function create(ProductRequest $request)
@@ -28,7 +27,7 @@ class ProductController extends Controller
             $image = $request->file('image');
             $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
         } else {
-            $imageUrl = 'null';
+            $imageUrl = null;
         }
 
         Product::create([
@@ -37,18 +36,13 @@ class ProductController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'commission_type' => $request->commission_type,
-            'commission_value' => $request->fee_commission_value,
+            'commission_value' => $request->commission_value,
             'image' => $imageUrl,
         ]);
 
         return response()->json([
             'message' => 'Successfully created.'
         ]);
-    }
-
-    public function show(Product $product)
-    {
-        return new ProductResource($product);
     }
 
     public function update(ProductRequest $request, Product $product)
@@ -68,7 +62,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'price' => $request->price,
             'commission_type' => $request->commission_type,
-            'commission_value' => $request->fee_commission_value,
+            'commission_value' => $request->commission_value,
             'image' => $imageUrl,
         ]);
 

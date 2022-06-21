@@ -14,7 +14,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'code' => \Str::random(6),
+            'code' => getCode('CA-'),
             'name' => $this->faker->name(),
         ];
     }

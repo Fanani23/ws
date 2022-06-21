@@ -30,7 +30,7 @@ class Employee extends Model
 
     public function presenced()
     {
-        return $this->presences()->whereDate('when', '>=', date('Y-m-d'));
+        return $this->presences()->whereDate('datetime', '>=', date('Y-m-d'));
     }
 
     public function cartItems()

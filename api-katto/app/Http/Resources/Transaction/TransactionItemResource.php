@@ -17,8 +17,8 @@ class TransactionItemResource extends JsonResource
         return [
             "id" => $this->id,
             "transaction_id" => $this->transaction_id,
-            "employee" => $this->employee->name,
-            "product" => $this->product->name,
+            "employee_name" => $this->employee->name,
+            "product_name" => $this->product->name,
             "price" => $this->price,
             'price_after_discount' => $this->price_after_discount,
             'commission_type' => $this->commission_type,

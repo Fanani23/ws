@@ -14,7 +14,9 @@ function searchByName($data, $with, $resource, $new = false, $additionalSearch)
     }
 
     if ($additionalSearch != '') {
-        $data->where($additionalSearch, request()->$additionalSearch);
+        if (request()->has($additionalSearch)) {
+            $data->where($additionalSearch, request()->$additionalSearch);
+        }
     }
 
     if ($with != '') {

@@ -15,6 +15,11 @@ class CategoryController extends Controller
         return searchByName($categories, '', 'App\Http\Resources\Category\CategoryCollection', true, '');
     }
 
+    public function all()
+    {
+        return new CategoryCollection(Category::orderBy('name')->get());
+    }
+
     public function show(Category $category)
     {
         return new CategoryResource($category);

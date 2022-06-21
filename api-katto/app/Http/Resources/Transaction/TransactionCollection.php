@@ -18,7 +18,7 @@ class TransactionCollection extends ResourceCollection
             'data' => collect($this->collection)->map(function ($transactions) {
                 return [
                     "id" => $transactions->id,
-                    "customer" => $transactions->customer->name,
+                    "customer_name" => $transactions->customer->name,
                     "code" => $transactions->code,
                     "discount_type" => $transactions->discount_type,
                     "discount_amount" => $transactions->discount_amount,
