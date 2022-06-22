@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
 use Illuminate\Support\Facades\Route;
 
@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('delete/{cart:id}', [CartController::class, 'destroy']);
         Route::post('confirm/{cart:id}', [CartController::class, 'confirm']);
     });
-    
+
     Route::prefix('orders')->group(function () {
         Route::get('', [OrderController::class, 'index']);
         Route::get('{transaction:id}', [OrderController::class, 'show']);
@@ -84,4 +84,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::get('transactions', [TransactionController::class, 'index']);
+
+    Route::prefix('dashboard')->group(function () {
+        Route::get('total', [DashboardController::class, 'index']);
+        Route::get('membership', [DashboardController::class, 'membership']);
+        Route::get('category', [DashboardController::class, 'category']);
+    });
 });
