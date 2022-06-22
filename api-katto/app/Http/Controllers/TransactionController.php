@@ -16,10 +16,10 @@ class TransactionController extends Controller
             $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(6);
         }
 
-        // revenue = price / after discount?
         $total_revenue = $transactionItems->sum('price');
         $total_comission = $transactionItems->sum('fee');
-        $total_profit = $transactionItems->sum('price_after_discount');
+        $total_price_after_discount = $transactionItems->sum('price_after_discount');
+        $total_profit = $total_price_after_discount - $total_comission;
         return (new CommissionTransactionItemCollection($transactionItems))->additional(compact('total_revenue', 'total_comission', 'total_profit'));
     }
 }

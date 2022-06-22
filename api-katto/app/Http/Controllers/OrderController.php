@@ -45,7 +45,6 @@ class OrderController extends Controller
             $transactionItems = $transactionItems->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
         }
 
-        // price or subprice?
         $salary = $transactionItems->sum('fee');
 
         return (new TransactionItemCollection($transactionItems->get()))->additional(compact('salary', 'employee'));
