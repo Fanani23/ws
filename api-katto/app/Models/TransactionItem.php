@@ -13,6 +13,7 @@ class TransactionItem extends Model
         'transaction_id',
         'employee_id',
         'product_id',
+        'category_id',
         'discount_type',
         'discount_amount',
         'price',
@@ -36,5 +37,10 @@ class TransactionItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

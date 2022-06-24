@@ -102,6 +102,7 @@ class CartController extends Controller
             $cart->cartItems()->create([
                 'employee_id' => $service['stylist_id'],
                 'product_id' => $service['product_id'],
+                'category_id' => $product->category_id,
                 'discount_type' => $service_discount_type,
                 'discount_amount' => $service_discount_amount,
                 'price' => $product_price,
@@ -147,6 +148,7 @@ class CartController extends Controller
             $transaction->transactionItems()->create([
                 'employee_id' => $item->employee_id,
                 'product_id' => $item->product_id,
+                'category_id' => $item->category_id,
                 'discount_type' => $item->discount_type,
                 'discount_amount' => $item->discount_amount,
                 'price' => $item->price,

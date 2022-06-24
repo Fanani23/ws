@@ -12,10 +12,10 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::latest()->paginate(6);
+        $transactions = Transaction::latest()->paginate(9);
 
         if (request()->has('from') && request()->has('to')) {
-            $transactions = Transaction::whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(6);
+            $transactions = Transaction::whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(9);
         }
 
         return new TransactionCollection($transactions);
@@ -29,7 +29,7 @@ class OrderController extends Controller
             $transactions = $transactions->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
         }
 
-        return new TransactionCollection($transactions->latest()->paginate(6));
+        return new TransactionCollection($transactions->latest()->paginate(9));
     }
 
     public function show(Transaction $transaction)

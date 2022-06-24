@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Http\Resources\Category\CategoryCollection;
 use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -22,7 +24,15 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
-        return new CategoryResource($category);
+        if (request()->has('name')) {
+            $products = Product::where('category_id', $category->id)->where('name', 'like', '%' . request('name') . '%')->paginate(9);
+            return response()->json([
+                'data' => ProductResource::collection($products)
+            ]);
+        }
+        
+        $products = Product::where('category_id', $category->id)->paginate(9);
+        return ProductResource::collection($products);
     }
 
     public function create(CategoryRequest $request)

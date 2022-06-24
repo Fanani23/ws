@@ -18,6 +18,7 @@ class CreateTransactionItemsTable extends Migration
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->enum('discount_type', ['percent', 'nominal'])->nullable();
             $table->double('discount_amount')->nullable();
             $table->double('price');

@@ -16,7 +16,7 @@ class UserController extends Controller
             $user->where('username','like',"%".request()->name."%");
         }
 
-        return UserResource::collection($user->orderBy('username')->paginate(6));
+        return UserResource::collection($user->orderBy('username')->paginate(9));
     }
 
     public function create(UserRequest $request)

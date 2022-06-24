@@ -89,5 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('total', [DashboardController::class, 'index']);
         Route::get('membership', [DashboardController::class, 'membership']);
         Route::get('category', [DashboardController::class, 'category']);
+        Route::get('revenue', [DashboardController::class, 'revenue']);
+        Route::get('transaction', [DashboardController::class, 'transaction']);
     });
 });

@@ -17,7 +17,7 @@ class LoginActivityController extends Controller
      */
     public function __invoke()
     {
-        $loginActivities = LoginActivity::with('user')->latest()->paginate(6);
+        $loginActivities = LoginActivity::with('user')->latest()->paginate(9);
         return new LoginActivityCollection($loginActivities);
     }
 }

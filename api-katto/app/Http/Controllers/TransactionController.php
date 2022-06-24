@@ -10,10 +10,10 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->latest()->paginate(6);
+        $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->latest()->paginate(9);
 
         if (request()->has('from') && request()->has('to')) {
-            $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(6);
+            $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(9);
         }
 
         $total_revenue = $transactionItems->sum('price');
