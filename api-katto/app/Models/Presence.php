@@ -10,7 +10,8 @@ class Presence extends Model
     use HasFactory;
 
     protected $fillable = [
-        'datetime'
+        'coming_time',
+        'return_time',
     ];
 
     public function employee()
