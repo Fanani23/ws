@@ -3,7 +3,7 @@ import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
 const TableListProducts = ({tableData, editRow, deleteRow}) => {
   return (
     <>
-      <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
+      <table className="mt-5 font-nunito-sans text-xs overflow-y-scroll relative">
         <thead className="sticky top-0">
           <tr className="bg-[#F9F9FC] text-black text-left">
             <th className="py-2">ID</th>
@@ -24,10 +24,26 @@ const TableListProducts = ({tableData, editRow, deleteRow}) => {
                 <td className="py-2">{row.category}</td>
                 <td className="py-2">{row.name}</td>
                 <td className="py-2">{row.price}</td>
-                <td className="py-2">{row.fee_commission_rupiah}</td>
-                <td className="py-2">{row.fee_commission_percent}</td>
+                {row.commission_type === "nominal" && (
+                  <>
+                    <td className="py-2">{row.commission_value}</td>
+                    <td className="py-2">0</td>
+                  </>
+                )}
+                {row.commission_type === "percent" && (
+                  <>
+                    <td className="py-2">0</td>
+                    <td className="py-2">{row.commission_value}</td>
+                  </>
+                )}
                 <td className="py-2">
-                  {row.image !== null ? <a href={row.image}>y</a> : "None"}
+                  {row.image !== null ? (
+                    <a className="hover:underline" href={row.image}>
+                      Link
+                    </a>
+                  ) : (
+                    "None"
+                  )}
                 </td>
                 <td className="py-2">
                   <button

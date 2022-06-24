@@ -5,9 +5,14 @@ import TableEmployee from "../components/TableEmployee";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import axios from "axios";
+import ModalCreateEmployee from "../components/ModalCreateEmployee";
 
 const Employee = () => {
   TabTitle("Employee - Kato Haircut");
+  // modal
+  const [openAddEmployee, setOpenAddEmployee] = useState(false);
+  const closeAddEmployeeModal = () => setOpenAddEmployee(false);
+  const openAddEmployeeModal = () => setOpenAddEmployee(true);
   // table and pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -15,6 +20,12 @@ const Employee = () => {
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // search
   const [searchValue, setSearchValue] = useState();
+  // handle create
+  const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dataJob, setDataJob] = useState("");
+  const [job, setJob] = useState("");
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
@@ -58,6 +69,7 @@ const Employee = () => {
     fetchData();
     getTotalCount();
     getItemsPerPage();
+    fetchJobData();
   }, []);
 
   const showTablePage = (page) => {
@@ -73,8 +85,31 @@ const Employee = () => {
     getItemsPerPage(currentTablePage, searchValue);
   };
 
+  const fetchJobData = async () => {
+    try {
+      const getData = await axios.get(
+        `https://api.kattohair.com/api/employees/jobs`
+      );
+      setDataJob(getData.data.data);
+    } catch (err) {
+      console.log("error in fetching table data", err);
+    }
+  };
+
+  const handleSubmit = async (e) => {};
+
   return (
     <div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
+      <ModalCreateEmployee
+        show={openAddEmployee}
+        close={closeAddEmployeeModal}
+        code={code}
+        setCodeValue={setCode}
+        name={name}
+        setNameValue={setName}
+        dataJob={dataJob}
+        submit={handleSubmit}
+      />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
         <div className="flex justify-between">
           <Search
@@ -87,6 +122,7 @@ const Employee = () => {
           <button
             type="submit"
             className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+            onClick={openAddEmployeeModal}
           >
             <MdAdd className="text-white mr-2" />
             <span>Add Employee</span>

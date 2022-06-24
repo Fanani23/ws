@@ -58,19 +58,7 @@ const ProductCategory = () => {
         }`
       );
       setTableCount(AllData.data.meta.total);
-    } catch (err) {
-      console.log("error in fetching table data", err);
-    }
-  };
-
-  const getItemsPerPage = async (page = currentTablePage, search = "") => {
-    try {
-      const CountPerPage = await axios.get(
-        `https://api.kattohair.com/api/products/categories${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
-      );
-      setItemsPerPage(CountPerPage.data.meta.per_page);
+      setItemsPerPage(AllData.data.meta.per_page);
     } catch (err) {
       console.log("error in fetching table data", err);
     }
@@ -79,7 +67,6 @@ const ProductCategory = () => {
   useEffect(() => {
     fetchData();
     getTotalCount();
-    getItemsPerPage();
   }, []);
 
   const showTablePage = (page) => {
@@ -92,7 +79,6 @@ const ProductCategory = () => {
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
     getTotalCount(currentTablePage, searchValue);
-    getItemsPerPage(currentTablePage, searchValue);
   };
 
   const handleSubmit = async (e) => {
@@ -104,7 +90,6 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      getItemsPerPage();
     } catch (err) {
       console.log(err);
     }
@@ -131,7 +116,7 @@ const ProductCategory = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      let data = await axios.put(
+      await axios.put(
         `https://api.kattohair.com/api/products/categories/update/${idEdit}`,
         {code: codeEdit, name: nameEdit}
       );
@@ -143,7 +128,6 @@ const ProductCategory = () => {
 
   const prepareDelete = (id) => {
     setIdDelete(id);
-    console.log(id);
     getDeleteData(id);
     setOpenDeleteCategory(true);
   };
@@ -166,7 +150,6 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      getItemsPerPage();
     } catch (err) {
       console.log(err);
     }
@@ -177,8 +160,6 @@ const ProductCategory = () => {
       <ModalCreateCategories
         show={openAddCategory}
         close={closeAddCategoryModal}
-        code={code}
-        setCodeValue={setCode}
         name={name}
         setNameValue={setName}
         submit={handleSubmit}
@@ -186,8 +167,6 @@ const ProductCategory = () => {
       <ModalEditCategories
         show={openEditCategory}
         close={closeEditCategoryModal}
-        codeEditValue={codeEdit}
-        setCodeEditValue={setCodeEdit}
         nameEditValue={nameEdit}
         setNameEditValue={setNameEdit}
         submit={handleEdit}

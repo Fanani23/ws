@@ -1,8 +1,8 @@
 import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 
-const ModalCreateProduct = ({
+const ModalEditProduct = ({
   show,
   close,
   submit,
@@ -20,19 +20,6 @@ const ModalCreateProduct = ({
   imageValue,
   setImageValue,
 }) => {
-  const [inputImage, setInputImage] = useState();
-  const getDataImage = (event) => {
-    if (event.target.files[0]) {
-      console.log(event.target.files[0].name);
-      setImageValue(event.target.files);
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        setInputImage(reader.result);
-      });
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  };
-
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={close}>
@@ -76,19 +63,19 @@ const ModalCreateProduct = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center mb-2">
-                        <label htmlFor="name" className="font-semibold w-28">
-                          Product Name
+                      {/* <div className="flex flex-row items-center mb-2">
+                        <label htmlFor="code" className="font-semibold w-28">
+                          ID Product
                         </label>
                         <input
                           type="text"
-                          name="name"
-                          id="name"
+                          name="code"
+                          id="code"
                           className="border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameValue}
-                          onChange={(e) => setNameValue(e.target.value)}
+                          value={codeValue}
+                          onChange={(e) => setCodeValue(e.target.value)}
                         />
-                      </div>
+                      </div> */}
                       <div className="flex flex-row items-center mb-2">
                         <label
                           htmlFor="category"
@@ -101,13 +88,10 @@ const ModalCreateProduct = ({
                           value={categoryValue}
                           onChange={(e) => setCategoryValue(e.target.value)}
                         >
-                          <option disabled selected>
-                            Select Category
-                          </option>
                           {dataCategory &&
                             dataCategory.map((val) => (
                               <option
-                                value={val.id}
+                                value={val.name}
                                 key={val.id}
                                 className="text-black"
                               >
@@ -115,6 +99,19 @@ const ModalCreateProduct = ({
                               </option>
                             ))}
                         </select>
+                      </div>
+                      <div className="flex flex-row items-center mb-2">
+                        <label htmlFor="name" className="font-semibold w-28">
+                          Product Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          className="border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                          value={nameValue}
+                          onChange={(e) => setNameValue(e.target.value)}
+                        />
                       </div>
                       <div className="flex flex-row w-full mb-2">
                         <div className="basis-1/3 pr-1">
@@ -150,11 +147,7 @@ const ModalCreateProduct = ({
                               setFeeCategoryValue(e.target.value)
                             }
                           >
-                            <option
-                              value="nominal"
-                              selected
-                              className="text-black"
-                            >
+                            <option value="nominal" className="text-black">
                               Nominal
                             </option>
                             <option value="percent" className="text-black">
@@ -185,24 +178,11 @@ const ModalCreateProduct = ({
                             Image
                           </label>
                         </div>
-                        <div className="basis-1/3 px-1 flex flex-col">
-                          <label
-                            htmlFor="image"
-                            className="rounded-lg border-dashed border-2 w-full border-gray-200 p-2 mb-3 cursor-pointer"
-                          >
-                            <input
-                              type="file"
-                              name="image"
-                              id="image"
-                              className="hidden"
-                              onChange={getDataImage}
-                            />
-                            {!imageValue ? (
-                              <span className="text-black">Upload here...</span>
-                            ) : (
-                              <img src={inputImage} alt="Images" />
-                            )}
-                          </label>
+                        <div className="basis-1/3 px-1">
+                          <div className="rounded-lg border-dashed border-2 min-h-[100px] border-gray-200 p-5 mb-3"></div>
+                          <button className="px-5 py-2 w-full text-sm rounded-lg border-none bg-green-500 text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-800 focus-visible:ring-offset-2">
+                            Upload
+                          </button>
                         </div>
                         <div className="basis-1/3 pl-1"></div>
                       </div>
@@ -228,4 +208,4 @@ const ModalCreateProduct = ({
   );
 };
 
-export default ModalCreateProduct;
+export default ModalEditProduct;

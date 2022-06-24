@@ -15,12 +15,24 @@ import SettingAdmin from "./pages/SettingAdmin";
 import SettingLogLogin from "./pages/SettingLogLogin";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CashierSingle from "./pages/CashierSingle";
 import EmployeeCategory from "./pages/EmployeeCategory";
 
 function App() {
-  const [sidebar, setSidebar] = useState(true);
+  const [sidebar, setSidebar] = useState(false);
+
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setSidebar(true);
+    } else if (window.innerWidth < 768) {
+      setSidebar(false);
+    }
+  };
+
+  useEffect(() => {
+    handleResize();
+  }, []);
 
   const toggleSidebar = () => {
     return setSidebar(!sidebar);

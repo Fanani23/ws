@@ -89,7 +89,7 @@ const EmployeeCategory = () => {
             className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
           >
             <MdAdd className="text-white mr-2" />
-            <span>Add Employee</span>
+            <span>Add Job</span>
           </button>
         </div>
         {tableCount ? (

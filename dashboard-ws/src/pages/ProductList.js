@@ -27,11 +27,11 @@ const ProductList = () => {
   // handle create
   const [code, setCode] = useState("");
   const [dataCategory, setDataCategory] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState();
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
-  const [feePercent, setFeePercent] = useState();
-  const [feeRupiah, setFeeRupiah] = useState();
+  const [feeCategory, setFeeCategory] = useState("nominal");
+  const [feeValue, setFeeValue] = useState();
   const [image, setImage] = useState();
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -41,32 +41,8 @@ const ProductList = () => {
         }`
       );
       setTableData(pageData.data.data);
-    } catch (err) {
-      console.log("error in fetching table data", err);
-    }
-  };
-
-  const getTotalCount = async (page = currentTablePage, search = "") => {
-    try {
-      const AllData = await axios.get(
-        `https://api.kattohair.com/api/products${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
-      );
-      setTableCount(AllData.data.meta.total);
-    } catch (err) {
-      console.log("error in fetching table data", err);
-    }
-  };
-
-  const getItemsPerPage = async (page = currentTablePage, search = "") => {
-    try {
-      const CountPerPage = await axios.get(
-        `https://api.kattohair.com/api/products${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
-      );
-      setItemsPerPage(CountPerPage.data.meta.per_page);
+      setTableCount(pageData.data.meta.total);
+      setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
       console.log("error in fetching table data", err);
     }
@@ -75,7 +51,7 @@ const ProductList = () => {
   const fetchDataCategory = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/products/categories`
+        `https://api.kattohair.com/api/products/categories/all`
       );
       setDataCategory(getData.data.data);
     } catch (err) {
@@ -85,8 +61,6 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchData();
-    getTotalCount();
-    getItemsPerPage();
     fetchDataCategory();
   }, []);
 
@@ -99,29 +73,24 @@ const ProductList = () => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
-    getTotalCount(currentTablePage, searchValue);
-    getItemsPerPage(currentTablePage, searchValue);
   };
 
   const handleSubmit = async (e) => {
-    console.log(e);
-    // e.preventDefault();
-    // try {
-    //   await axios.post("https://api.kattohair.com/api/products/create", {
-    //     "code": code,
-    //     "name": name,
-    //     "category": category,
-    //     "price": price,
-    //     "fee_commission_rupiah": feeRupiah,
-    //     "fee_commission_percent": feePercent,
-    //     "image": image
-    //   });
-    //   fetchData();
-    //   getTotalCount();
-    //   getItemsPerPage();
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    e.preventDefault();
+    try {
+      console.log(e);
+      await axios.post("https://api.kattohair.com/api/products/create", {
+        name: name,
+        category_id: category,
+        price: price,
+        commission_type: feeCategory,
+        commission_value: feeValue,
+        image: image,
+      });
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -129,8 +98,6 @@ const ProductList = () => {
       <ModalCreateProduct
         show={openAddProduct}
         close={closeAddProductModal}
-        codeValue={code}
-        setCodeValue={setCode}
         dataCategory={dataCategory}
         categoryValue={category}
         setCategoryValue={setCategory}
@@ -138,10 +105,12 @@ const ProductList = () => {
         setNameValue={setName}
         priceValue={price}
         setPriceValue={setPrice}
-        feePercentValue={feePercent}
-        setFeePercentValue={setFeePercent}
-        feeRupiahValue={feeRupiah}
-        setFeeRupiahValue={setFeeRupiah}
+        feeCategoryValue={feeCategory}
+        setFeeCategoryValue={setFeeCategory}
+        feeValue={feeValue}
+        setFeeValue={setFeeValue}
+        imageValue={image}
+        setImageValue={setImage}
         submit={handleSubmit}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">

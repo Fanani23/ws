@@ -9,8 +9,8 @@ export default function Pagination(props) {
   function getPageOptions() {
     let options = [];
 
-    if (start + 4 <= props.maxPage) {
-      setEnd(start + 4);
+    if (start + 2 <= props.maxPage) {
+      setEnd(start + 2);
     } else {
       setEnd(props.maxPage);
     }

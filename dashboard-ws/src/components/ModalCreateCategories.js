@@ -6,8 +6,6 @@ const ModalCreateCategories = ({
   show,
   close,
   submit,
-  codeValue,
-  setCodeValue,
   nameValue,
   setNameValue,
 }) => {
@@ -54,24 +52,8 @@ const ModalCreateCategories = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center mb-2">
-                        <label htmlFor="code" className="font-semibold w-28">
-                          ID Category
-                        </label>
-                        <input
-                          type="text"
-                          name="code"
-                          id="code"
-                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={codeValue}
-                          onChange={(e) => setCodeValue(e.target.value)}
-                        />
-                      </div>
                       <div className="flex flex-row items-center">
-                        <label
-                          htmlFor="category-name"
-                          className="font-semibold w-28"
-                        >
+                        <label htmlFor="name" className="font-semibold w-28">
                           Category Name
                         </label>
                         <input

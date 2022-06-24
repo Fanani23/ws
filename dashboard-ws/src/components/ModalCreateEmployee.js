@@ -2,12 +2,19 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalEditCategories = ({
+const ModalCreateEmployee = ({
   show,
   close,
   submit,
-  nameEditValue,
-  setNameEditValue,
+  codeValue,
+  setCodeValue,
+  nameValue,
+  setNameValue,
+  phoneValue,
+  setPhoneValue,
+  dataJob,
+  jobValue,
+  setJobValue,
 }) => {
   return (
     <Transition appear show={show} as={Fragment}>
@@ -23,6 +30,7 @@ const ModalEditCategories = ({
         >
           <div className="fixed inset-0 bg-black bg-opacity-50" />
         </Transition.Child>
+
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center text-center">
             <Transition.Child
@@ -39,7 +47,7 @@ const ModalEditCategories = ({
                   as="div"
                   className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Edit Data Category</h3>
+                  <h3>Add Data Employee</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -51,31 +59,79 @@ const ModalEditCategories = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center">
-                        <label
-                          htmlFor="category-name"
-                          className="font-semibold w-28"
-                        >
-                          Category Name
+                      <div className="flex flex-row items-center mb-2">
+                        <label htmlFor="code" className="font-semibold w-28">
+                          Employee ID
+                        </label>
+                        <input
+                          type="text"
+                          name="code"
+                          id="code"
+                          className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                          value={codeValue}
+                          onChange={(e) => setCodeValue(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-row items-center mb-2">
+                        <label htmlFor="name" className="font-semibold w-28">
+                          Name
                         </label>
                         <input
                           type="text"
                           name="name"
                           id="name"
-                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameEditValue}
-                          onChange={(e) => setNameEditValue(e.target.value)}
+                          className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                          value={nameValue}
+                          onChange={(e) => setNameValue(e.target.value)}
                         />
+                      </div>
+                      <div className="flex flex-row items-center mb-2">
+                        <label htmlFor="phone" className="font-semibold w-28">
+                          Telephone
+                        </label>
+                        <input
+                          type="text"
+                          name="phone"
+                          id="phone"
+                          className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                          value={phoneValue}
+                          onChange={(e) => setPhoneValue(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex flex-row items-center mb-2">
+                        <label
+                          htmlFor="category"
+                          className="font-semibold w-28"
+                        >
+                          Job
+                        </label>
+                        <select
+                          className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                          value={jobValue}
+                          onChange={(e) => setJobValue(e.target.value)}
+                        >
+                          {dataJob &&
+                            dataJob.map((val) => (
+                              <option
+                                value={val.name}
+                                key={val.id}
+                                className="text-black"
+                              >
+                                {val.name}
+                              </option>
+                            ))}
+                        </select>
                       </div>
                     </div>
                   </div>
+
                   <div className="mt-4 px-6 pb-6 flex justify-center">
                     <button
                       type="submit"
                       className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
                       onClick={close}
                     >
-                      Update
+                      Save
                     </button>
                     <button
                       type="button"
@@ -95,4 +151,4 @@ const ModalEditCategories = ({
   );
 };
 
-export default ModalEditCategories;
+export default ModalCreateEmployee;
