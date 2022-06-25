@@ -139,6 +139,19 @@ const Sidebar = ({show}) => {
               </li>
               <li className="rounded-lg mt-3">
                 <NavLink
+                  to="/report/commission"
+                  className={({isActive}) =>
+                    isActive
+                      ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+                      : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+                  }
+                >
+                  <MdOutlineAssignment className="text-2xl lg:mr-3" />
+                  <span>Commission</span>
+                </NavLink>
+              </li>
+              <li className="rounded-lg mt-3">
+                <NavLink
                   to="/report/transaction"
                   className={({isActive}) =>
                     isActive

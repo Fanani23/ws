@@ -23,8 +23,7 @@ const ModalCreateProduct = ({
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
     if (event.target.files[0]) {
-      console.log(event.target.files[0].name);
-      setImageValue(event.target.files);
+      setImageValue(event.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         setInputImage(reader.result);
@@ -188,7 +187,7 @@ const ModalCreateProduct = ({
                         <div className="basis-1/3 px-1 flex flex-col">
                           <label
                             htmlFor="image"
-                            className="rounded-lg border-dashed border-2 w-full border-gray-200 p-2 mb-3 cursor-pointer"
+                            className="rounded-lg border-dashed border-2 h-[125px] w-[125px] border-gray-200 p-2 mb-3 cursor-pointer"
                           >
                             <input
                               type="file"
@@ -200,7 +199,11 @@ const ModalCreateProduct = ({
                             {!imageValue ? (
                               <span className="text-black">Upload here...</span>
                             ) : (
-                              <img src={inputImage} alt="Images" />
+                              <img
+                                src={inputImage}
+                                alt="Images"
+                                className="object-cover w-full h-full"
+                              />
                             )}
                           </label>
                         </div>

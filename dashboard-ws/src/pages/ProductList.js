@@ -75,19 +75,21 @@ const ProductList = () => {
     fetchData(currentTablePage, searchValue);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", image);
+    formData.append("category_id", category);
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("commission_type", feeCategory);
+    formData.append("commission_value", feeValue);
     try {
-      console.log(e);
-      await axios.post("https://api.kattohair.com/api/products/create", {
-        name: name,
-        category_id: category,
-        price: price,
-        commission_type: feeCategory,
-        commission_value: feeValue,
-        image: image,
-      });
+      axios.post("https://api.kattohair.com/api/products/create", formData);
       fetchData();
+      setImage("");
+      setName("");
+      setCategory("");
     } catch (err) {
       console.log(err);
     }

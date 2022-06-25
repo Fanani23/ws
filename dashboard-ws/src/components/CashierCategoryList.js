@@ -29,7 +29,7 @@ const CashierCategoryList = ({
                 currentCategory === val.name
                   ? "bg-white text-black"
                   : "bg-black text-white"
-              } px-3 py-2 my-1 rounded-lg`}
+              } px-3 py-2 my-1 rounded-lg min-w-fit`}
               key={val.id}
               onClick={() => {
                 setCurrentCategory(val.name);

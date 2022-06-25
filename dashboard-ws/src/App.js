@@ -18,6 +18,7 @@ import Sidebar from "./components/Sidebar";
 import {useEffect, useState} from "react";
 import CashierSingle from "./pages/CashierSingle";
 import EmployeeCategory from "./pages/EmployeeCategory";
+import ReportCommission from "./pages/ReportCommission";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -68,6 +69,7 @@ function App() {
                   />
                   <Route path="order" element={<ReportOrder />} />
                   <Route path="transaction" element={<ReportTransaction />} />
+                  <Route path="commission" element={<ReportCommission />} />
                 </Route>
                 <Route path="customers">
                   <Route index element={<Customers />} />

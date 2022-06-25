@@ -1,5 +1,6 @@
 import axios from "axios";
-import {useEffect, useState} from "react";
+import React, {useState} from "react";
+import {useEffect} from "react";
 import DropdownMenuExport from "../components/DropdownMenuExport";
 import Pagination from "../components/Pagination";
 import ReportNavLink from "../components/ReportNavLink";
@@ -7,14 +8,14 @@ import Search from "../components/Search";
 import TableReportTransaction from "../components/TableReportTransaction";
 import TabTitle from "../utils/GeneralFunction";
 
-const ReportTransaction = () => {
+const ReportCommission = () => {
   TabTitle("Transaction - Kato Haircut");
   // table and pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [revenue, setRevenue] = useState();
-  const [profit, setProfit] = useState();
+  const [commission, setCommission] = useState();
   const [itemsPerPage, setItemsPerPage] = useState(1);
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -26,7 +27,7 @@ const ReportTransaction = () => {
       setTableData(data.data);
       setTableCount(data.meta.total);
       setRevenue(data.total_revenue);
-      setProfit(data.total_profit);
+      setCommission(data.total_comission);
       setItemsPerPage(data.meta.per_page);
     } catch (err) {
       console.log("error in fetching table data", err);
@@ -57,9 +58,9 @@ const ReportTransaction = () => {
                   </h1>
                 </div>
                 <div className="flex flex-col ml-10">
-                  <h1 className="text-black">Total Profit</h1>
+                  <h1 className="text-black">Total Commission</h1>
                   <h1 className="text-green-500 font-semibold text-2xl">
-                    Rp{profit}
+                    Rp{commission}
                   </h1>
                 </div>
               </div>
@@ -89,4 +90,4 @@ const ReportTransaction = () => {
   );
 };
 
-export default ReportTransaction;
+export default ReportCommission;

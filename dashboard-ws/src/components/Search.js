@@ -9,7 +9,9 @@ const Search = ({
 }) => {
   return (
     <div className={`flex grow ${textColor} relative`}>
-      <MdSearch className={`absolute top-3 left-0 ${textColor}`} />
+      <label htmlFor="search" className="absolute top-3 left-0">
+        <MdSearch className={textColor} />
+      </label>
       <input
         className={`border-b-2 ${
           bgColor === "bg-black" ? `border-white` : `border-gray-300`

@@ -1,16 +1,5 @@
 import TabTitle from "../utils/GeneralFunction";
-import {ProductSample} from "../data/ProductSample";
-import {CashierSample} from "../data/CashierSample";
-import {
-  MdSearch,
-  MdAdd,
-  MdReplay,
-  MdDeleteOutline,
-  MdOutlineModeEditOutline,
-  MdClose,
-} from "react-icons/md";
-import {Fragment, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
+import {useState} from "react";
 import Search from "../components/Search";
 import CashierCategoryList from "../components/CashierCategoryList";
 import CashierProductList from "../components/CashierProductList";
@@ -23,8 +12,8 @@ const Cashier = () => {
   // search
   const [dataCategory, setDataCategory] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("All");
-  const [productId, setProductId] = useState("All");
   const [dataProduct, setDataProduct] = useState([]);
+  const [selectProduct, setSelectProduct] = useState();
 
   const fetchCategoryData = async () => {
     try {
@@ -33,7 +22,7 @@ const Cashier = () => {
       );
       setDataCategory(data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -43,9 +32,8 @@ const Cashier = () => {
         `https://api.kattohair.com/api/products/categories/${id}`
       );
       setDataProduct(data.data);
-      console.log(data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -53,19 +41,15 @@ const Cashier = () => {
     try {
       const {data} = await axios.get(`https://api.kattohair.com/api/products`);
       setDataProduct(data.data);
-      console.log(data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
   const handleChangeCategory = (val) => {
-    if (productId !== val) {
-      setProductId(val);
-      productId !== "All"
-        ? fetchSpecificCategoryProduct(val)
-        : console.log("All");
-    }
+    val !== "All"
+      ? fetchSpecificCategoryProduct(val)
+      : fetchAllCategoryProduct();
   };
 
   useEffect(() => {
@@ -90,8 +74,10 @@ const Cashier = () => {
             setCurrentCategory={setCurrentCategory}
             handleChangeCategory={handleChangeCategory}
           />
-          <p className="text-white">{currentCategory}</p>
-          {/* <CashierProductList dataProduct={dataProduct} /> */}
+          <CashierProductList
+            dataProduct={dataProduct}
+            setSelectProduct={setSelectProduct}
+          />
         </div>
         <div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
           {/* <CashierRightPanel /> */}
