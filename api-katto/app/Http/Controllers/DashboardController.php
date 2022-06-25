@@ -101,7 +101,7 @@ class DashboardController extends Controller
                 return [
                     'date' => (new DateTime($date))->format('Y-m-d'),
                     'day' => (new DateTime($date))->format('l'),
-                    'data' => $data->sum('subtotal'),
+                    'count' => $data->sum('subtotal'),
                 ];
             })
             ->values();
@@ -137,7 +137,7 @@ class DashboardController extends Controller
                 return [
                     'date' => (new DateTime($date))->format('Y-m-d'),
                     'day' => (new DateTime($date))->format('l'),
-                    'data' => $data->count(),
+                    'count' => $data->count(),
                 ];
             })
             ->values();
@@ -146,6 +146,98 @@ class DashboardController extends Controller
 
         return response()->json([
             'data' => $result
+        ]);
+    }
+
+    public function comparison()
+    {
+        if (request()->month) {
+            $start = Carbon::now()->startOfMonth()->subDay()->format('Y-m-d');
+            $from = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $to = Carbon::now()->endOfMonth()->format('Y-m-d');
+        } elseif (request()->year) {
+            $start = Carbon::now()->startOfYear()->subDay()->format('Y-m-d');
+            $from = Carbon::now()->startOfYear()->format('Y-m-d');
+            $to = Carbon::now()->endOfYear()->format('Y-m-d');
+        } else {
+            $start = Carbon::now()->startOfWeek()->subDay()->format('Y-m-d');
+            $from = Carbon::now()->startOfWeek()->format('Y-m-d');
+            $to = Carbon::now()->endOfWeek()->format('Y-m-d');
+        }
+
+        $allData = Transaction::all();
+
+        $groupData = $allData
+            ->whereBetween('datetime', [$start, $to])
+            ->groupBy(function ($item) {
+                return (new DateTime($item->datetime))->format('Y-m-d');
+            })
+            ->map(function ($data, $date) {
+                return [
+                    'date' => (new DateTime($date))->format('Y-m-d'),
+                    'day' => (new DateTime($date))->format('l'),
+                    'today' => $data->count(),
+                ];
+            })
+            ->values();
+
+        // $result = dataChart($groupData, $from, $to);
+
+        $period = CarbonPeriod::create($from, $to);
+
+        foreach ($period as $date) {
+            $listDates[] = $date->format('Y-m-d');
+        }
+
+        $weekDatas = [];
+
+        foreach ($groupData as $data) {
+            array_push($weekDatas, $data);
+        }
+
+        foreach ($listDates as $listDate) {
+            // jika di dalam array tanggal terdapat tanggal yang sama dengan transaksi
+            if (in_array($listDate, array_column($weekDatas, 'date'))) {
+                continue;
+            // jika di dalam array tanggal terdapat tanggal yang kurang dari kolom date array weekDatas
+            } else {
+                array_push($weekDatas, [
+                    'date' => $listDate,
+                    'day' => (new DateTime($listDate))->format('l'),
+                    'today' => 0,
+                ]);
+            }
+        }
+
+        $unsortedData = collect(
+            $weekDatas
+        );
+
+        $sortedData = $unsortedData->sortBy('date')->values();
+
+        $newData = [];
+        foreach ($sortedData as $key => $data) {
+            if ($data['date'] == $start) {
+                unset($sortedData[$key]);
+            } else {
+                $yesterday = 0;
+    
+                if ($key != 0 && $key != 1) {
+                    $yesterday = $sortedData[$key - 1]['today'];
+                }
+                
+                array_push($newData, [
+                    'date' => $data['date'],
+                    'day' => $data['day'],
+                    'yesterday' => $yesterday,
+                    'today' => $data['today'],
+                ]);
+            }
+
+        }
+
+        return response()->json([
+            'data' => $newData
         ]);
     }
 }

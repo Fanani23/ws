@@ -53,7 +53,7 @@ function dataChart($groupData, $from, $to)
             array_push($weekDatas, [
                 'date' => $listDate,
                 'day' => (new DateTime($listDate))->format('l'),
-                'data' => 0,
+                'count' => 0,
             ]);
         }
     }
