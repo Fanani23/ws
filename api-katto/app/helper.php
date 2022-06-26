@@ -66,3 +66,10 @@ function dataChart($groupData, $from, $to)
 
     return $sortedData;
 }
+
+function growth($today, $yesterday)
+{
+    $growth = ($today - $yesterday) / $yesterday * 100;
+
+    return floor($growth).'%';
+}

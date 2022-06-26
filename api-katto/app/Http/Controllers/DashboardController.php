@@ -14,21 +14,39 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transactionItems = TransactionItem::all();
-        $total_comission = $transactionItems->sum('fee');
-        $total_price_after_discount = $transactionItems->sum('price_after_discount');
+        $transactionItemsToday = TransactionItem::whereDate('datetime', now())->get();
+        $transactionItemsYesterday = TransactionItem::whereDate('datetime', date('Y-m-d',strtotime("-1 days")))->get();
 
-        $total_transactions = Transaction::count();
-        $total_revenue = $transactionItems->sum('price');
-        $total_profit = $total_price_after_discount - $total_comission;
-        $total_visitor = $total_transactions;
+        $totalTransactionsToday = Transaction::whereDate('datetime', now())->count();
+        $totalTransactionsYesterday = Transaction::whereDate('datetime', date('Y-m-d',strtotime("-1 days")))->count();
+
+        $totalRevenueToday = $transactionItemsToday->sum('price');
+        $totalRevenueYesterday = $transactionItemsYesterday->sum('price');
+
+        $totalProfitToday = $transactionItemsToday->sum('price_after_discount') - $transactionItemsToday->sum('fee');
+        $totalProfitYesterday = $transactionItemsYesterday->sum('price_after_discount') - $transactionItemsYesterday->sum('fee');
+
+        $totalVisitorToday = $totalTransactionsToday;
+        $totalVisitorYesterday = $totalTransactionsYesterday;
 
         return response()->json([
             'data' => [
-                'total_transactions' => $total_transactions,
-                'total_revenue' => $total_revenue,
-                'total_profit' => $total_profit,
-                'total_visitor' => $total_visitor,
+                'total_transactions' => [
+                    "total" => $totalTransactionsToday,
+                    "growth" => growth($totalTransactionsToday, $totalTransactionsYesterday)
+                ],
+                'total_revenue' => [
+                    "total" => $totalRevenueToday,
+                    "growth" => growth($totalRevenueToday, $totalRevenueYesterday)
+                ],
+                'total_profit' => [
+                    "total" => $totalProfitToday,
+                    "growth" => growth($totalProfitToday, $totalProfitYesterday)
+                ],
+                'total_visitor' => [
+                    "total" => $totalVisitorToday,
+                    "growth" => growth($totalVisitorToday, $totalVisitorYesterday)
+                ],
             ]
         ]);
     }
