@@ -28,6 +28,7 @@ class CommissionTransactionItemCollection extends ResourceCollection
                     'commission_type' => $transactionItems->commission_type,
                     'commission_value' => $transactionItems->commission_value,
                     'fee' => $transactionItems->fee,
+                    'profit' => $transactionItems->price_after_discount - $transactionItems->fee,
                     'datetime' => $transactionItems->datetime,
                 ];
             })
