@@ -21,7 +21,7 @@ class CustomerController extends Controller
     public function create(CustomerRequest $request)
     {
         Customer::create([
-            'code' => getCode('C-'),
+            'code' => 'C'.$request->phone,
             'name' => $request->name,
             'phone' => $request->phone,
             'birthday' => $request->birthday,

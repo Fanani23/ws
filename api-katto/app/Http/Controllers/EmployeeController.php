@@ -5,13 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Models\Job;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
     public function index(Employee $employees)
     {
-        return searchByName($employees, 'job', 'App\Http\Resources\EmployeeResource', false, '');
+        $employees = $employees->newQuery();
+
+        if (request()->has('name')) {
+            $employees->where('name', 'like', "%" . request()->name . "%");
+        }
+
+        if (request()->has('job')) {
+            $job_id = Job::where('name', request()->job)->first()->id;
+            $employees->where('job_id', $job_id);
+        }
+
+        return EmployeeResource::collection($employees->orderBy('name')->paginate(9));
     }
 
     public function show(Employee $employee)
