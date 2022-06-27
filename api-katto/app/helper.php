@@ -71,5 +71,49 @@ function growth($today, $yesterday)
 {
     $growth = ($today - $yesterday) / $yesterday * 100;
 
-    return floor($growth).'%';
+    return floor($growth);
+}
+
+function apaAja($groupData, $listTime, $inArrayColumn, $sortByColumn)
+{
+    $weekDatas = [];
+
+    foreach ($groupData as $data) {
+        array_push($weekDatas, $data);
+    }
+
+    foreach ($listTime as $time) {
+        if (in_array($time, array_column($weekDatas, $inArrayColumn))) {
+            continue;
+        } else {
+            if (request()->month) {
+                array_push($weekDatas, [
+                    'month_number' => (new DateTime($time))->format('n'),
+                    $inArrayColumn => $time,
+                    'count' => 0,
+                ]);
+            } elseif (request()->year) {
+                array_push($weekDatas, [
+                    $inArrayColumn => $time,
+                    'count' => 0,
+                ]);
+            } else {
+                array_push($weekDatas, [
+                    $inArrayColumn => $time,
+                    'label' => (new DateTime($time))->format('l'),
+                    'count' => 0,
+                ]);
+            }
+        }
+    }
+
+    $unsortedData = collect(
+        $weekDatas
+    );
+
+    $sortedData = $unsortedData->sortBy($sortByColumn)->values();
+
+    return response()->json([
+        'data' => $sortedData
+    ]);
 }

@@ -15,37 +15,48 @@ class DashboardController extends Controller
     public function index()
     {
         $transactionItemsToday = TransactionItem::whereDate('datetime', now())->get();
-        $transactionItemsYesterday = TransactionItem::whereDate('datetime', date('Y-m-d',strtotime("-1 days")))->get();
+        $transactionItemsYesterday = TransactionItem::whereDate('datetime', date('Y-m-d', strtotime("-1 days")))->get();
 
         $totalTransactionsToday = Transaction::whereDate('datetime', now())->count();
-        $totalTransactionsYesterday = Transaction::whereDate('datetime', date('Y-m-d',strtotime("-1 days")))->count();
+        $totalTransactionsYesterday = Transaction::whereDate('datetime', date('Y-m-d', strtotime("-1 days")))->count();
+        $transactionsGrowth = growth($totalTransactionsToday, $totalTransactionsYesterday);
 
         $totalRevenueToday = $transactionItemsToday->sum('price');
         $totalRevenueYesterday = $transactionItemsYesterday->sum('price');
+        $revenueGrowth = growth($totalRevenueToday, $totalRevenueYesterday);
 
         $totalProfitToday = $transactionItemsToday->sum('price_after_discount') - $transactionItemsToday->sum('fee');
         $totalProfitYesterday = $transactionItemsYesterday->sum('price_after_discount') - $transactionItemsYesterday->sum('fee');
+        $profitGrowth = growth($totalProfitToday, $totalProfitYesterday);
 
         $totalVisitorToday = $totalTransactionsToday;
         $totalVisitorYesterday = $totalTransactionsYesterday;
+        $visitorGrowth = growth($totalVisitorToday, $totalVisitorYesterday);
 
         return response()->json([
             'data' => [
                 'total_transactions' => [
                     "total" => $totalTransactionsToday,
-                    "growth" => growth($totalTransactionsToday, $totalTransactionsYesterday)
+                    "growth" => $transactionsGrowth . '%',
+                    "type" => $transactionsGrowth > 0 ? 'up' : 'down'
                 ],
                 'total_revenue' => [
                     "total" => $totalRevenueToday,
-                    "growth" => growth($totalRevenueToday, $totalRevenueYesterday)
+                    "growth" => $revenueGrowth . '%',
+                    "type" => $transactionsGrowth > 0 ? 'up' : 'down'
+
                 ],
                 'total_profit' => [
                     "total" => $totalProfitToday,
-                    "growth" => growth($totalProfitToday, $totalProfitYesterday)
+                    "growth" => $profitGrowth . '%',
+                    "type" => $transactionsGrowth > 0 ? 'up' : 'down'
+
                 ],
                 'total_visitor' => [
                     "total" => $totalVisitorToday,
-                    "growth" => growth($totalVisitorToday, $totalVisitorYesterday)
+                    "growth" => $visitorGrowth . '%',
+                    "type" => $transactionsGrowth > 0 ? 'up' : 'down'
+
                 ],
             ]
         ]);
@@ -72,7 +83,7 @@ class DashboardController extends Controller
     {
         $transactionItemsWithData = TransactionItem::with('category')->get();
 
-        $result = $transactionItemsWithData->groupBy(function ($item) {
+        $dataCount = $transactionItemsWithData->groupBy(function ($item) {
             return $item->category->name;
         })
             ->map(function ($data, $name) {
@@ -82,129 +93,331 @@ class DashboardController extends Controller
                 ];
             })->values();
 
-        foreach ($result as $res) {
-            $hai[] = $res;
+        foreach ($dataCount as $data) {
+            $dataArray[] = $data;
         }
 
-        usort($hai, function ($a, $b) {
+        usort($dataArray, function ($a, $b) {
             return $b['count'] <=> $a['count'];
         });
 
+        $result = array_slice($dataArray, 0, 5);
+
         return response()->json([
-            'data' => $hai
+            'data' => $result
         ]);
     }
 
     public function revenue()
     {
         if (request()->month) {
-            $from = Carbon::now()->startOfMonth()->format('Y-m-d');
-            $to = Carbon::now()->endOfMonth()->format('Y-m-d');
+            // date
+            $year = Carbon::now()->year;
+
+            // data
+            $allData = Transaction::whereYear('datetime', $year)->get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('F');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'month_number' => (new DateTime($date))->format('n'),
+                        'label' => $date,
+                        'count' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $listTime[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'label';
+            $sortByColumn = 'month_number';
         } elseif (request()->year) {
-            $from = Carbon::now()->startOfYear()->format('Y-m-d');
-            $to = Carbon::now()->endOfYear()->format('Y-m-d');
+            // date
+            $yearNow = Carbon::now()->year;
+            $year1 = Carbon::now()->subYear(1)->year;
+            $year2 = Carbon::now()->subYear(2)->year;
+            $year3 = Carbon::now()->subYears(3)->year;
+
+            // data
+            $allData = Transaction::get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y');
+                })
+                ->map(function ($data, $year) {
+                    return [
+                        'label' => $year,
+                        'count' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [
+                $year1,
+                $year2,
+                $year3,
+                $yearNow
+            ];
+
+
+            // sortByColumn
+            $inArrayColumn = 'label';
+            $sortByColumn = 'label';
         } else {
+            // date
             $from = Carbon::now()->startOfWeek()->format('Y-m-d');
             $to = Carbon::now()->endOfWeek()->format('Y-m-d');
+
+            // data
+            $allData = Transaction::all();
+
+            // groupData
+            $groupData = $allData
+                ->whereBetween('datetime', [$from, $to])
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y-m-d');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'date' => (new DateTime($date))->format('Y-m-d'),
+                        'label' => (new DateTime($date))->format('l'),
+                        'count' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $period = CarbonPeriod::create($from, $to);
+
+            foreach ($period as $date) {
+                $listTime[] = $date->format('Y-m-d');
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'date';
+            $sortByColumn = 'date';
         }
 
-        $allData = Transaction::all();
-
-        $groupData = $allData
-            ->whereBetween('datetime', [$from, $to])
-            ->groupBy(function ($item) {
-                return (new DateTime($item->datetime))->format('Y-m-d');
-            })
-            ->map(function ($data, $date) {
-                return [
-                    'date' => (new DateTime($date))->format('Y-m-d'),
-                    'day' => (new DateTime($date))->format('l'),
-                    'count' => $data->sum('subtotal'),
-                ];
-            })
-            ->values();
-
-        $result = dataChart($groupData, $from, $to);
-
-        return response()->json([
-            'data' => $result
-        ]);
+        return apaAja($groupData, $listTime, $inArrayColumn, $sortByColumn);
     }
 
     public function transaction()
     {
         if (request()->month) {
-            $from = Carbon::now()->startOfMonth()->format('Y-m-d');
-            $to = Carbon::now()->endOfMonth()->format('Y-m-d');
+            // date
+            $year = Carbon::now()->year;
+
+            // data
+            $allData = Transaction::whereYear('datetime', $year)->get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('F');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'month_number' => (new DateTime($date))->format('n'),
+                        'label' => $date,
+                        'count' => $data->count(),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $listTime[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'label';
+            $sortByColumn = 'month_number';
         } elseif (request()->year) {
-            $from = Carbon::now()->startOfYear()->format('Y-m-d');
-            $to = Carbon::now()->endOfYear()->format('Y-m-d');
+            // date
+            $yearNow = Carbon::now()->year;
+            $year1 = Carbon::now()->subYear(1)->year;
+            $year2 = Carbon::now()->subYear(2)->year;
+            $year3 = Carbon::now()->subYears(3)->year;
+
+            // data
+            $allData = Transaction::get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y');
+                })
+                ->map(function ($data, $year) {
+                    return [
+                        'label' => $year,
+                        'count' => $data->count(),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [
+                $year1,
+                $year2,
+                $year3,
+                $yearNow
+            ];
+
+
+            // sortByColumn
+            $inArrayColumn = 'label';
+            $sortByColumn = 'label';
         } else {
+            // date
             $from = Carbon::now()->startOfWeek()->format('Y-m-d');
             $to = Carbon::now()->endOfWeek()->format('Y-m-d');
+
+            // data
+            $allData = Transaction::all();
+
+            // groupData
+            $groupData = $allData
+                ->whereBetween('datetime', [$from, $to])
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y-m-d');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'date' => (new DateTime($date))->format('Y-m-d'),
+                        'label' => (new DateTime($date))->format('l'),
+                        'count' => $data->count(),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $period = CarbonPeriod::create($from, $to);
+
+            foreach ($period as $date) {
+                $listTime[] = $date->format('Y-m-d');
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'date';
+            $sortByColumn = 'date';
         }
 
-        $allData = Transaction::all();
-
-        $groupData = $allData
-            ->whereBetween('datetime', [$from, $to])
-            ->groupBy(function ($item) {
-                return (new DateTime($item->datetime))->format('Y-m-d');
-            })
-            ->map(function ($data, $date) {
-                return [
-                    'date' => (new DateTime($date))->format('Y-m-d'),
-                    'day' => (new DateTime($date))->format('l'),
-                    'count' => $data->count(),
-                ];
-            })
-            ->values();
-
-        $result = dataChart($groupData, $from, $to);
-
-        return response()->json([
-            'data' => $result
-        ]);
+        return apaAja($groupData, $listTime, $inArrayColumn, $sortByColumn);
     }
 
-    public function comparison()
+    public function comparisonTransaction()
     {
         if (request()->month) {
-            $start = Carbon::now()->startOfMonth()->subDay()->format('Y-m-d');
-            $from = Carbon::now()->startOfMonth()->format('Y-m-d');
-            $to = Carbon::now()->endOfMonth()->format('Y-m-d');
+            // date
+            $year = Carbon::now()->year;
+
+            // data
+            $allData = Transaction::whereYear('datetime', $year)->get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('F');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'month_number' => (new DateTime($date))->format('n'),
+                        'month' => $date,
+                        'today' => $data->count(),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $listTime[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'month';
+            $sortByColumn = 'month_number';
         } elseif (request()->year) {
-            $start = Carbon::now()->startOfYear()->subDay()->format('Y-m-d');
-            $from = Carbon::now()->startOfYear()->format('Y-m-d');
-            $to = Carbon::now()->endOfYear()->format('Y-m-d');
+            // date
+            $yearNow = Carbon::now()->year;
+            $year1 = Carbon::now()->subYear(1)->year;
+            $year2 = Carbon::now()->subYear(2)->year;
+            $year3 = Carbon::now()->subYears(3)->year;
+
+            // data
+            $allData = Transaction::get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y');
+                })
+                ->map(function ($data, $year) {
+                    return [
+                        'year' => $year,
+                        'today' => $data->count(),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [
+                $year1,
+                $year2,
+                $year3,
+                $yearNow
+            ];
+
+
+            // sortByColumn
+            $inArrayColumn = 'year';
+            $sortByColumn = 'year';
         } else {
-            $start = Carbon::now()->startOfWeek()->subDay()->format('Y-m-d');
+            // date
             $from = Carbon::now()->startOfWeek()->format('Y-m-d');
             $to = Carbon::now()->endOfWeek()->format('Y-m-d');
-        }
 
-        $allData = Transaction::all();
+            // data
+            $allData = Transaction::all();
 
-        $groupData = $allData
-            ->whereBetween('datetime', [$start, $to])
-            ->groupBy(function ($item) {
-                return (new DateTime($item->datetime))->format('Y-m-d');
-            })
-            ->map(function ($data, $date) {
-                return [
-                    'date' => (new DateTime($date))->format('Y-m-d'),
-                    'day' => (new DateTime($date))->format('l'),
-                    'today' => $data->count(),
-                ];
-            })
-            ->values();
+            // groupData
+            $groupData = $allData
+                ->whereBetween('datetime', [$from, $to])
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y-m-d');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'date' => (new DateTime($date))->format('Y-m-d'),
+                        'day' => (new DateTime($date))->format('l'),
+                        'today' => $data->count(),
+                    ];
+                })
+                ->values();
 
-        // $result = dataChart($groupData, $from, $to);
+            // listTime
+            $period = CarbonPeriod::create($from, $to);
 
-        $period = CarbonPeriod::create($from, $to);
+            foreach ($period as $date) {
+                $listTime[] = $date->format('Y-m-d');
+            }
 
-        foreach ($period as $date) {
-            $listDates[] = $date->format('Y-m-d');
+            // sortByColumn
+            $inArrayColumn = 'date';
+            $sortByColumn = 'date';
         }
 
         $weekDatas = [];
@@ -213,17 +426,28 @@ class DashboardController extends Controller
             array_push($weekDatas, $data);
         }
 
-        foreach ($listDates as $listDate) {
-            // jika di dalam array tanggal terdapat tanggal yang sama dengan transaksi
-            if (in_array($listDate, array_column($weekDatas, 'date'))) {
+        foreach ($listTime as $time) {
+            if (in_array($time, array_column($weekDatas, $inArrayColumn))) {
                 continue;
-            // jika di dalam array tanggal terdapat tanggal yang kurang dari kolom date array weekDatas
             } else {
-                array_push($weekDatas, [
-                    'date' => $listDate,
-                    'day' => (new DateTime($listDate))->format('l'),
-                    'today' => 0,
-                ]);
+                if (request()->month) {
+                    array_push($weekDatas, [
+                        'month_number' => (new DateTime($time))->format('n'),
+                        $inArrayColumn => $time,
+                        'today' => 0,
+                    ]);
+                } elseif (request()->year) {
+                    array_push($weekDatas, [
+                        $inArrayColumn => $time,
+                        'today' => 0,
+                    ]);
+                } else {
+                    array_push($weekDatas, [
+                        $inArrayColumn => $time,
+                        'day' => (new DateTime($time))->format('l'),
+                        'today' => 0,
+                    ]);
+                }
             }
         }
 
@@ -231,19 +455,40 @@ class DashboardController extends Controller
             $weekDatas
         );
 
-        $sortedData = $unsortedData->sortBy('date')->values();
+        $sortedData = $unsortedData->sortBy($sortByColumn)->values();
 
         $newData = [];
         foreach ($sortedData as $key => $data) {
-            if ($data['date'] == $start) {
-                unset($sortedData[$key]);
+            $yesterday = 22;
+
+            if ($key != 0) {
+                $yesterday = $sortedData[$key - 1]['today'];
             } else {
-                $yesterday = 0;
-    
-                if ($key != 0 && $key != 1) {
-                    $yesterday = $sortedData[$key - 1]['today'];
+                if (request()->year) {
+                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(4)->year)->count();
+                } elseif (request()->month) {
+                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(1)->year)->whereMonth('datetime', '12')->count();
+                } else {
+                    $yesterday = Transaction::whereDate('datetime', Carbon::now()->startOfWeek()->subDay()->format('Y-m-d'))->count();
                 }
-                
+            }
+
+            if (request()->year) {
+                if (in_array($data['year'], $listTime)) {
+                    array_push($newData, [
+                        'year' => $data['year'],
+                        'yesterday' => $yesterday,
+                        'today' => $data['today'],
+                    ]);
+                }
+            } elseif (request()->month) {
+                array_push($newData, [
+                    'month_number' => $data['month_number'],
+                    'month' => $data['month'],
+                    'yesterday' => $yesterday,
+                    'today' => $data['today'],
+                ]);
+            } else {
                 array_push($newData, [
                     'date' => $data['date'],
                     'day' => $data['day'],
@@ -251,7 +496,191 @@ class DashboardController extends Controller
                     'today' => $data['today'],
                 ]);
             }
+        }
 
+        return response()->json([
+            'data' => $newData
+        ]);
+    }
+
+    public function comparisonRevenue()
+    {
+        if (request()->month) {
+            // date
+            $year = Carbon::now()->year;
+
+            // data
+            $allData = Transaction::whereYear('datetime', $year)->get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('F');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'month_number' => (new DateTime($date))->format('n'),
+                        'month' => $date,
+                        'today' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $listTime[] = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'month';
+            $sortByColumn = 'month_number';
+        } elseif (request()->year) {
+            // date
+            $yearNow = Carbon::now()->year;
+            $year1 = Carbon::now()->subYear(1)->year;
+            $year2 = Carbon::now()->subYear(2)->year;
+            $year3 = Carbon::now()->subYears(3)->year;
+
+            // data
+            $allData = Transaction::get();
+
+            // groupData
+            $groupData = $allData
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y');
+                })
+                ->map(function ($data, $year) {
+                    return [
+                        'year' => $year,
+                        'today' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $listTime = [
+                $year1,
+                $year2,
+                $year3,
+                $yearNow
+            ];
+
+
+            // sortByColumn
+            $inArrayColumn = 'year';
+            $sortByColumn = 'year';
+        } else {
+            // date
+            $from = Carbon::now()->startOfWeek()->format('Y-m-d');
+            $to = Carbon::now()->endOfWeek()->format('Y-m-d');
+
+            // data
+            $allData = Transaction::all();
+
+            // groupData
+            $groupData = $allData
+                ->whereBetween('datetime', [$from, $to])
+                ->groupBy(function ($item) {
+                    return (new DateTime($item->datetime))->format('Y-m-d');
+                })
+                ->map(function ($data, $date) {
+                    return [
+                        'date' => (new DateTime($date))->format('Y-m-d'),
+                        'day' => (new DateTime($date))->format('l'),
+                        'today' => $data->sum('subtotal'),
+                    ];
+                })
+                ->values();
+
+            // listTime
+            $period = CarbonPeriod::create($from, $to);
+
+            foreach ($period as $date) {
+                $listTime[] = $date->format('Y-m-d');
+            }
+
+            // sortByColumn
+            $inArrayColumn = 'date';
+            $sortByColumn = 'date';
+        }
+
+        $weekDatas = [];
+
+        foreach ($groupData as $data) {
+            array_push($weekDatas, $data);
+        }
+
+        foreach ($listTime as $time) {
+            if (in_array($time, array_column($weekDatas, $inArrayColumn))) {
+                continue;
+            } else {
+                if (request()->month) {
+                    array_push($weekDatas, [
+                        'month_number' => (new DateTime($time))->format('n'),
+                        $inArrayColumn => $time,
+                        'today' => 0,
+                    ]);
+                } elseif (request()->year) {
+                    array_push($weekDatas, [
+                        $inArrayColumn => $time,
+                        'today' => 0,
+                    ]);
+                } else {
+                    array_push($weekDatas, [
+                        $inArrayColumn => $time,
+                        'day' => (new DateTime($time))->format('l'),
+                        'today' => 0,
+                    ]);
+                }
+            }
+        }
+
+        $unsortedData = collect(
+            $weekDatas
+        );
+
+        $sortedData = $unsortedData->sortBy($sortByColumn)->values();
+
+        $newData = [];
+        foreach ($sortedData as $key => $data) {
+            $yesterday = 22;
+
+            if ($key != 0) {
+                $yesterday = $sortedData[$key - 1]['today'];
+            } else {
+                if (request()->year) {
+                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(4)->year)->sum('subtotal');
+                } elseif (request()->month) {
+                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(1)->year)->whereMonth('datetime', '12')->sum('subtotal');
+                } else {
+                    $yesterday = Transaction::whereDate('datetime', Carbon::now()->startOfWeek()->subDay()->format('Y-m-d'))->sum('subtotal');
+                }
+            }
+
+            if (request()->year) {
+                if (in_array($data['year'], $listTime)) {
+                    array_push($newData, [
+                        'year' => $data['year'],
+                        'yesterday' => $yesterday,
+                        'today' => $data['today'],
+                    ]);
+                }
+            } elseif (request()->month) {
+                array_push($newData, [
+                    'month_number' => $data['month_number'],
+                    'month' => $data['month'],
+                    'yesterday' => $yesterday,
+                    'today' => $data['today'],
+                ]);
+            } else {
+                array_push($newData, [
+                    'date' => $data['date'],
+                    'day' => $data['day'],
+                    'yesterday' => $yesterday,
+                    'today' => $data['today'],
+                ]);
+            }
         }
 
         return response()->json([
