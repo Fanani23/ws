@@ -18,6 +18,10 @@ class EmployeeController extends Controller
             $employees->where('name', 'like', "%" . request()->name . "%");
         }
 
+        if (request()->has('code')) {
+            $employees->where('code', request()->code);
+        }
+
         if (request()->has('job')) {
             $job_id = Job::where('name', request()->job)->first()->id;
             $employees->where('job_id', $job_id);
