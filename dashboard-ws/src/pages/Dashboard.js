@@ -1,60 +1,93 @@
-import {MdTrendingUp, MdTrendingDown, MdOutlinePeopleAlt} from "react-icons/md";
 import TabTitle from "../utils/GeneralFunction";
 import ChartBar from "../components/ChartBar";
 import ChartDoughnut from "../components/ChartDoughnut";
 import ChartLine from "../components/ChartLine";
 import InfoStats from "../components/InfoStats";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import InfoStatsTransaction from "../components/InfoStatsTransaction";
-import InfoStatsMember from "../components/InfoStatsMember";
+import InfoStatsVisitor from "../components/InfoStatsVisitor";
 import InfoStatsRevenue from "../components/InfoStatsRevenue";
 import ChartPieMember from "../components/ChartPieMember";
+import axios from "axios";
 
 const Dashboard = () => {
   TabTitle("Dashboard - Kato Haircut");
-  const oldData = 15; // dummy data
-  const latestData = 20; // dummy data
 
   const [selectComparison, setSelectComparison] = useState();
+  const [errorMsg, setErrorMsg] = useState();
+  const [dataTotal, setDataTotal] = useState();
+  const [dataRevenue, setDataRevenue] = useState([]);
+  const [dataRevenueActive, setDataRevenueActive] = useState("week");
+
+  const fetchDataTotal = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/total`
+      );
+      setDataTotal(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataRevenue = async (parameter = "") => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/revenue${parameter}`
+      );
+      setDataRevenue(data.data);
+      console.log(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataTotal();
+    fetchDataRevenue();
+  }, []);
 
   return (
     <>
       <div className="flex flex-wrap overflow-hidden mr-2">
         <div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
           <div className="h-full p-5 bg-primary-500 rounded-lg">
-            <InfoStatsTransaction />
+            {dataTotal && (
+              <InfoStatsTransaction
+                totalTransaction={dataTotal.total_transactions.total}
+                growth={dataTotal.total_transactions.growth}
+              />
+            )}
           </div>
         </div>
         <div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
           <div className="h-full p-5 bg-primary-500 rounded-lg">
-            <InfoStatsRevenue />
+            {dataTotal && (
+              <InfoStatsRevenue
+                totalRevenue={dataTotal.total_revenue.total}
+                growth={dataTotal.total_revenue.growth}
+              />
+            )}
           </div>
         </div>
         <div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
           <div className="h-full p-5 bg-primary-500 rounded-lg">
-            <InfoStats
-              title="Daily Visitor"
-              value="400"
-              icon={<MdOutlinePeopleAlt className="text-[#147AD6]" />}
-              status={
-                latestData > oldData ? (
-                  <>
-                    <MdTrendingUp className="text-[#48C134] mr-3" />
-                    Up From Yesterday
-                  </>
-                ) : (
-                  <>
-                    <MdTrendingDown className="text-[#C14040] mr-3" />
-                    Down From Yesterday
-                  </>
-                )
-              }
-            />
+            {dataTotal && (
+              <InfoStats
+                totalProfit={dataTotal.total_profit.total}
+                growth={dataTotal.total_profit.growth}
+              />
+            )}
           </div>
         </div>
         <div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
           <div className="h-full p-5 bg-primary-500 rounded-lg">
-            <InfoStatsMember />
+            {dataTotal && (
+              <InfoStatsVisitor
+                totalVisitor={dataTotal.total_visitor.total}
+                growth={dataTotal.total_visitor.growth}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -69,9 +102,45 @@ const Dashboard = () => {
                 Information data revenue
               </h1>
               <div className="rounded-lg flex w-fit mt-3 border-2 overflow-hidden">
-                <button className="bg-white text-black px-2 py-1">Day</button>
-                <button className="bg-none text-white px-2 py-1">Week</button>
-                <button className="bg-none text-white px-2 py-1">Month</button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataRevenueActive === "week"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataRevenueActive("week");
+                    fetchDataRevenue();
+                  }}
+                >
+                  Week
+                </button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataRevenueActive === "month"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataRevenueActive("month");
+                    fetchDataRevenue("?month=true");
+                  }}
+                >
+                  Month
+                </button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataRevenueActive === "year"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataRevenueActive("year");
+                    fetchDataRevenue("?year=true");
+                  }}
+                >
+                  Year
+                </button>
               </div>
             </div>
             <div className="grow lg:p-3">
@@ -117,7 +186,7 @@ const Dashboard = () => {
             </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <ChartLine />
+                <h1>Here</h1>
               </div>
             </div>
           </div>
@@ -148,7 +217,7 @@ const Dashboard = () => {
                 Comparison
               </h1>
               <select
-                class="bg-transparent border-2 border-white rounded-lg px-2 py-1"
+                className="bg-transparent border-2 border-white rounded-lg px-2 py-1"
                 aria-label="Default select example"
                 value={selectComparison}
                 onChange={(e) => setSelectComparison(e.target.value)}

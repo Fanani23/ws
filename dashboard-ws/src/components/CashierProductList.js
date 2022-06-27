@@ -3,7 +3,7 @@ import React from "react";
 const CashierProductList = ({dataProduct, setSelectProduct}) => {
   return (
     <div className="relative flex overflow-y-auto pt-1">
-      <div className="flex flex-wrap grow overflow-y-auto scrollbar-shown">
+      <div className="flex flex-wrap grow overflow-y-auto scrollbar-shown relative">
         {dataProduct.map((val) => {
           return (
             <div className="basis-full md:basis-1/2 lg:basis-1/3 pb-2 lg:pb-10 pr-0 md:pr-2 lg:pr-10">
@@ -27,6 +27,12 @@ const CashierProductList = ({dataProduct, setSelectProduct}) => {
             </div>
           );
         })}
+        <div className="sticky bottom-0 left-0 right-0 bg-black">
+          <h1 className="text-red-500 px-5 py-2 min-w-max">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur,
+            similique!
+          </h1>
+        </div>
       </div>
     </div>
   );

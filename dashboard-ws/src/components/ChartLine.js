@@ -1,115 +1,93 @@
 import React, {useState} from "react";
 import {Line} from "react-chartjs-2";
 import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	PointElement,
-	LineElement,
-	Title,
-	Tooltip,
-	Legend,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
 } from "chart.js";
 
 ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	PointElement,
-	LineElement,
-	Title,
-	Tooltip,
-	Legend
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
 );
 
-const Data = [
-	{
-		id: 1,
-		label: "January",
-		total: 3,
-	},
-	{
-		id: 2,
-		label: "Febrary",
-		total: 1,
-	},
-	{
-		id: 3,
-		label: "March",
-		total: 2,
-	},
-	{
-		id: 4,
-		label: "April",
-		total: 2,
-	},
-	{
-		id: 5,
-		label: "May",
-		total: 9,
-	},
-	{
-		id: 6,
-		label: "June",
-		total: 4,
-	},
-	{
-		id: 7,
-		label: "July",
-		total: 4,
-	},
-	{
-		id: 8,
-		label: "August",
-		total: 4,
-	},
-	{
-		id: 9,
-		label: "September",
-		total: 4,
-	},
-	{
-		id: 10,
-		label: "October",
-		total: 4,
-	},
-	{
-		id: 11,
-		label: "November",
-		total: 4,
-	},
-	{
-		id: 12,
-		label: "December",
-		total: 4,
-	},
-];
-
 const ChartLine = () => {
-	const [statsData, setStatsData] = useState({
-		labels: Data.map(data => data.label),
-		datasets: [
-			{
-				label: "Membership",
-				data: Data.map(data => data.total),
-				borderColor: "#147AD6",
-			},
-		],
-	});
+  const dataChart = [
+    {
+      date: "2022-06-27",
+      label: "Monday",
+      count: 520000,
+    },
+    {
+      date: "2022-06-28",
+      label: "Tuesday",
+      count: 0,
+    },
+    {
+      date: "2022-06-29",
+      label: "Wednesday",
+      count: 0,
+    },
+    {
+      date: "2022-06-30",
+      label: "Thursday",
+      count: 0,
+    },
+    {
+      date: "2022-07-01",
+      label: "Friday",
+      count: 0,
+    },
+    {
+      date: "2022-07-02",
+      label: "Saturday",
+      count: 0,
+    },
+    {
+      date: "2022-07-03",
+      label: "Sunday",
+      count: 0,
+    },
+  ];
 
-	const [optData, setOptData] = useState({
-		responsive: true,
-		maintainAspectRatio: false,
-		tension: 0.4,
-		plugins: {
-			legend: {
-				display: false,
-				position: "bottom",
-			},
-		},
-	});
-	return (
-		<Line data={statsData} width={100} height={100} options={optData} />
-	);
+  const [statsData, setStatsData] = useState({
+    labels: dataChart.map((data) => data.label),
+    datasets: [
+      {
+        label: "Membership",
+        data: dataChart.map((data) => data.count),
+        borderColor: "#147AD6",
+      },
+    ],
+  });
+
+  const [optData, setOptData] = useState({
+    responsive: true,
+    maintainAspectRatio: false,
+    tension: 0.4,
+    plugins: {
+      legend: {
+        display: false,
+        position: "bottom",
+      },
+    },
+  });
+
+  return (
+    <>
+      <Line data={statsData} width={100} height={100} options={optData} />
+    </>
+  );
 };
 
 export default ChartLine;

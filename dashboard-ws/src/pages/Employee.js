@@ -26,6 +26,9 @@ const Employee = () => {
   const [phone, setPhone] = useState("");
   const [dataJob, setDataJob] = useState("");
   const [job, setJob] = useState("");
+  // print function
+  const idTable = "tableEmployee";
+
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
@@ -99,7 +102,7 @@ const Employee = () => {
   const handleSubmit = async (e) => {};
 
   return (
-    <div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
+    <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
       <ModalCreateEmployee
         show={openAddEmployee}
         close={closeAddEmployeeModal}
@@ -130,7 +133,7 @@ const Employee = () => {
         </div>
         {tableCount ? (
           <>
-            <TableEmployee tableData={tableData} />
+            <TableEmployee tableData={tableData} idTable={idTable} />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
               currentPage={currentTablePage}

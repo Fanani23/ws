@@ -1,17 +1,17 @@
 import React from "react";
-import {MdTrendingUp, MdTrendingDown, MdOutlinePaid} from "react-icons/md";
+import {MdTrendingUp, MdTrendingDown, MdOutlineShield} from "react-icons/md";
 
-const InfoStatsRevenue = ({totalRevenue, growth}) => {
+const InfoStatsVisitor = ({totalVisitor, growth}) => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <h1 className="text-white font-nunito-sans text-sm">Total Revenue</h1>
+        <h1 className="text-white font-nunito-sans text-sm">Total Visitor</h1>
         <div className="bg-white p-2 rounded-lg">
-          <MdOutlinePaid className="text-[#48C134]" />
+          <MdOutlineShield className="text-[#D6AB14]" />
         </div>
       </div>
       <h1 className="font-nunito-sans text-white font-bold text-2xl my-4">
-        Rp{totalRevenue}
+        {totalVisitor}
       </h1>
       <div className="flex flex-row items-center">
         <MdTrendingUp className="text-[#48C134] mr-3" />
@@ -21,4 +21,4 @@ const InfoStatsRevenue = ({totalRevenue, growth}) => {
   );
 };
 
-export default InfoStatsRevenue;
+export default InfoStatsVisitor;

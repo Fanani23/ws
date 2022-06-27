@@ -27,7 +27,6 @@ const ProductCategory = () => {
   // search
   const [searchValue, setSearchValue] = useState();
   // handle create
-  const [code, setCode] = useState("");
   const [name, setName] = useState("");
   // handle edit
   const [idEdit, setIdEdit] = useState("");
@@ -86,7 +85,7 @@ const ProductCategory = () => {
     try {
       await axios.post(
         "https://api.kattohair.com/api/products/categories/create",
-        {code, name}
+        {name}
       );
       fetchData();
       getTotalCount();
