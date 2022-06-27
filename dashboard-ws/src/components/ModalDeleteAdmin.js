@@ -33,7 +33,7 @@ const ModalDeleteAdmin = ({show, close, submit, nameDeleteValue}) => {
                   as="div"
                   className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Delete {}?</h3>
+                  <h3>Delete {nameDeleteValue}?</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -44,7 +44,7 @@ const ModalDeleteAdmin = ({show, close, submit, nameDeleteValue}) => {
                 </Dialog.Title>
                 <div className="mt-4 px-6 pb-6 flex justify-center">
                   <button
-                    type=""
+                    type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 mr-4"
                     onClick={() => {
                       submit();

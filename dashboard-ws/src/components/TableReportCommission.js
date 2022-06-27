@@ -6,13 +6,13 @@ const TableReportTransaction = ({tableData}) => {
       <thead className="sticky top-0">
         <tr className="bg-[#F9F9FC] text-black text-left">
           <th className="py-2">Date</th>
-          <th className="py-2">Product ID</th>
-          <th className="py-2">Product Name</th>
+          <th className="py-2">Employee ID</th>
+          <th className="py-2">Employee Name</th>
           <th className="py-2">Category Service</th>
           <th className="py-2">Qty</th>
           <th className="py-2">Sub Total</th>
-          <th className="py-2">Commission</th>
-          <th className="py-2">Total Profit</th>
+          <th className="py-2">Share</th>
+          <th className="py-2">Total Fee</th>
         </tr>
       </thead>
       <tbody>
@@ -34,4 +34,4 @@ const TableReportTransaction = ({tableData}) => {
   );
 };
 
-export default TableReportTransaction;
+export default TableReportTransaction

@@ -2,12 +2,13 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalEditCategories = ({
+const ModalCreatePresensi = ({
     show,
     close,
     submit,
-    nameEditValue,
-    setNameEditValue,
+    codeValue,
+    setCodeValue,
+    nameValue,
   }) => {
     return (
         <Transition appear show={show} as={Fragment}>
@@ -35,11 +36,11 @@ const ModalEditCategories = ({
                             leaveTo="opacity-0 scale-95"
                         >
                             <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-                                <Dialog.Title
+                                <Dialog.Title 
                                     as="div"
                                     className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                                 >
-                                    <h3>Edit Data Category</h3>
+                                    <h3>Add Presensi</h3>
                                     <div
                                         onClick={close}
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -51,20 +52,29 @@ const ModalEditCategories = ({
                                 <form autoComplete="off" noValidate onSubmit={submit}>
                                     <div className="mt-2 border-t-2">
                                         <div className="text-sm p-6 text-gray-500">
-                                            <div className="flex flex-row items-center">
-                                                <label
-                                                    htmlFor="category-name"
-                                                    className="font-semibold w-28"
-                                                >
-                                                    Admin Name
+                                            <div className="flex flex-row items-center mb-2">
+                                                <label htmlFor="code" className="font-semibold w-28">
+                                                    Employee ID
                                                 </label>
                                                 <input
-                                                    type=""
-                                                    name=""
-                                                    id=""
-                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={nameEditValue}
-                                                    onChange={(e) => setNameEditValue(e.target.value)}
+                                                    type="text"
+                                                    name="code"
+                                                    id="code"
+                                                    className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                                                    value={codeValue}
+                                                    onChange={(e) => setCodeValue(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="flex flex-row items-center mb-2">
+                                                <label htmlFor="name" className="font-semibold w-28">
+                                                    Employee Name
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                                                    value={nameValue}
                                                 />
                                             </div>
                                         </div>
@@ -75,7 +85,14 @@ const ModalEditCategories = ({
                                             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
                                             onClick={close}
                                         >
-                                            Update
+                                            Save
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                            onClick={close}
+                                        >
+                                            Cancel
                                         </button>
                                     </div>
                                 </form>
@@ -88,4 +105,4 @@ const ModalEditCategories = ({
     );
   };
 
-  export default ModalEditAdmin;
+  export default ModalCreatePresensi;

@@ -100,7 +100,7 @@ const ModalCreateEmployee = ({
                       </div>
                       <div className="flex flex-row items-center mb-2">
                         <label
-                          htmlFor="category"
+                          htmlFor=""
                           className="font-semibold w-28"
                         >
                           Job
