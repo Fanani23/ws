@@ -20,10 +20,11 @@ class PresenceController extends Controller
     public function show(Employee $employee)
     {
         if (request()->has('from') && request()->has('to')) {
-            return PresenceResource::collection($employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->paginate(9));
+            return PresenceResource::collection($employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->whereNotNull(['coming_time', 'return_time'])->paginate(9));
         }
 
-        return PresenceResource::collection($employee->presences()->paginate(2));
+        return PresenceResource::collection($employee->presences()->whereNotNull(['coming_time', 'return_time'])->paginate(2));
+
     }
 
     public function presence()
@@ -59,7 +60,6 @@ class PresenceController extends Controller
         }
 
         if ($status == 'datang' && (now() >= $timeFrom) && (now() < $timeTo)) {
-            return 'datang';
             if ($employee->presenced->count() > 0) {
                 return response()->json([
                     'message' => 'You have made a presence.'
