@@ -7,6 +7,11 @@ function getCode($string)
     return $string . strtoupper(substr(md5(uniqid()), 0, 5));
 }
 
+function formatPrice($price)
+{
+    return number_format($price, 0, ',', '.');
+}
+
 function searchByName($data, $with, $resource, $new = false, $additionalSearch)
 {
     $data = $data->newQuery();

@@ -49,6 +49,7 @@ class EmployeeController extends Controller
     {
         $employee->update([
             'job_id' => $request->job_id,
+            'code' => $request->code,
             'name' => $request->name,
             'phone' => $request->phone,
         ]);

@@ -126,7 +126,7 @@ class DashboardController extends Controller
                     return [
                         'month_number' => (new DateTime($date))->format('n'),
                         'label' => $date,
-                        'count' => $data->sum('subtotal'),
+                        'count' => formatPrice($data->sum('subtotal')),
                     ];
                 })
                 ->values();
@@ -158,7 +158,7 @@ class DashboardController extends Controller
                 ->map(function ($data, $year) {
                     return [
                         'label' => $year,
-                        'count' => $data->sum('subtotal'),
+                        'count' => formatPrice($data->sum('subtotal')),
                     ];
                 })
                 ->values();
@@ -193,7 +193,7 @@ class DashboardController extends Controller
                     return [
                         'date' => (new DateTime($date))->format('Y-m-d'),
                         'label' => (new DateTime($date))->format('l'),
-                        'count' => $data->sum('subtotal'),
+                        'count' => formatPrice($data->sum('subtotal')),
                     ];
                 })
                 ->values();

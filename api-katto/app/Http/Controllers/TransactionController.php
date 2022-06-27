@@ -22,10 +22,10 @@ class TransactionController extends Controller
             $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->where('transaction_id', $transactionId)->latest()->paginate(9);
         }
 
-        $total_revenue = $transactionItems->sum('price');
-        $total_comission = $transactionItems->sum('fee');
-        $total_price_after_discount = $transactionItems->sum('price_after_discount');
-        $total_profit = $total_price_after_discount - $total_comission;
+        $total_revenue = formatPrice($transactionItems->sum('price'));
+        $total_comission = formatPrice($transactionItems->sum('fee'));
+        $total_price_after_discount = formatPrice($transactionItems->sum('price_after_discount'));
+        $total_profit = formatPrice($transactionItems->sum('price_after_discount') - $transactionItems->sum('fee'));
         return (new CommissionTransactionItemCollection($transactionItems))->additional(compact('total_revenue', 'total_comission', 'total_profit'));
     }
 }

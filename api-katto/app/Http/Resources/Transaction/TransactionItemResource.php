@@ -19,16 +19,16 @@ class TransactionItemResource extends JsonResource
             "transaction_id" => $this->transaction_id,
             "employee_name" => $this->employee->name,
             "product_name" => $this->product->name,
-            "price" => $this->price,
-            'price_after_discount' => $this->price_after_discount,
+            "price" => formatPrice($this->price),
+            'price_after_discount' => formatPrice($this->price_after_discount),
             'commission_type' => $this->commission_type,
             'commission_value' => $this->commission_value,
-            'fee' => $this->fee,
+            'fee' => formatPrice($this->fee),
             "discount_type" => $this->discount_type,
             "discount_amount" => $this->discount_amount,
             "commission_type" => $this->commission_type,
             "commission_value" => $this->commission_value,
-            "total_fee" => $this->fee
+            "total_fee" => formatPrice($this->total_fee),
         ];
     }
 }

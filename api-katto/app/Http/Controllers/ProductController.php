@@ -59,6 +59,7 @@ class ProductController extends Controller
 
         $product->update([
             'category_id' => $request->category_id,
+            'code' => $request->code,
             'name' => $request->name,
             'price' => $request->price,
             'commission_type' => $request->commission_type,

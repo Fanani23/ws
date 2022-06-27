@@ -23,12 +23,12 @@ class CommissionTransactionItemCollection extends ResourceCollection
                     'product_name' => $transactionItems->product->name,
                     'category_name' => $transactionItems->product->category->name,
                     'qty' => 1,
-                    'price' => $transactionItems->price,
-                    'price_after_discount' => $transactionItems->price_after_discount,
+                    'price' => formatPrice($transactionItems->price),
+                    'price_after_discount' => formatPrice($transactionItems->price_after_discount),
                     'commission_type' => $transactionItems->commission_type,
                     'commission_value' => $transactionItems->commission_value,
-                    'fee' => $transactionItems->fee,
-                    'profit' => $transactionItems->price_after_discount - $transactionItems->fee,
+                    'fee' => formatPrice($transactionItems->fee),
+                    'profit' => formatPrice($transactionItems->price_after_discount - $transactionItems->fee),
                     'datetime' => $transactionItems->datetime,
                 ];
             })

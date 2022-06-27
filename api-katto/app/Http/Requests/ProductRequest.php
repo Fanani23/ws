@@ -25,6 +25,7 @@ class ProductRequest extends FormRequest
     {
         $rules = [
             'category_id' => 'required|exists:categories,id',
+            'code' => 'min:6|regex:/^\S*$/u|unique:products,code',
             'name' => 'required|min:4',
             'price' => 'required|integer',
             'fee_commission_nominal' => 'integer',
@@ -32,6 +33,11 @@ class ProductRequest extends FormRequest
             'image' => 'mimes:jpg,jpeg,bmp,png',
         ];
 
+        if (isset($this->product->id)) {
+            $id = $this->product->id;
+            $rules['code'] .= ",$id";
+        }
+        
         return $rules;
     }
 }
