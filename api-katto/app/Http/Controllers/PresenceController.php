@@ -95,4 +95,13 @@ class PresenceController extends Controller
             ], 400);
         }
     }
+
+    public function destroy(Presence $presence)
+    {
+        $presence->delete();
+
+        return response()->json([
+            'message' => 'Successfully deleted.'
+        ]);
+    }
 }

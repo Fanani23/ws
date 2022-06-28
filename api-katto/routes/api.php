@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('presences')->group(function () {
         Route::get('', [PresenceController::class, 'index']);
         Route::post('create', [PresenceController::class, 'presence']);
+        Route::delete('destroy/{presence:id}', [PresenceController::class, 'destroy']);
         Route::get('{employee:id}', [PresenceController::class, 'show']);
     });
 
