@@ -1,6 +1,7 @@
 import {Dialog, Transition} from "@headlessui/react";
-import {MdClose} from "react-icons/md";
+import {MdClose, MdImage} from "react-icons/md";
 import React, {Fragment, useState} from "react";
+import none from "../img/150x150.png";
 
 const ModalCreateProduct = ({
   show,
@@ -22,6 +23,7 @@ const ModalCreateProduct = ({
 }) => {
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
+    console.log(event.target.files);
     if (event.target.files[0]) {
       setImageValue(event.target.files[0]);
       const reader = new FileReader();
@@ -197,7 +199,12 @@ const ModalCreateProduct = ({
                               onChange={getDataImage}
                             />
                             {!imageValue ? (
-                              <span className="text-black">Upload here...</span>
+                              <div className="flex flex-col justify-center items-center h-full">
+                                <MdImage className="text-gray-200 text-6xl" />
+                                <span className="text-gray-400">
+                                  Upload here...
+                                </span>
+                              </div>
                             ) : (
                               <img
                                 src={inputImage}
@@ -207,7 +214,21 @@ const ModalCreateProduct = ({
                             )}
                           </label>
                         </div>
-                        <div className="basis-1/3 pl-1"></div>
+                        <div className="basis-1/3 pl-1">
+                          <button className="bg-gray-200 w-full py-2 rounded-lg">
+                            Set No Image
+                          </button>
+                          <button
+                            disabled={!imageValue}
+                            className={`w-full py-2 rounded-lg mt-2 ${
+                              !imageValue
+                                ? "bg-red-100 "
+                                : "bg-red-300 text-white"
+                            }`}
+                          >
+                            Clear Image
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

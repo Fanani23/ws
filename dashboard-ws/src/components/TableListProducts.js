@@ -44,7 +44,11 @@ const TableListProducts = ({tableData, editRow, deleteRow}) => {
                       className="h-[50px] w-[50px] object-cover"
                     />
                   ) : (
-                    "None"
+                    <img
+                      src="https://via.placeholder.com/50x50.png?text=None"
+                      alt="Products"
+                      className="h-[50px] w-[50px] object-cover"
+                    />
                   )}
                 </td>
                 <td className="py-2">
