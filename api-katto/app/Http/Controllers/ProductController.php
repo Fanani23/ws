@@ -21,6 +21,12 @@ class ProductController extends Controller
 
     public function create(ProductRequest $request)
     {
+        if ($request->file('image')) {
+            $request->validate([
+                'image' => 'mimes:jpg,jpeg,bmp,png',
+            ]);
+        }
+
         $code = getCode('P-');
         $date = date('Y-m-d');
         if ($request->file('image')) {
@@ -47,6 +53,12 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
+        if ($request->file('image')) {
+            $request->validate([
+                'image' => 'mimes:jpg,jpeg,bmp,png',
+            ]);
+        }
+        
         $date = date('Y-m-d');
         if ($request->file('image')) {
             \Storage::delete($product->image);

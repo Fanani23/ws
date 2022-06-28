@@ -26,7 +26,6 @@ class UserRequest extends FormRequest
         $rules = [
             'username' => 'required|min:4|unique:users,username',
             'phone' => 'required|min:9|unique:users,phone',
-            'password' => 'required',
         ];
 
         if (isset($this->user->id)) {

@@ -42,7 +42,6 @@ class UserController extends Controller
         $user->update([
             'username' => $request->username,
             'phone' => $request->phone,
-            'password' => bcrypt($request->password)
         ]);
 
         return response()->json([

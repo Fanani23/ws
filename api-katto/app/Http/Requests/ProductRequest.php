@@ -30,7 +30,7 @@ class ProductRequest extends FormRequest
             'price' => 'required|integer',
             'fee_commission_nominal' => 'integer',
             'fee_commission_percent' => 'nullable|numeric',
-            'image' => 'mimes:jpg,jpeg,bmp,png',
+            // 'image' => 'mimes:jpg,jpeg,bmp,png',
         ];
 
         if (isset($this->product->id)) {

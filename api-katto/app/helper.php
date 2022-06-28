@@ -74,8 +74,12 @@ function dataChart($groupData, $from, $to)
 
 function growth($today, $yesterday)
 {
-    $growth = ($today - $yesterday) / $yesterday * 100;
-
+    if ($yesterday == 0) {
+        $growth = $today * 100;
+    } else {
+        $growth = ($today - $yesterday) / $yesterday * 100;
+    }
+    
     return floor($growth);
 }
 
