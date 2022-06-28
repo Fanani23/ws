@@ -2,13 +2,13 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalEditCategories = ({
+const ModalEditJob = ({
     show,
     close,
     submit,
     nameEditValue,
     setNameEditValue,
-  }) => {
+}) => {
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -39,8 +39,8 @@ const ModalEditCategories = ({
                                     as="div"
                                     className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                                 >
-                                    <h3>Edit Data Category</h3>
-                                    <div
+                                    <h3>Edit Data Job</h3>
+                                    <div 
                                         onClick={close}
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
                                         role="button"
@@ -53,15 +53,15 @@ const ModalEditCategories = ({
                                         <div className="text-sm p-6 text-gray-500">
                                             <div className="flex flex-row items-center">
                                                 <label
-                                                    htmlFor="category-name"
-                                                    className="font-semibold w-28"
+                                                     htmlFor="category-name"
+                                                     className="font-semibold w-28"
                                                 >
-                                                    Admin Name
+                                                    Job Name
                                                 </label>
                                                 <input
-                                                    type=""
-                                                    name=""
-                                                    id=""
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
                                                     value={nameEditValue}
                                                     onChange={(e) => setNameEditValue(e.target.value)}
@@ -77,6 +77,13 @@ const ModalEditCategories = ({
                                         >
                                             Update
                                         </button>
+                                        <button
+                                            type="button"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                            onClick={close}
+                                        >
+                                            Cancel
+                                        </button>
                                     </div>
                                 </form>
                             </Dialog.Panel>
@@ -86,6 +93,6 @@ const ModalEditCategories = ({
             </Dialog>
         </Transition>
     );
-  };
+};
 
-  export default ModalEditAdmin;
+export default ModalEditJob;

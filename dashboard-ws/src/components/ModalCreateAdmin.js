@@ -9,7 +9,9 @@ const ModalCreateAdmin = ({
     nameValue,
     setNameValue,
     phoneValue,
+    setPhoneValue,
     passwordValue,
+    setPasswordValue
 }) => {
     return (
         <Transition appear show={show} as = {Fragment}>
@@ -55,15 +57,15 @@ const ModalCreateAdmin = ({
                                             <div className="text-sm p-6 text-gray-500">
                                                 <div className="flex flex-row items-center mb-2">
                                                     <label htmlFor="" className="font-semibold w-28">
-                                                        Employee ID
+                                                        Phone Number
                                                     </label>
                                                     <input
                                                         type=""
                                                         name=""
                                                         id=""
                                                         className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
-                                                        value={}
-                                                        onChange={(e) => setCodeValue(e.target.value)}
+                                                        value={phoneValue}
+                                                        onChange={(e) => setPhoneValue(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="flex flex-row items-center mb-2">
@@ -75,26 +77,25 @@ const ModalCreateAdmin = ({
                                                         name=""
                                                         id=""
                                                         className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
-                                                        value={}
+                                                        value={nameValue}
                                                         onChange={(e) => setNameValue(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="flex flex-row items-center mb-2">
                                                     <label htmlFor="phone" className="font-semibold w-28">
-                                                        Telephone
+                                                        Password
                                                     </label>
                                                     <input
                                                         type=""
                                                         name=""
                                                         id=""
                                                         className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
-                                                        value={}
-                                                        onChange={(e) => setPhoneValue(e.target.value)}
+                                                        value={passwordValue}
+                                                        onChange={(e) => setPasswordValue(e.target.value)}
                                                     />
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     <div className="mt-4 px-6 pb-6 flex justify-center">
                                         <button
                                         type="submit"
