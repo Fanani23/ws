@@ -13,11 +13,19 @@ import axios from "axios";
 const Dashboard = () => {
   TabTitle("Dashboard - Kato Haircut");
 
-  const [selectComparison, setSelectComparison] = useState();
+  const [selectComparison, setSelectComparison] = useState("transaction");
   const [errorMsg, setErrorMsg] = useState();
   const [dataTotal, setDataTotal] = useState();
   const [dataRevenue, setDataRevenue] = useState([]);
+  const [dataMembership, setDataMembership] = useState();
+  const [dataTransaction, setDataTransaction] = useState();
+  const [dataCategoriesPopular, setDataCategoriesPopular] = useState();
+  const [dataComparison, setDataComparison] = useState();
   const [dataRevenueActive, setDataRevenueActive] = useState("week");
+  const [dataTransactionActive, setDataTransactionActive] = useState("week");
+  const [dataComparationActive, setDataComparationActive] = useState("week");
+  const [chartBarLabelA, setChartBarLabelA] = useState("Yesterday");
+  const [chartBarLabelB, setChartBarLabelB] = useState("Today");
 
   const fetchDataTotal = async () => {
     try {
@@ -36,6 +44,61 @@ const Dashboard = () => {
         `https://api.kattohair.com/api/dashboard/revenue${parameter}`
       );
       setDataRevenue(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataMembership = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/membership`
+      );
+      setDataMembership(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataCategoriesPopular = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/category`
+      );
+      setDataCategoriesPopular(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataTransaction = async (parameter = "") => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/transaction${parameter}`
+      );
+      setDataTransaction(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataComparisonTransaction = async (parameter = "") => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/comparison-transaction${parameter}`
+      );
+      setDataComparison(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataComparisonRevenue = async (parameter = "") => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`
+      );
+      setDataComparison(data.data);
       console.log(data.data);
     } catch ({response}) {
       setErrorMsg(response.message);
@@ -45,6 +108,10 @@ const Dashboard = () => {
   useEffect(() => {
     fetchDataTotal();
     fetchDataRevenue();
+    fetchDataMembership();
+    fetchDataTransaction();
+    fetchDataCategoriesPopular();
+    fetchDataComparisonTransaction();
   }, []);
 
   return (
@@ -145,7 +212,9 @@ const Dashboard = () => {
             </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <ChartLine />
+                {dataRevenue && (
+                  <ChartLine dataChart={dataRevenue} label={"Total Revenue"} />
+                )}
               </div>
             </div>
           </div>
@@ -162,7 +231,9 @@ const Dashboard = () => {
             </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <ChartPieMember />
+                {dataMembership && (
+                  <ChartPieMember dataChart={dataMembership} />
+                )}
               </div>
             </div>
           </div>
@@ -179,14 +250,55 @@ const Dashboard = () => {
                 Information data transaction
               </h1>
               <div className="rounded-lg flex w-fit mt-3 border-2 overflow-hidden">
-                <button className="bg-white text-black px-2 py-1">Day</button>
-                <button className="bg-none text-white px-2 py-1">Week</button>
-                <button className="bg-none text-white px-2 py-1">Month</button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataTransactionActive === "week"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataTransactionActive("week");
+                    fetchDataTransaction("");
+                  }}
+                >
+                  Week
+                </button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataTransactionActive === "month"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataTransactionActive("month");
+                    fetchDataTransaction("?month=true");
+                  }}
+                >
+                  Month
+                </button>
+                <button
+                  className={`px-2 py-1 ${
+                    dataTransactionActive === "year"
+                      ? "bg-white text-black"
+                      : "bg-none text-white"
+                  }`}
+                  onClick={() => {
+                    setDataTransactionActive("year");
+                    fetchDataTransaction("?year=true");
+                  }}
+                >
+                  Year
+                </button>
               </div>
             </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <h1>Here</h1>
+                {dataTransaction && (
+                  <ChartLine
+                    dataChart={dataTransaction}
+                    label={"Total Transaction"}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -203,7 +315,9 @@ const Dashboard = () => {
             </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <ChartDoughnut />
+                {dataCategoriesPopular && (
+                  <ChartDoughnut chartData={dataCategoriesPopular} />
+                )}
               </div>
             </div>
           </div>
@@ -214,7 +328,7 @@ const Dashboard = () => {
           <div className="h-full flex flex-col p-2 bg-primary-500 rounded-lg">
             <div className="flex-none flex flex-row items-center p-3">
               <h1 className="text-white font-nunito-sans text-sm mr-3 font-semibold">
-                Comparison
+                Comparation
               </h1>
               <select
                 className="bg-transparent border-2 border-white rounded-lg px-2 py-1"
@@ -222,20 +336,80 @@ const Dashboard = () => {
                 value={selectComparison}
                 onChange={(e) => setSelectComparison(e.target.value)}
               >
-                <option selected value="1" className="text-black">
+                <option selected value="transaction" className="text-black">
                   Transaction
                 </option>
-                <option value="2" className="text-black">
+                <option value="revenue" className="text-black">
                   Revenue
-                </option>
-                <option value="3" className="text-black">
-                  Membership
                 </option>
               </select>
             </div>
+            <div className="rounded-lg flex mx-2 w-fit border-2 overflow-hidden">
+              <button
+                className={`px-2 py-1 ${
+                  dataComparationActive === "week"
+                    ? "bg-white text-black"
+                    : "bg-none text-white"
+                }`}
+                onClick={() => {
+                  setDataComparationActive("week");
+                  setChartBarLabelA("Yesterday");
+                  setChartBarLabelB("Today");
+                  if (selectComparison === "transaction") {
+                    fetchDataComparisonTransaction();
+                  } else if (selectComparison === "revenue") {
+                    fetchDataComparisonRevenue();
+                  }
+                }}
+              >
+                Week
+              </button>
+              <button
+                className={`px-2 py-1 ${
+                  dataComparationActive === "month"
+                    ? "bg-white text-black"
+                    : "bg-none text-white"
+                }`}
+                onClick={() => {
+                  setDataComparationActive("month");
+                  setChartBarLabelA("Past");
+                  setChartBarLabelB("Now");
+                  if (selectComparison === "transaction") {
+                    fetchDataComparisonTransaction("?month=true");
+                  } else if (selectComparison === "revenue") {
+                    fetchDataComparisonRevenue("?month=true");
+                  }
+                }}
+              >
+                Month
+              </button>
+              <button
+                className={`px-2 py-1 ${
+                  dataComparationActive === "year"
+                    ? "bg-white text-black"
+                    : "bg-none text-white"
+                }`}
+                onClick={() => {
+                  setDataComparationActive("year");
+                  setChartBarLabelA("Past");
+                  setChartBarLabelB("Now");
+                  if (selectComparison === "transaction") {
+                    fetchDataComparisonTransaction("?year=true");
+                  } else if (selectComparison === "revenue") {
+                    fetchDataComparisonRevenue("?year=true");
+                  }
+                }}
+              >
+                Year
+              </button>
+            </div>
             <div className="grow lg:p-3">
               <div className="h-full">
-                <ChartBar />
+                <ChartBar
+                  dataChart={dataComparison}
+                  labelA={chartBarLabelA}
+                  labelB={chartBarLabelB}
+                />
               </div>
             </div>
           </div>

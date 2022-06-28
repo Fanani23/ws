@@ -1,95 +1,43 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Bar} from "react-chartjs-2";
 import {Chart as ChartJS} from "chart.js/auto";
 
-const Data = [
-	{
-		id: 1,
-		label: "January",
-		total: 330,
-	},
-	{
-		id: 2,
-		label: "February",
-		total: 100,
-	},
-	{
-		id: 3,
-		label: "March",
-		total: 100,
-	},
-	{
-		id: 4,
-		label: "April",
-		total: 100,
-	},
-	{
-		id: 5,
-		label: "May",
-		total: 100,
-	},
-	{
-		id: 6,
-		label: "June",
-		total: 100,
-	},
-	{
-		id: 7,
-		label: "July",
-		total: 100,
-	},
-	{
-		id: 8,
-		label: "August",
-		total: 100,
-	},
-	{
-		id: 9,
-		label: "September",
-		total: 100,
-	},
-	{
-		id: 10,
-		label: "October",
-		total: 100,
-	},
-	{
-		id: 11,
-		label: "November",
-		total: 100,
-	},
-	{
-		id: 12,
-		label: "December",
-		total: 100,
-	},
-];
+const ChartBar = ({dataChart, labelA, labelB}) => {
+  const [data, setData] = useState();
 
-const ChartBar = () => {
-	const [statsData, setStatsData] = useState({
-		labels: Data.map(data => data.label),
-		datasets: [
-			{
-				label: "Membership",
-				data: Data.map(data => data.total),
-				backgroundColor: ["#147AD6", "#7388A95A"],
-				borderColor: "#00000000",
-			},
-		],
-	});
+  const statsData = {
+    labels: data?.map((data) => data.label),
+    datasets: [
+      {
+        label: {labelA},
+        data: data?.map((data) => data.yesterday),
+        backgroundColor: "#147AD6",
+        borderColor: "#00000000",
+      },
+      {
+        label: {labelB},
+        data: data?.map((data) => data.today),
+        backgroundColor: "#7388A95A",
+        borderColor: "#00000000",
+      },
+    ],
+  };
 
-	const [optData, setOptData] = useState({
-		responsive: true,
-		maintainAspectRatio: false,
-		plugins: {
-			legend: {
-				position: "bottom",
-			},
-		},
-	});
-	return (
-		<Bar data={statsData} width={100} height={100} options={optData} />
-	);
+  const optData = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: "bottom",
+      },
+    },
+  };
+
+  useEffect(() => {
+    setData(dataChart);
+  });
+
+  return <Bar data={statsData} width={100} height={100} options={optData} />;
 };
 
 export default ChartBar;

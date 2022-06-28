@@ -6,8 +6,6 @@ const ModalCreateEmployee = ({
   show,
   close,
   submit,
-  codeValue,
-  setCodeValue,
   nameValue,
   setNameValue,
   phoneValue,
@@ -86,10 +84,7 @@ const ModalCreateEmployee = ({
                         />
                       </div>
                       <div className="flex flex-row items-center mb-2">
-                        <label
-                          htmlFor=""
-                          className="font-semibold w-28"
-                        >
+                        <label htmlFor="job" className="font-semibold w-28">
                           Job
                         </label>
                         <select
@@ -97,10 +92,13 @@ const ModalCreateEmployee = ({
                           value={jobValue}
                           onChange={(e) => setJobValue(e.target.value)}
                         >
+                          <option disabled selected>
+                            Select Category
+                          </option>
                           {dataJob &&
                             dataJob.map((val) => (
                               <option
-                                value={val.name}
+                                value={val.id}
                                 key={val.id}
                                 className="text-black"
                               >

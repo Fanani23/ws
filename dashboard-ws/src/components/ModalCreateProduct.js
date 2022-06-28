@@ -1,6 +1,7 @@
 import {Dialog, Transition} from "@headlessui/react";
-import {MdClose} from "react-icons/md";
+import {MdClose, MdImage} from "react-icons/md";
 import React, {Fragment, useState} from "react";
+import none from "../img/150x150.png";
 
 const ModalCreateProduct = ({
   show,
@@ -23,6 +24,7 @@ const ModalCreateProduct = ({
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
     if (event.target.files[0]) {
+      console.log("ada");
       setImageValue(event.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -75,7 +77,7 @@ const ModalCreateProduct = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center mb-2">
+                      <div className="flex flex-row items-center mb-5">
                         <label htmlFor="name" className="font-semibold w-28">
                           Product Name
                         </label>
@@ -88,7 +90,7 @@ const ModalCreateProduct = ({
                           onChange={(e) => setNameValue(e.target.value)}
                         />
                       </div>
-                      <div className="flex flex-row items-center mb-2">
+                      <div className="flex flex-row items-center mb-5">
                         <label
                           htmlFor="category"
                           className="font-semibold w-28"
@@ -115,7 +117,7 @@ const ModalCreateProduct = ({
                             ))}
                         </select>
                       </div>
-                      <div className="flex flex-row w-full mb-2">
+                      <div className="flex flex-row w-full mb-5">
                         <div className="basis-1/3 pr-1">
                           <label htmlFor="price" className="font-semibold">
                             Price
@@ -197,7 +199,12 @@ const ModalCreateProduct = ({
                               onChange={getDataImage}
                             />
                             {!imageValue ? (
-                              <span className="text-black">Upload here...</span>
+                              <div className="flex flex-col justify-center items-center h-full">
+                                <MdImage className="text-gray-200 text-6xl" />
+                                <span className="text-gray-400">
+                                  Upload here...
+                                </span>
+                              </div>
                             ) : (
                               <img
                                 src={inputImage}
@@ -207,7 +214,19 @@ const ModalCreateProduct = ({
                             )}
                           </label>
                         </div>
-                        <div className="basis-1/3 pl-1"></div>
+                        <div className="basis-1/3 pl-1">
+                          <button
+                            disabled={!imageValue}
+                            className={`w-full py-2 rounded-lg ${
+                              !imageValue
+                                ? "bg-red-100 "
+                                : "bg-red-300 text-white"
+                            }`}
+                            onClick={() => setImageValue("")}
+                          >
+                            Clear Image
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

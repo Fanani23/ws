@@ -38,11 +38,17 @@ const TableListProducts = ({tableData, editRow, deleteRow}) => {
                 )}
                 <td className="py-2">
                   {row.image !== null ? (
-                    <a className="hover:underline" href={row.image}>
-                      Link
-                    </a>
+                    <img
+                      src={row.image}
+                      alt="Products"
+                      className="h-[50px] w-[50px] object-cover"
+                    />
                   ) : (
-                    "None"
+                    <img
+                      src="https://via.placeholder.com/50x50.png?text=None"
+                      alt="Products"
+                      className="h-[50px] w-[50px] object-cover"
+                    />
                   )}
                 </td>
                 <td className="py-2">

@@ -1,11 +1,13 @@
 import {Dialog, Transition} from "@headlessui/react";
-import {MdClose} from "react-icons/md";
-import React, {Fragment} from "react";
+import {MdClose, MdImage} from "react-icons/md";
+import React, {Fragment, useEffect, useState} from "react";
 
 const ModalEditProduct = ({
   show,
   close,
   submit,
+  codeValue,
+  setCodeValue,
   dataCategory,
   categoryValue,
   setCategoryValue,
@@ -20,6 +22,27 @@ const ModalEditProduct = ({
   imageValue,
   setImageValue,
 }) => {
+  const [inputImage, setInputImage] = useState();
+  const getDataImage = (event) => {
+    console.log(event.target.files);
+    if (event.target.files[0]) {
+      setImageValue(event.target.files[0]);
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setInputImage(reader.result);
+      });
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
+  const previewImage = (val) => {
+    if (val) {
+      setInputImage(val);
+    }
+  };
+
+  useEffect(() => {
+    previewImage(imageValue);
+  });
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={close}>
@@ -51,7 +74,7 @@ const ModalEditProduct = ({
                   as="div"
                   className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Add Data Product</h3>
+                  <h3>Edit Data Product</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -63,7 +86,7 @@ const ModalEditProduct = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      {/* <div className="flex flex-row items-center mb-2">
+                      <div className="flex flex-row items-center mb-2">
                         <label htmlFor="code" className="font-semibold w-28">
                           ID Product
                         </label>
@@ -75,7 +98,7 @@ const ModalEditProduct = ({
                           value={codeValue}
                           onChange={(e) => setCodeValue(e.target.value)}
                         />
-                      </div> */}
+                      </div>
                       <div className="flex flex-row items-center mb-2">
                         <label
                           htmlFor="category"
@@ -178,13 +201,47 @@ const ModalEditProduct = ({
                             Image
                           </label>
                         </div>
-                        <div className="basis-1/3 px-1">
-                          <div className="rounded-lg border-dashed border-2 min-h-[100px] border-gray-200 p-5 mb-3"></div>
-                          <button className="px-5 py-2 w-full text-sm rounded-lg border-none bg-green-500 text-white hover:bg-green-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-800 focus-visible:ring-offset-2">
-                            Upload
+                        <div className="basis-1/3 px-1 flex flex-col">
+                          <label
+                            htmlFor="image"
+                            className="rounded-lg border-dashed border-2 h-[125px] w-[125px] border-gray-200 p-2 mb-3 cursor-pointer"
+                          >
+                            <input
+                              type="file"
+                              name="image"
+                              id="image"
+                              className="hidden"
+                              onChange={getDataImage}
+                            />
+                            {!imageValue ? (
+                              <div className="flex flex-col justify-center items-center h-full">
+                                <MdImage className="text-gray-200 text-6xl" />
+                                <span className="text-gray-400">
+                                  Upload here...
+                                </span>
+                              </div>
+                            ) : (
+                              <img
+                                src={inputImage}
+                                alt="Images"
+                                className="object-cover w-full h-full"
+                              />
+                            )}
+                          </label>
+                        </div>
+                        <div className="basis-1/3 pl-1">
+                          <button
+                            disabled={!imageValue}
+                            className={`w-full py-2 rounded-lg ${
+                              !imageValue
+                                ? "bg-red-100 "
+                                : "bg-red-300 text-white"
+                            }`}
+                            onClick={() => setImageValue("")}
+                          >
+                            Clear Image
                           </button>
                         </div>
-                        <div className="basis-1/3 pl-1"></div>
                       </div>
                     </div>
                   </div>

@@ -24,7 +24,7 @@ const Employee = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [dataJob, setDataJob] = useState("");
-  const [job, setJob] = useState("");
+  const [job, setJob] = useState();
   // print function
   const idTable = "tableEmployee";
 
@@ -94,11 +94,24 @@ const Employee = () => {
       );
       setDataJob(getData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log({name, phone, job});
+    try {
+      await axios.post(`https://api.kattohair.com/api/employees/create`, {
+        name: name,
+        phone: phone,
+        job_id: job,
+      });
+      fetchData();
+    } catch ({response}) {
+      console.log(response.message);
+    }
+  };
 
   return (
     <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
@@ -108,6 +121,10 @@ const Employee = () => {
         name={name}
         setNameValue={setName}
         dataJob={dataJob}
+        jobValue={job}
+        setJobValue={setJob}
+        phoneValue={phone}
+        setPhoneValue={setPhone}
         submit={handleSubmit}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">

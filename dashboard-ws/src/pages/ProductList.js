@@ -6,7 +6,10 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
+<<<<<<< HEAD
 import ModalDeleteProduct from "../components/ModalDeleteProduct";
+=======
+>>>>>>> fee53c2f789a003cc184a8422dd9276c48ba458d
 import ModalEditProduct from "../components/ModalEditProduct";
 
 const ProductList = () => {
@@ -35,6 +38,7 @@ const ProductList = () => {
   const [feeCategory, setFeeCategory] = useState("Nominal");
   const [feeValue, setFeeValue] = useState();
   const [image, setImage] = useState();
+<<<<<<< HEAD
   // Handle Edit
   const [idEdit, setIdEdit] = useState("");
   const [categoryEdit, setCategoryEdit] = useState();
@@ -47,6 +51,17 @@ const ProductList = () => {
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
 
+=======
+  // handle edit
+  const [idEdit, setIdEdit] = useState("");
+  const [codeEdit, setCodeEdit] = useState("");
+  const [categoryEdit, setCategoryEdit] = useState("");
+  const [nameEdit, setNameEdit] = useState("");
+  const [priceEdit, setPriceEdit] = useState("");
+  const [feeCategoryEdit, setFeeCategoryEdit] = useState("");
+  const [feeValueEdit, setFeeValueEdit] = useState();
+  const [imageEdit, setImageEdit] = useState("");
+>>>>>>> fee53c2f789a003cc184a8422dd9276c48ba458d
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
@@ -69,7 +84,7 @@ const ProductList = () => {
       );
       setDataCategory(getData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -100,10 +115,53 @@ const ProductList = () => {
     formData.append("commission_value", feeValue);
     try {
       axios.post("https://api.kattohair.com/api/products/create", formData);
-      fetchData();
       setImage("");
       setName("");
       setCategory("");
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const prepareEdit = (id) => {
+    setIdEdit(id);
+    getEditData(id);
+    setOpenEditProduct(true);
+  };
+
+  const getEditData = async (value) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products/${value}}`
+      );
+      setCodeEdit(data.data.code);
+      setNameEdit(data.data.name);
+      setCategoryEdit(data.data.category);
+      setPriceEdit(data.data.price);
+      setFeeCategoryEdit(data.data.commission_type);
+      setFeeValueEdit(data.data.commission_value);
+      setImageEdit(data.data.image);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", imageEdit);
+    formData.append("category_id", categoryEdit);
+    formData.append("name", nameEdit);
+    formData.append("price", priceEdit);
+    formData.append("commission_type", feeCategoryEdit);
+    formData.append("commission_value", feeValueEdit);
+    try {
+      await axios.put(
+        `https://api.kattohair.com/api/products/update/${idEdit}`,
+        formData
+      );
+      fetchData();
     } catch (err) {
       console.log(err);
     }
@@ -192,6 +250,7 @@ const ProductList = () => {
       <ModalEditProduct
         show={openEditProduct}
         close={closeEditProductModal}
+<<<<<<< HEAD
         submit={handleEdit}
       />
       <ModalDeleteProduct
@@ -200,6 +259,25 @@ const ProductList = () => {
         nameDeleteValue={nameDelete}
         submit={handleDelete}
       />
+=======
+        dataCategory={dataCategory}
+        codeValue={codeEdit}
+        setCodeValue={setCodeEdit}
+        categoryValue={categoryEdit}
+        setCategoryValue={setCategoryEdit}
+        nameValue={nameEdit}
+        setNameValue={setNameEdit}
+        priceValue={priceEdit}
+        setPriceValue={setPriceEdit}
+        feeCategoryValue={feeCategoryEdit}
+        setFeeCategoryValue={setFeeCategoryEdit}
+        feeValue={feeValueEdit}
+        setFeeValue={setFeeValueEdit}
+        imageValue={imageEdit}
+        setImageValue={setImageEdit}
+        submit={handleEdit}
+      />
+>>>>>>> fee53c2f789a003cc184a8422dd9276c48ba458d
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
         <div className="flex justify-between">
           <Search
@@ -224,7 +302,10 @@ const ProductList = () => {
               tableData={tableData}
               dataCategory={dataCategory}
               editRow={prepareEdit}
+<<<<<<< HEAD
               deleteRow={prepareDelete}
+=======
+>>>>>>> fee53c2f789a003cc184a8422dd9276c48ba458d
             />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
