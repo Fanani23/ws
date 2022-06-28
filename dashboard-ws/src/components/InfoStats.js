@@ -1,6 +1,6 @@
-import {MdOutlinePaid, MdTrendingUp} from "react-icons/md";
+import {MdOutlinePaid, MdTrendingDown, MdTrendingUp} from "react-icons/md";
 
-const InfoStats = ({totalProfit, growth}) => {
+const InfoStats = ({totalProfit, growth, type}) => {
   return (
     <>
       <div className="flex justify-between items-center">
@@ -13,7 +13,15 @@ const InfoStats = ({totalProfit, growth}) => {
         {totalProfit}
       </h1>
       <div className="flex flex-row items-center">
-        <MdTrendingUp className="text-[#48C134] mr-3" />
+        {type === "up" ? (
+          <>
+            <MdTrendingUp className="text-[#48C134] mr-3" />
+          </>
+        ) : (
+          <>
+            <MdTrendingDown className="text-[#C14040] mr-3" />
+          </>
+        )}
         {growth} From Yesterday
       </div>
     </>

@@ -1,7 +1,11 @@
 import React from "react";
-import {MdTrendingUp, MdOutlineShoppingCart} from "react-icons/md";
+import {
+  MdTrendingUp,
+  MdTrendingDown,
+  MdOutlineShoppingCart,
+} from "react-icons/md";
 
-const InfoStatsTransaction = ({totalTransaction, growth}) => {
+const InfoStatsTransaction = ({totalTransaction, growth, type}) => {
   return (
     <>
       <div className="flex justify-between items-center">
@@ -16,7 +20,15 @@ const InfoStatsTransaction = ({totalTransaction, growth}) => {
         {totalTransaction}
       </h1>
       <div className="flex flex-row items-center">
-        <MdTrendingUp className="text-[#48C134] mr-3" />
+        {type === "up" ? (
+          <>
+            <MdTrendingUp className="text-[#48C134] mr-3" />
+          </>
+        ) : (
+          <>
+            <MdTrendingDown className="text-[#C14040] mr-3" />
+          </>
+        )}
         {growth} from Yesterday
       </div>
     </>

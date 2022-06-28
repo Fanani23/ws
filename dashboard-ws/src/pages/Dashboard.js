@@ -123,6 +123,7 @@ const Dashboard = () => {
               <InfoStatsTransaction
                 totalTransaction={dataTotal.total_transactions.total}
                 growth={dataTotal.total_transactions.growth}
+                type={dataTotal.total_transactions.type}
               />
             )}
           </div>
@@ -133,6 +134,7 @@ const Dashboard = () => {
               <InfoStatsRevenue
                 totalRevenue={dataTotal.total_revenue.total}
                 growth={dataTotal.total_revenue.growth}
+                type={dataTotal.total_revenue.type}
               />
             )}
           </div>
@@ -143,6 +145,7 @@ const Dashboard = () => {
               <InfoStats
                 totalProfit={dataTotal.total_profit.total}
                 growth={dataTotal.total_profit.growth}
+                type={dataTotal.total_profit.type}
               />
             )}
           </div>
@@ -153,6 +156,7 @@ const Dashboard = () => {
               <InfoStatsVisitor
                 totalVisitor={dataTotal.total_visitor.total}
                 growth={dataTotal.total_visitor.growth}
+                type={dataTotal.total_visitor.type}
               />
             )}
           </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import {MdTrendingUp, MdTrendingDown, MdOutlineShield} from "react-icons/md";
 
-const InfoStatsVisitor = ({totalVisitor, growth}) => {
+const InfoStatsVisitor = ({totalVisitor, growth, type}) => {
   return (
     <>
       <div className="flex justify-between items-center">
@@ -14,7 +14,15 @@ const InfoStatsVisitor = ({totalVisitor, growth}) => {
         {totalVisitor}
       </h1>
       <div className="flex flex-row items-center">
-        <MdTrendingUp className="text-[#48C134] mr-3" />
+        {type === "up" ? (
+          <>
+            <MdTrendingUp className="text-[#48C134] mr-3" />
+          </>
+        ) : (
+          <>
+            <MdTrendingDown className="text-[#C14040] mr-3" />
+          </>
+        )}
         {growth} From Yesterday
       </div>
     </>
