@@ -15,7 +15,7 @@ const Presensi = () => {
   const openAddPresensiModal = () => setOpenAddPresensi(true);
   const [openDeletePresensi, setOpenDeletePresensi] = useState(false);
   const closeDeletePresensiModal = () => setOpenDeletePresensi(false);
-  // Table & Pagination 
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
@@ -130,9 +130,7 @@ const Presensi = () => {
         close={closeAddPresensiModal}
         codeValue={code}
         setCodeValue={setCode}
-        shiftValue={shift}
         setShiftValue={setShift}
-        statusValue={status}
         setStatusValue={setStatus}
         submit={handleSubmit}
       />
@@ -155,10 +153,7 @@ const Presensi = () => {
         </div>
         {tableCount ? (
           <>
-            <TablePresensi
-              tableData={tableData}
-              deleteRow={prepareDelete}
-            />
+            <TablePresensi tableData={tableData} deleteRow={prepareDelete} />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
               currentPage={currentTablePage}

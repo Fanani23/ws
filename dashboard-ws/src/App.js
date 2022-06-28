@@ -82,8 +82,10 @@ function App() {
                     element={<Navigate to="/employee/list" replace />}
                   />
                   <Route path="jobs" element={<EmployeeCategory />} />
-                  <Route path="list" element={<Employee />} />
-                  <Route path=":employeeId" element={<EmployeeSingle />} />
+                  <Route path="list">
+                    <Route index element={<Employee />} />
+                    <Route path=":employeeId" element={<EmployeeSingle />} />
+                  </Route>
                 </Route>
                 <Route path="setting">
                   <Route

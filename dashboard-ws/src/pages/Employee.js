@@ -5,6 +5,7 @@ import TableEmployee from "../components/TableEmployee";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import axios from "axios";
+import {Link} from "react-router-dom";
 import ModalCreateEmployee from "../components/ModalCreateEmployee";
 
 const Employee = () => {
@@ -100,7 +101,6 @@ const Employee = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({name, phone, job});
     try {
       await axios.post(`https://api.kattohair.com/api/employees/create`, {
         name: name,

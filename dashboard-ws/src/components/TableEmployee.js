@@ -1,4 +1,5 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
+import {Link} from "react-router-dom";
 
 const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
   const capitalizeEachWord = (sentence) => {

@@ -95,6 +95,7 @@ const EmployeeCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log({name});
     try {
       await axios.post("https://api.kattohair.com/api/jobs/create", {
         name,
@@ -127,12 +128,9 @@ const EmployeeCategory = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `https://api.kattohair.com/api/jobs/update/${idEdit}`,
-        {
-          name: nameEdit,
-        }
-      );
+      await axios.put(`https://api.kattohair.com/api/jobs/update/${idEdit}`, {
+        name: nameEdit,
+      });
       fetchData();
     } catch (err) {
       console.log(err);
@@ -210,7 +208,7 @@ const EmployeeCategory = () => {
         </div>
         {tableCount ? (
           <>
-            <TableJobs 
+            <TableJobs
               tableData={tableData}
               editRow={prepareEdit}
               deleteRow={prepareDelete}
