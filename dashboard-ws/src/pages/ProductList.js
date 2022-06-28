@@ -65,7 +65,7 @@ const ProductList = () => {
       );
       setDataCategory(getData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -96,10 +96,10 @@ const ProductList = () => {
     formData.append("commission_value", feeValue);
     try {
       axios.post("https://api.kattohair.com/api/products/create", formData);
-      fetchData();
       setImage("");
       setName("");
       setCategory("");
+      fetchData();
     } catch (err) {
       console.log(err);
     }

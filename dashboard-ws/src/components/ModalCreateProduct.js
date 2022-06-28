@@ -23,8 +23,8 @@ const ModalCreateProduct = ({
 }) => {
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
-    console.log(event.target.files);
     if (event.target.files[0]) {
+      console.log("ada");
       setImageValue(event.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -77,7 +77,7 @@ const ModalCreateProduct = ({
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center mb-2">
+                      <div className="flex flex-row items-center mb-5">
                         <label htmlFor="name" className="font-semibold w-28">
                           Product Name
                         </label>
@@ -90,7 +90,7 @@ const ModalCreateProduct = ({
                           onChange={(e) => setNameValue(e.target.value)}
                         />
                       </div>
-                      <div className="flex flex-row items-center mb-2">
+                      <div className="flex flex-row items-center mb-5">
                         <label
                           htmlFor="category"
                           className="font-semibold w-28"
@@ -117,7 +117,7 @@ const ModalCreateProduct = ({
                             ))}
                         </select>
                       </div>
-                      <div className="flex flex-row w-full mb-2">
+                      <div className="flex flex-row w-full mb-5">
                         <div className="basis-1/3 pr-1">
                           <label htmlFor="price" className="font-semibold">
                             Price
@@ -215,16 +215,14 @@ const ModalCreateProduct = ({
                           </label>
                         </div>
                         <div className="basis-1/3 pl-1">
-                          <button className="bg-gray-200 w-full py-2 rounded-lg">
-                            Set No Image
-                          </button>
                           <button
                             disabled={!imageValue}
-                            className={`w-full py-2 rounded-lg mt-2 ${
+                            className={`w-full py-2 rounded-lg ${
                               !imageValue
                                 ? "bg-red-100 "
                                 : "bg-red-300 text-white"
                             }`}
+                            onClick={() => setImageValue("")}
                           >
                             Clear Image
                           </button>

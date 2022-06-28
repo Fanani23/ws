@@ -6,8 +6,6 @@ const ModalCreateEmployee = ({
   show,
   close,
   submit,
-  codeValue,
-  setCodeValue,
   nameValue,
   setNameValue,
   phoneValue,
@@ -60,19 +58,6 @@ const ModalCreateEmployee = ({
                   <div className="mt-2 border-t-2">
                     <div className="text-sm p-6 text-gray-500">
                       <div className="flex flex-row items-center mb-2">
-                        <label htmlFor="code" className="font-semibold w-28">
-                          Employee ID
-                        </label>
-                        <input
-                          type="text"
-                          name="code"
-                          id="code"
-                          className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
-                          value={codeValue}
-                          onChange={(e) => setCodeValue(e.target.value)}
-                        />
-                      </div>
-                      <div className="flex flex-row items-center mb-2">
                         <label htmlFor="name" className="font-semibold w-28">
                           Name
                         </label>
@@ -99,10 +84,7 @@ const ModalCreateEmployee = ({
                         />
                       </div>
                       <div className="flex flex-row items-center mb-2">
-                        <label
-                          htmlFor=""
-                          className="font-semibold w-28"
-                        >
+                        <label htmlFor="job" className="font-semibold w-28">
                           Job
                         </label>
                         <select
@@ -110,10 +92,13 @@ const ModalCreateEmployee = ({
                           value={jobValue}
                           onChange={(e) => setJobValue(e.target.value)}
                         >
+                          <option disabled selected>
+                            Select Category
+                          </option>
                           {dataJob &&
                             dataJob.map((val) => (
                               <option
-                                value={val.name}
+                                value={val.id}
                                 key={val.id}
                                 className="text-black"
                               >

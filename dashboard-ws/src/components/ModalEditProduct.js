@@ -74,7 +74,7 @@ const ModalEditProduct = ({
                   as="div"
                   className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Add Data Product</h3>
+                  <h3>Edit Data Product</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -230,16 +230,14 @@ const ModalEditProduct = ({
                           </label>
                         </div>
                         <div className="basis-1/3 pl-1">
-                          <button className="bg-gray-200 w-full py-2 rounded-lg">
-                            Set No Image
-                          </button>
                           <button
                             disabled={!imageValue}
-                            className={`w-full py-2 rounded-lg mt-2 ${
+                            className={`w-full py-2 rounded-lg ${
                               !imageValue
                                 ? "bg-red-100 "
                                 : "bg-red-300 text-white"
                             }`}
+                            onClick={() => setImageValue("")}
                           >
                             Clear Image
                           </button>

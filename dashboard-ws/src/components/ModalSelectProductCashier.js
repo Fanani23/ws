@@ -37,7 +37,7 @@ const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
                   <h3>{dataProduct?.name}</h3>
                   <div className="flex">
                     {/* <h1 className="line-through text-gray-400 mr-3">disc</h1> */}
-                    <h1>{dataProduct?.price}</h1>
+                    <h1>Rp{dataProduct?.price}</h1>
                   </div>
                   <div
                     onClick={close}
@@ -48,80 +48,83 @@ const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
                   </div>
                 </Dialog.Title>
                 <div className="mt-2 border-t-2">
-                  <div className="text-sm p-6 text-gray-500">
-                    <div className="flex flex-row items-center">
-                      <label
-                        htmlFor="nama-stylist"
-                        className="font-semibold w-28"
-                      >
-                        Nama Stylist
-                      </label>
-                      <input
-                        type="text"
-                        name="nama-stylist"
-                        id="nama-stylist"
-                        className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                      />
+                  <form onSubmit={submit}>
+                    <div className="text-sm p-6 text-gray-500">
+                      <div className="flex flex-row items-center">
+                        <label
+                          htmlFor="nama-stylist"
+                          className="font-semibold w-28"
+                        >
+                          Nama Stylist
+                        </label>
+                        <input
+                          type="text"
+                          name="nama-stylist"
+                          id="nama-stylist"
+                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                        />
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <span className="font-semibold w-28">
+                          Discount Type
+                        </span>
+                        <input
+                          type="radio"
+                          name="discount"
+                          value="persen"
+                          id="persen"
+                        />
+                        <label
+                          htmlFor="persen"
+                          className="mx-1 font-semibold px-3 py-2"
+                        >
+                          Persentage (%)
+                        </label>
+                        <input
+                          type="radio"
+                          name="discount"
+                          value="nominal"
+                          id="nominal"
+                        />
+                        <label
+                          htmlFor="nominal"
+                          className="mx-1 font-semibold px-3 py-2"
+                        >
+                          Nominal (Rp)
+                        </label>
+                      </div>
+                      <div className="flex flex-row items-center">
+                        <label
+                          htmlFor="discount-amount"
+                          className="font-semibold w-28"
+                        >
+                          Amount
+                        </label>
+                        <input
+                          type="number"
+                          name="discount-amount"
+                          id="discount-amount"
+                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                        />
+                      </div>
                     </div>
-                    <div className="flex flex-row items-center">
-                      <span className="font-semibold w-28">Discount Type</span>
-                      <input
-                        type="radio"
-                        name="discount"
-                        value="persen"
-                        id="persen"
-                      />
-                      <label
-                        htmlFor="persen"
-                        className="mx-1 font-semibold px-3 py-2"
+                    <div className="mt-4 px-6 pb-6 flex justify-center">
+                      <button
+                        type="submit"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
+                        onClick={close}
                       >
-                        Persentage (%)
-                      </label>
-                      <input
-                        type="radio"
-                        name="discount"
-                        value="nominal"
-                        id="nominal"
-                      />
-                      <label
-                        htmlFor="nominal"
-                        className="mx-1 font-semibold px-3 py-2"
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                        onClick={close}
                       >
-                        Nominal (Rp)
-                      </label>
+                        Cancel
+                      </button>
                     </div>
-                    <div className="flex flex-row items-center">
-                      <label
-                        htmlFor="discount-amount"
-                        className="font-semibold w-28"
-                      >
-                        Amount
-                      </label>
-                      <input
-                        type="number"
-                        name="discount-amount"
-                        id="discount-amount"
-                        className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 px-6 pb-6 flex justify-center">
-                  <button
-                    type="submit"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-                    onClick={close}
-                  >
-                    Save
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
-                    onClick={close}
-                  >
-                    Cancel
-                  </button>
+                  </form>
                 </div>
               </Dialog.Panel>
             </Transition.Child>

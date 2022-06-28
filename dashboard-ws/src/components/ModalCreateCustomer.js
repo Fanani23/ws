@@ -51,7 +51,7 @@ const ModalCreateCustomer = ({
                   as="div"
                   className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Add Data Member</h3>
+                  <h3>Add Data Customer</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"

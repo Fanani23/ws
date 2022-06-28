@@ -1,10 +1,17 @@
 import React from "react";
+import {MdOutlineScreenSearchDesktop} from "react-icons/md";
 import Pagination from "./Pagination";
 
 const CashierProductList = ({dataProduct, selectProduct}) => {
   return (
     <>
-      <div className="relative overflow-y-auto scrollbar-shown pt-1">
+      <div
+        className={
+          dataProduct[0]
+            ? "relative overflow-y-auto scrollbar-shown pt-1 mb-auto"
+            : "hidden"
+        }
+      >
         <div className="flex flex-wrap grow overflow-y-auto relative">
           {dataProduct.map((val) => (
             <div
@@ -31,9 +38,17 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
           ))}
         </div>
       </div>
-      <div className="sticky flex justify-center bottom-0 min-h-[3rem] pt-1 bg-black z-[2]">
-        <Pagination />
-      </div>
+      {!dataProduct[0] && (
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <MdOutlineScreenSearchDesktop className="text-gray-100 text-8xl" />
+          <p className="text-gray-100">No result</p>
+        </div>
+      )}
+      {dataProduct[0] && (
+        <div className="sticky flex justify-center bottom-0 min-h-[3rem] my-2 pt-1 bg-black z-[2]">
+          <Pagination />
+        </div>
+      )}
     </>
   );
 };

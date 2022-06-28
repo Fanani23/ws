@@ -74,6 +74,10 @@ const Cashier = () => {
     openSelectProductModal();
   };
 
+  const addToCart = (e) => {
+    console.log(e);
+  };
+
   useEffect(() => {
     fetchCategoryData();
     fetchAllCategoryProduct();
@@ -85,6 +89,7 @@ const Cashier = () => {
         show={openSelectProduct}
         close={closeSelectProductModal}
         dataProduct={selectProduct}
+        submit={addToCart}
       />
       <div className="h-10">
         <Search
@@ -109,7 +114,7 @@ const Cashier = () => {
         <div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
           <div className="bg-white flex flex-col rounded-tl-lg rounded-tr-lg md:rounded-tr-none h-full">
             <CashierRightPanelTop />
-            <CashierDataInput />
+            {/* <CashierDataInput /> */}
           </div>
         </div>
       </div>

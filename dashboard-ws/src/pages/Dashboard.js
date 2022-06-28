@@ -99,6 +99,7 @@ const Dashboard = () => {
         `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`
       );
       setDataComparison(data.data);
+      console.log(data.data);
     } catch ({response}) {
       setErrorMsg(response.message);
     }

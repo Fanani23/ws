@@ -1,6 +1,14 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
 
 const TableCustomers = ({tableData, editRow, deleteRow}) => {
+  const capitalizeEachWord = (sentence) => {
+    const words = sentence.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+
+    return words.join(" ");
+  };
   return (
     <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
       <thead className="sticky top-0">
@@ -19,7 +27,11 @@ const TableCustomers = ({tableData, editRow, deleteRow}) => {
               <td className="py-2">{row.code}</td>
               <td className="py-2">{row.birthday}</td>
               <td className="py-2">{row.name}</td>
-              <td className="py-2">{row.membership.toUpperCase()}</td>
+              <td className="py-2">
+                {row.membership === "vip"
+                  ? row.membership.toUpperCase()
+                  : capitalizeEachWord(row.membership)}
+              </td>
               <td className="py-2">
                 <button
                   onClick={() => {
