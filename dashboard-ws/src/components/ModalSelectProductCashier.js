@@ -2,10 +2,10 @@ import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment} from "react";
 import {MdClose} from "react-icons/md";
 
-const ModalSelectProductCashier = ({show, close, submit}) => {
+const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
   return (
     <Transition appear show={show} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={close}>
+      <Dialog as="div" className="relative z-20" onClose={close}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -34,10 +34,10 @@ const ModalSelectProductCashier = ({show, close, submit}) => {
                   as="div"
                   className="flex justify-between text-lg font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Title</h3>
+                  <h3>{dataProduct?.name}</h3>
                   <div className="flex">
-                    <h1 className="line-through text-gray-400 mr-3">disc</h1>
-                    <h1>Price</h1>
+                    {/* <h1 className="line-through text-gray-400 mr-3">disc</h1> */}
+                    <h1>{dataProduct?.price}</h1>
                   </div>
                   <div
                     onClick={close}

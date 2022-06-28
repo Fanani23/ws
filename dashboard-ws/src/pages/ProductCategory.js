@@ -137,6 +137,7 @@ const ProductCategory = () => {
         `https://api.kattohair.com/api/products/categories/${id}`
       );
       setNameDelete(data.data.name);
+      console.log(data.data.name);
     } catch (err) {
       console.log(err);
     }

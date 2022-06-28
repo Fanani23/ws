@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import {useEffect} from "react";
 
 ChartJS.register(
   CategoryScale,
@@ -21,57 +22,21 @@ ChartJS.register(
   Legend
 );
 
-const ChartLine = () => {
-  const dataChart = [
-    {
-      date: "2022-06-27",
-      label: "Monday",
-      count: 520000,
-    },
-    {
-      date: "2022-06-28",
-      label: "Tuesday",
-      count: 0,
-    },
-    {
-      date: "2022-06-29",
-      label: "Wednesday",
-      count: 0,
-    },
-    {
-      date: "2022-06-30",
-      label: "Thursday",
-      count: 0,
-    },
-    {
-      date: "2022-07-01",
-      label: "Friday",
-      count: 0,
-    },
-    {
-      date: "2022-07-02",
-      label: "Saturday",
-      count: 0,
-    },
-    {
-      date: "2022-07-03",
-      label: "Sunday",
-      count: 0,
-    },
-  ];
+const ChartLine = ({dataChart, label}) => {
+  const [data, setData] = useState();
 
-  const [statsData, setStatsData] = useState({
-    labels: dataChart.map((data) => data.label),
+  const statsData = {
+    labels: data?.map((data) => data.label),
     datasets: [
       {
-        label: "Membership",
-        data: dataChart.map((data) => data.count),
+        label: label,
+        data: data?.map((data) => data.count),
         borderColor: "#147AD6",
       },
     ],
-  });
+  };
 
-  const [optData, setOptData] = useState({
+  const optData = {
     responsive: true,
     maintainAspectRatio: false,
     tension: 0.4,
@@ -81,11 +46,17 @@ const ChartLine = () => {
         position: "bottom",
       },
     },
+  };
+
+  useEffect(() => {
+    setData(dataChart);
   });
 
   return (
     <>
-      <Line data={statsData} width={100} height={100} options={optData} />
+      {data && (
+        <Line data={statsData} width={100} height={100} options={optData} />
+      )}
     </>
   );
 };
