@@ -6,6 +6,8 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
+import ModalDeleteProduct from "../components/ModalDeleteProduct";
+import ModalEditProduct from "../components/ModalEditProduct";
 
 const ProductList = () => {
   TabTitle("List Product - Kato Haircut");
@@ -30,9 +32,21 @@ const ProductList = () => {
   const [category, setCategory] = useState();
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
-  const [feeCategory, setFeeCategory] = useState("nominal");
+  const [feeCategory, setFeeCategory] = useState("Nominal");
   const [feeValue, setFeeValue] = useState();
   const [image, setImage] = useState();
+  // Handle Edit
+  const [idEdit, setIdEdit] = useState("");
+  const [categoryEdit, setCategoryEdit] = useState();
+  const [nameEdit, setNameEdit] = useState("");
+  const [priceEdit, setPriceEdit] = useState();
+  const [feeCategoryEdit, setFeeCategoryEdit] = useState("Nominal");
+  const [feeValueEdit, setFeeValueEdit] = useState();
+  const [imageEdit, setImageEdit] = useState();
+  //Handle Delete
+  const [idDelete, setIdDelete] = useState("");
+  const [nameDelete, setNameDelete] = useState("");
+
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
@@ -95,6 +109,66 @@ const ProductList = () => {
     }
   };
 
+  const prepareEdit = (value) => {
+    setIdEdit(value);
+    getEditData(value);
+    setOpenEditProduct(true);
+  };
+
+  const getEditData = async (value) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products/${value}}`
+      );
+      setNameEdit(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `https://api.kattohair.com/api/products/update/${idEdit}`,
+        {
+          name: nameEdit,
+        }
+      );
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const prepareDelete = (id) => {
+    setIdDelete(id);
+    getDeleteData(id);
+    setOpenDeleteProduct(true);
+  };
+
+  const getDeleteData = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products/${id}}`
+      );
+      setNameDelete(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `https://api.kattohair.com/api/products/delete/${idDelete}`
+      );
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
       <ModalCreateProduct
@@ -114,6 +188,17 @@ const ProductList = () => {
         imageValue={image}
         setImageValue={setImage}
         submit={handleSubmit}
+      />
+      <ModalEditProduct
+        show={openEditProduct}
+        close={closeEditProductModal}
+        submit={handleEdit}
+      />
+      <ModalDeleteProduct
+        show={openDeleteProduct}
+        close={closeDeleteProductModal}
+        nameDeleteValue={nameDelete}
+        submit={handleDelete}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
         <div className="flex justify-between">
@@ -138,6 +223,8 @@ const ProductList = () => {
             <TableListProducts
               tableData={tableData}
               dataCategory={dataCategory}
+              editRow={prepareEdit}
+              deleteRow={prepareDelete}
             />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}

@@ -21,7 +21,6 @@ const Employee = () => {
   // search
   const [searchValue, setSearchValue] = useState();
   // handle create
-  const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [dataJob, setDataJob] = useState("");
@@ -106,8 +105,6 @@ const Employee = () => {
       <ModalCreateEmployee
         show={openAddEmployee}
         close={closeAddEmployeeModal}
-        code={code}
-        setCodeValue={setCode}
         name={name}
         setNameValue={setName}
         dataJob={dataJob}

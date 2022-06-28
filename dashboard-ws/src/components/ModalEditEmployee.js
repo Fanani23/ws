@@ -60,22 +60,6 @@ const ModalEditEmployee= ({
                                         <div className="text-sm p-6 text-gray-500">
                                             <div className="flex flex-row items-center mb-2">
                                                 <label
-                                                    htmlFor="code"
-                                                    className="font-semibold w-28"
-                                                >
-                                                    Employee ID
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="code"
-                                                    id="code"
-                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={codeEditValue}
-                                                    onChange={(e) => setCodeEditValue(e.target.value)}
-                                                />
-                                            </div>
-                                            <div className="flex flex-row items-center mb-2">
-                                                <label
                                                     htmlFor="name"
                                                     className="font-semibold w-28"
                                                 >

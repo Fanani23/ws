@@ -2,12 +2,14 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalEditCategories = ({
+const ModalEditAdmin = ({
     show,
     close,
     submit,
-    nameEditValue,
-    setNameEditValue,
+    phoneValue,
+    setPhoneValue,
+    nameValue,
+    setNameValue
   }) => {
     return (
         <Transition appear show={show} as={Fragment}>
@@ -37,9 +39,9 @@ const ModalEditCategories = ({
                             <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
                                 <Dialog.Title
                                     as="div"
-                                    className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
+                                    className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-6"
                                 >
-                                    <h3>Edit Data Category</h3>
+                                    <h3>Edit Data Admin</h3>
                                     <div
                                         onClick={close}
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -51,25 +53,38 @@ const ModalEditCategories = ({
                                 <form autoComplete="off" noValidate onSubmit={submit}>
                                     <div className="mt-2 border-t-2">
                                         <div className="text-sm p-6 text-gray-500">
-                                            <div className="flex flex-row items-center">
+                                            <div className="flex flex-row items-center mb-6">
                                                 <label
-                                                    htmlFor="category-name"
+                                                    htmlFor="phone"
                                                     className="font-semibold w-28"
                                                 >
+                                                    Phone Number
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="phone"
+                                                    id="phone"
+                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                                                    value={phoneValue}
+                                                    onChange={(e) => setPhoneValue(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="flex flex-row items-center mb-6">
+                                                <label htmlFor="name" className="font-semibold w-28">
                                                     Admin Name
                                                 </label>
                                                 <input
-                                                    type=""
-                                                    name=""
-                                                    id=""
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={nameEditValue}
-                                                    onChange={(e) => setNameEditValue(e.target.value)}
+                                                    value={nameValue}
+                                                    onChange={(e) => setNameValue(e.target.value)}
                                                 />
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="mt-4 px-6 pb-6 flex justify-center">
+                                    <div className="mt-2 pt-0 pb-9  flex justify-center">
                                         <button
                                             type="submit"
                                             className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"

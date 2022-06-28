@@ -53,7 +53,7 @@ const ModalEditJob = ({
                                         <div className="text-sm p-6 text-gray-500">
                                             <div className="flex flex-row items-center">
                                                 <label
-                                                     htmlFor="category-name"
+                                                     htmlFor="name"
                                                      className="font-semibold w-28"
                                                 >
                                                     Job Name

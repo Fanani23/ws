@@ -5,9 +5,20 @@ import Pagination from "../components/Pagination";
 import TabTitle from "../utils/GeneralFunction";
 import TableJobs from "../components/TableJobs";
 import axios from "axios";
+import ModalCreateJob from "../components/ModalCreateJob";
+import ModalEditJob from "../components/ModalEditJob";
+import ModalDeleteJob from "../components/ModalDeleteJob";
 
 const EmployeeCategory = () => {
   TabTitle("Jobs Category - Kato Haircut");
+  // Modal
+  const [openAddJob, setOpenAddJob] = useState(false);
+  const closeAddJobModal = () => setOpenAddJob(false);
+  const openAddJobModal = () => setOpenAddJob(true);
+  const [openEditJob, setOpenEditJob] = useState(false);
+  const closeEditJobModal = () => setOpenEditJob(false);
+  const [openDeleteJob, setOpenDeleteJob] = useState(false);
+  const closeDeleteJobModal = () => setOpenDeleteJob(false);
   // table and pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -15,6 +26,15 @@ const EmployeeCategory = () => {
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // search
   const [searchValue, setSearchValue] = useState();
+  // Handle Create
+  const [name, setName] = useState("");
+  // Handle Edit
+  const [idEdit, setIdEdit] = useState("");
+  const [nameEdit, setNameEdit] = useState("");
+  // Hanlde Delete
+  const [idDelete, setIdDelete] = useState("");
+  const [nameDelete, setNameDelete] = useState("");
+
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
@@ -73,8 +93,103 @@ const EmployeeCategory = () => {
     getItemsPerPage(currentTablePage, searchValue);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("https://api.kattohair.com/api/jobs/create", {
+        name,
+      });
+      fetchData();
+      getTotalCount();
+      getItemsPerPage();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const prepareEdit = (value) => {
+    setIdEdit(value);
+    getEditData(value);
+    setOpenEditJob(true);
+  };
+
+  const getEditData = async (value) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/jobs/${value}}`
+      );
+      setNameEdit(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `https://api.kattohair.com/api/jobs/update/${idEdit}`,
+        {
+          name: nameEdit,
+        }
+      );
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const prepareDelete = (id) => {
+    setIdDelete(id);
+    getDeleteData(id);
+    setOpenDeleteJob(true);
+  };
+
+  const getDeleteData = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/jobs/${id}}`
+      );
+      setNameDelete(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `https://api.kattohair.com/api/jobs/delete/${idDelete}`
+      );
+      fetchData();
+      getTotalCount();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="w-full flex flex-col grow overflow-ayto scrollbar-shown">
+      <ModalCreateJob
+        show={openAddJob}
+        close={closeAddJobModal}
+        name={name}
+        setNameValue={setName}
+        submit={handleSubmit}
+      />
+      <ModalEditJob
+        show={openEditJob}
+        close={closeEditJobModal}
+        nameValue={nameEdit}
+        setNameValue={setNameEdit}
+        submit={handleEdit}
+      />
+      <ModalDeleteJob
+        show={openDeleteJob}
+        close={closeDeleteJobModal}
+        nameDeleteValue={nameDelete}
+        submit={handleDelete}
+      />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
         <div className="flex justify-between">
           <Search
@@ -87,6 +202,7 @@ const EmployeeCategory = () => {
           <button
             type="submit"
             className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+            onClick={openAddJobModal}
           >
             <MdAdd className="text-white mr-2" />
             <span>Add Job</span>
@@ -94,7 +210,11 @@ const EmployeeCategory = () => {
         </div>
         {tableCount ? (
           <>
-            <TableJobs tableData={tableData} />
+            <TableJobs 
+              tableData={tableData}
+              editRow={prepareEdit}
+              deleteRow={prepareDelete}
+            />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
               currentPage={currentTablePage}

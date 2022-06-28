@@ -9,7 +9,13 @@ const ModalCreatePresensi = ({
     codeValue,
     setCodeValue,
     nameValue,
+    setShiftValue,
+    setStatusValue
   }) => {
+    const handleRadioSelect = (e) => {
+        setShiftValue(e.target.value);
+        setStatusValue(e.target.value);
+    }
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -50,8 +56,8 @@ const ModalCreatePresensi = ({
                                     </div>
                                 </Dialog.Title>
                                 <form autoComplete="off" noValidate onSubmit={submit}>
-                                    <div className="mt-2 border-t-2">
-                                        <div className="text-sm p-6 text-gray-500">
+                                    <div className="mt-4 border-t-2">
+                                        <div className="text-sm p-8 text-gray-500">
                                             <div className="flex flex-row items-center mb-2">
                                                 <label htmlFor="code" className="font-semibold w-28">
                                                     Employee ID
@@ -60,25 +66,73 @@ const ModalCreatePresensi = ({
                                                     type="text"
                                                     name="code"
                                                     id="code"
-                                                    className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
+                                                    className="border-2 grow ml-3 border-gray-200 rounded-lg px-3 py-2"
                                                     value={codeValue}
                                                     onChange={(e) => setCodeValue(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-row items-center mb-2">
-                                                <label htmlFor="name" className="font-semibold w-28">
-                                                    Employee Name
+                                                <label
+                                                    htmlFor="shift"
+                                                    className="font-semibold w-28"
+                                                >
+                                                    Shift
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    id="name"
-                                                    className="border-2 grow ml-5 border-gray-200 rounded-lg px-3 py-2"
-                                                    value={nameValue}
-                                                />
+                                                <div onChange={handleRadioSelect}>
+                                                    <input
+                                                        type="radio"
+                                                        name="shift"
+                                                        value="pagi"
+                                                        id="shift"
+                                                        className="mr-2"
+                                                    />
+                                                    <span>Pagi</span>
+                                                    <input
+                                                        type="radio"
+                                                        name="shift"
+                                                        value="middle"
+                                                        id="shift"
+                                                        className="ml-5 mr-2"
+                                                    />
+                                                    <span>Middle</span>
+                                                    <input
+                                                        type="radio"
+                                                        name="shift"
+                                                        value="malam"
+                                                        id="shift"
+                                                        className="ml-5 mr-2"
+                                                    />
+                                                    <span>Malam</span>
+                                                </div>
+                                            </div>
+                                            <div className="flex flex-row items-center mb-2">
+                                                <label
+                                                    htmlFor="status"
+                                                    className="font-semibold w-28"
+                                                >
+                                                    Status
+                                                </label>
+                                                <div onChange={handleRadioSelect}>
+                                                    <input
+                                                        type="radio"
+                                                        name="status"
+                                                        value="datang"
+                                                        id="status"
+                                                        className="mr-2"
+                                                    />
+                                                    <span>Datang</span>
+                                                    <input
+                                                        type="radio"
+                                                        name="status"
+                                                        value="Pulang"
+                                                        id="status"
+                                                        className="ml-5 mr-2"
+                                                    />
+                                                    <span>Pulang</span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                    
                                     <div className="mt-4 px-6 pb-6 flex justify-center">
                                         <button
                                             type="submit"
