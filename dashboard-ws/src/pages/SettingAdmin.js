@@ -101,14 +101,12 @@ const SettingAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "https://api.kattohair.com/api/admin/create", {
-          phone,
-          name,
-          password,
-          passwordConfirmation
-        }
-      );
+      await axios.post("https://api.kattohair.com/api/admin/create", {
+        username: name,
+        phone: phone,
+        password: password,
+        password_confirmation: passwordConfirmation,
+      });
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -138,12 +136,10 @@ const SettingAdmin = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `https://api.kattohair.com/api/admin/update/${idEdit}`, {
-          phone: phoneEdit,
-          name: nameEdit
-        }
-      );
+      await axios.put(`https://api.kattohair.com/api/admin/update/${idEdit}`, {
+        phone: phoneEdit,
+        name: nameEdit,
+      });
       fetchData();
     } catch (err) {
       console.log(err);
