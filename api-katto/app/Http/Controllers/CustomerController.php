@@ -26,6 +26,7 @@ class CustomerController extends Controller
             'phone' => $request->phone,
             'birthday' => $request->birthday,
             'membership' => $request->membership,
+            'datetime' => now()
         ]);
 
         return response()->json([

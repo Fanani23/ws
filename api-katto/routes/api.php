@@ -66,6 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [UserController::class, 'create']);
         Route::put('/update/{user:id}', [UserController::class, 'update']);
         Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
+        Route::get('/{user:id}', [UserController::class, 'show']);
 
         Route::get('login-activities', LoginActivityController::class);
     });
@@ -94,5 +95,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('transaction', [DashboardController::class, 'transaction']);
         Route::get('comparison-transaction', [DashboardController::class, 'comparisonTransaction']);
         Route::get('comparison-revenue', [DashboardController::class, 'comparisonRevenue']);
+        // Route::get('comparison-membership', [DashboardController::class, 'comparisonMembership']);
     });
 });
