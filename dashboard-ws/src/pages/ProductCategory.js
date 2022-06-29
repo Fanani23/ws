@@ -114,6 +114,7 @@ const ProductCategory = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    // console.log({code: codeEdit, name: nameEdit});
     try {
       await axios.put(
         `https://api.kattohair.com/api/products/categories/update/${idEdit}`,

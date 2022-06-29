@@ -80,11 +80,14 @@ const Presensi = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({code: code,
+      shift: shift,
+      status: status});
     try {
-      await axios.post("https://api.kattohair.com/api/presences/presence", {
-        code,
-        shift,
-        status,
+      await axios.post("https://api.kattohair.com/api/presences/create", {
+        code: code,
+        shift: shift,
+        status: status,
       });
       fetchData();
       getTotalCount();

@@ -5,11 +5,11 @@ import Pagination from "../components/Pagination";
 import TabTitle from "../utils/GeneralFunction";
 import TableJobs from "../components/TableJobs";
 import axios from "axios";
-import ModalCreateJob from "../components/ModalCreateJob";
-import ModalEditJob from "../components/ModalEditJob";
-import ModalDeleteJob from "../components/ModalDeleteJob";
+import ModalCreateJob from "../components/ModalCreateJobs";
+import ModalEditJob from "../components/ModalEditJobs";
+import ModalDeleteJob from "../components/ModalDeleteJobs";
 
-const EmployeeCategory = () => {
+const Jobs = () => {
   TabTitle("Jobs Category - Kato Haircut");
   // Modal
   const [openAddJob, setOpenAddJob] = useState(false);
@@ -30,6 +30,7 @@ const EmployeeCategory = () => {
   const [name, setName] = useState("");
   // Handle Edit
   const [idEdit, setIdEdit] = useState("");
+  const [codeEdit, setCodeEdit] = useState("");
   const [nameEdit, setNameEdit] = useState("");
   // Hanlde Delete
   const [idDelete, setIdDelete] = useState("");
@@ -97,8 +98,8 @@ const EmployeeCategory = () => {
     e.preventDefault();
     // console.log({name});
     try {
-      await axios.post("https://api.kattohair.com/api/jobs/create", {
-        name,
+      await axios.post("https://api.kattohair.com/api/employees/jobs/create", {
+        name: name,
       });
       fetchData();
       getTotalCount();
@@ -117,8 +118,9 @@ const EmployeeCategory = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/jobs/${value}}`
+        `https://api.kattohair.com/api/employees/jobs/${value}}`
       );
+      setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
     } catch (err) {
       console.log(err);
@@ -127,10 +129,11 @@ const EmployeeCategory = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    console.log({code: codeEdit, name: nameEdit});
     try {
-      await axios.put(`https://api.kattohair.com/api/jobs/update/${idEdit}`, {
-        name: nameEdit,
-      });
+      await axios.put(`https://api.kattohair.com/api/employees/jobs/update/${idEdit}`,
+      { code: codeEdit, name: nameEdit }
+      );
       fetchData();
     } catch (err) {
       console.log(err);
@@ -146,7 +149,7 @@ const EmployeeCategory = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/jobs/${id}}`
+        `https://api.kattohair.com/api/employees/jobs/${id}}`
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -157,7 +160,7 @@ const EmployeeCategory = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/jobs/delete/${idDelete}`
+        `https://api.kattohair.com/api/employees/jobs/delete/${idDelete}`
       );
       fetchData();
       getTotalCount();
@@ -178,8 +181,8 @@ const EmployeeCategory = () => {
       <ModalEditJob
         show={openEditJob}
         close={closeEditJobModal}
-        nameValue={nameEdit}
-        setNameValue={setNameEdit}
+        nameEditValue={nameEdit}
+        setNameEditValue={setNameEdit}
         submit={handleEdit}
       />
       <ModalDeleteJob
@@ -227,4 +230,4 @@ const EmployeeCategory = () => {
   );
 };
 
-export default EmployeeCategory;
+export default Jobs;

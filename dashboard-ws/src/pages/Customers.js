@@ -33,6 +33,7 @@ const Customers = () => {
   const [membership, setMembership] = useState("");
   // handle edit
   const [idEdit, setIdEdit] = useState("");
+  const [codeEdit, setCodeEdit] = useState("");
   const [birthdayEdit, setBirthdayEdit] = useState("");
   const [phoneEdit, setPhoneEdit] = useState("");
   const [nameEdit, setNameEdit] = useState("");
@@ -101,12 +102,16 @@ const Customers = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({name: name,
+      phone: phone,
+      birthday: birthday,
+      membership: membership})
     try {
       await axios.post("https://api.kattohair.com/api/customers/create", {
-        name,
-        phone,
-        birthday,
-        membership,
+        birthday: birthday,  
+        phone: phone,
+        name: name,
+        membership: membership
       });
       fetchData();
       getTotalCount();
@@ -127,6 +132,7 @@ const Customers = () => {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/customers/${value}}`
       );
+      setCodeEdit(data.data.code);
       setBirthdayEdit(data.data.birthday);
       setPhoneEdit(data.data.phone);
       setNameEdit(data.data.name);
@@ -138,14 +144,19 @@ const Customers = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    // console.log({code: codeEdit, name: nameEdit,
+    //   phone: phoneEdit,
+    //   birthday: birthdayEdit,
+    //   membership: membershipEdit})
     try {
       await axios.put(
         `https://api.kattohair.com/api/customers/update/${idEdit}`,
         {
-          birthday: birthdayEdit,
-          phone: phoneEdit,
+          code: codeEdit,
           name: nameEdit,
-          membership: membershipEdit,
+          phone: phoneEdit,
+          birthday: birthdayEdit,
+          membership: membershipEdit
         }
       );
       fetchData();
@@ -190,7 +201,7 @@ const Customers = () => {
         close={closeAddCustomerModal}
         birthdayValue={birthday}
         setBirthdayValue={setBirthday}
-        name={name}
+        nameValue={name}
         setNameValue={setName}
         membershipValue={membership}
         setMembershipValue={setMembership}
@@ -201,14 +212,14 @@ const Customers = () => {
       <ModalEditCustomer
         show={openEditCustomer}
         close={closeEditCustomerModal}
-        birthdayValue={birthdayEdit}
-        setBirthdayValue={setBirthdayEdit}
-        nameValue={nameEdit}
-        setNameValue={setNameEdit}
-        membershipValue={membershipEdit}
-        setMembershipValue={setMembershipEdit}
-        phoneValue={phoneEdit}
-        setPhoneValue={setPhoneEdit}
+        birthdayEditValue={birthdayEdit}
+        setBirthdayEditValue={setBirthdayEdit}
+        nameEditValue={nameEdit}
+        setNameEditValue={setNameEdit}
+        membershipEditValue={membershipEdit}
+        setMembershipEditValue={setMembershipEdit}
+        phoneEditValue={phoneEdit}
+        setPhoneEditValue={setPhoneEdit}
         submit={handleEdit}
       />
       <ModalDeleteCustomer

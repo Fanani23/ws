@@ -6,10 +6,10 @@ const ModalEditAdmin = ({
     show,
     close,
     submit,
-    phoneValue,
-    setPhoneValue,
-    nameValue,
-    setNameValue
+    phoneEditValue,
+    setPhoneEditValue,
+    usernameEditValue,
+    setUsernameEditValue
   }) => {
     return (
         <Transition appear show={show} as={Fragment}>
@@ -52,7 +52,7 @@ const ModalEditAdmin = ({
                                 </Dialog.Title>
                                 <form autoComplete="off" noValidate onSubmit={submit}>
                                     <div className="mt-2 border-t-2">
-                                        <div className="text-sm p-6 text-gray-500">
+                                        <div className="text-sm pt-6 pl-6 pr-6 text-gray-500">
                                             <div className="flex flex-row items-center mb-6">
                                                 <label
                                                     htmlFor="phone"
@@ -65,8 +65,8 @@ const ModalEditAdmin = ({
                                                     name="phone"
                                                     id="phone"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={phoneValue}
-                                                    onChange={(e) => setPhoneValue(e.target.value)}
+                                                    value={phoneEditValue}
+                                                    onChange={(e) => setPhoneEditValue(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-row items-center mb-6">
@@ -78,8 +78,8 @@ const ModalEditAdmin = ({
                                                     name="name"
                                                     id="name"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={nameValue}
-                                                    onChange={(e) => setNameValue(e.target.value)}
+                                                    value={usernameEditValue}
+                                                    onChange={(e) => setUsernameEditValue(e.target.value)}
                                                 />
                                             </div>
                                         </div>

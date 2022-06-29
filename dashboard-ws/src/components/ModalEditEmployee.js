@@ -6,6 +6,9 @@ const ModalEditEmployee= ({
     show,
     close,
     submit,
+    dataJob,
+    codeEditValue,
+    setCodeEditValue,
     nameEditValue,
     setNameEditValue,
     phoneEditValue,
@@ -13,9 +16,6 @@ const ModalEditEmployee= ({
     jobEditValue,
     setJobEditValue,
 }) => {
-    const handleRadioSelect = (e) => {
-        setPresensiValue(e.target.value);
-    };
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -46,7 +46,7 @@ const ModalEditEmployee= ({
                                      as="div"
                                      className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                                 >
-                                    <h3>Edit Data Presensi</h3>
+                                    <h3>Edit Data Employee</h3>
                                     <div
                                         onClick={close}
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -57,7 +57,23 @@ const ModalEditEmployee= ({
                                 </Dialog.Title>
                                 <form autoComplete="off" noValidate onSubmit={submit}>
                                     <div className="mt-2 border-t-2">
-                                        <div className="text-sm p-6 text-gray-500">
+                                        <div className="text-sm pt-6 pl-6 pr-6 text-gray-500">
+                                        <div className="flex flex-row items-center mb-2">
+                                                <label
+                                                    htmlFor="code"
+                                                    className="font-semibold w-28"
+                                                >
+                                                    Employee ID
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="code"
+                                                    id="code"
+                                                    className="border-2 grow border-gray-200 mb-2 rounded-lg px-3 py-2"
+                                                    value={codeEditValue}
+                                                    onChange={(e) => setCodeEditValue(e.target.value)}
+                                                />
+                                            </div>
                                             <div className="flex flex-row items-center mb-2">
                                                 <label
                                                     htmlFor="name"
@@ -69,7 +85,7 @@ const ModalEditEmployee= ({
                                                     type="text"
                                                     name="name"
                                                     id="name"
-                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                                                    className="border-2 grow border-gray-200 mb-2 rounded-lg px-3 py-2"
                                                     value={nameEditValue}
                                                     onChange={(e) => setNameEditValue(e.target.value)}
                                                 />
@@ -85,7 +101,7 @@ const ModalEditEmployee= ({
                                                     type="text"
                                                     name="phone"
                                                     id="phone"
-                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                                                    className="border-2 grow border-gray-200 mt-2 mb-2 rounded-lg px-3 py-2"
                                                     value={phoneEditValue}
                                                     onChange={(e) => setPhoneEditValue(e.target.value)}
                                                 />
@@ -98,35 +114,35 @@ const ModalEditEmployee= ({
                                                     Job
                                                 </label>
                                                 <select
-                                                     className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                                                     className="bg-transparent border-2 mt-2 grow border-gray-200 rounded-lg px-3 py-2"
                                                      value={jobEditValue}
                                                      onChange={(e) => setJobEditValue(e.target.value)}
                                                 >
                                                     {dataJob &&
                                                         dataJob.map((val) => (
-                                                            <option
-                                                                value={val.name}
-                                                                className="text-black"
-                                                            >
-                                                                {val.name}
-                                                            </option>
-                                                        ))
-                                                    }
+                                                        <option
+                                                            value={val.id}
+                                                            key={val.id}
+                                                            className="text-black"
+                                                        >
+                                                            {val.name}
+                                                        </option>
+                                                        ))}
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div className="mt-4 px-6 pb-6 flex justify-center">
                                         <button
                                             type="submit"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm w-full font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 m-2 text-sm w-full font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                                             onClick={close}
                                         >
-                                            Save
+                                            Update
                                         </button>
                                         <button
                                             type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 m-2 text-sm w-full font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                                             onClick={close}
                                         >
                                             Cancel

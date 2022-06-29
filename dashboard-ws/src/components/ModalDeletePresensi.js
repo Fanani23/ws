@@ -2,7 +2,7 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalDeletePresensi = ({show, close, submit, nameDeleteValue}) => {
+const ModalDeletePresensi = ({show, close, submit, codeDeleteValue}) => {
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -33,7 +33,7 @@ const ModalDeletePresensi = ({show, close, submit, nameDeleteValue}) => {
                                     as="div"
                                     className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
                                 >
-                                    <h3>Delete {nameDeleteValue}?</h3>
+                                    <h3>Delete {codeDeleteValue}?</h3>
                                     <div
                                         onClick={close}
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"

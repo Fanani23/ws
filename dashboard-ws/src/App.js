@@ -17,7 +17,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import {useEffect, useState} from "react";
 import CashierSingle from "./pages/CashierSingle";
-import EmployeeCategory from "./pages/EmployeeCategory";
+import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
 
 function App() {
@@ -81,7 +81,7 @@ function App() {
                     path="/employee"
                     element={<Navigate to="/employee/list" replace />}
                   />
-                  <Route path="jobs" element={<EmployeeCategory />} />
+                  <Route path="jobs" element={<Jobs />} />
                   <Route path="list">
                     <Route index element={<Employee />} />
                     <Route path=":employeeId" element={<EmployeeSingle />} />

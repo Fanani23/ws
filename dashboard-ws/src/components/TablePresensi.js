@@ -1,4 +1,4 @@
-import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
+import {MdDeleteOutline} from "react-icons/md";
 
 const TablePresensi = ({tableData, deleteRow}) => {
   return (

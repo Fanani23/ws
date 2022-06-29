@@ -58,7 +58,7 @@ const ModalCreatePresensi = ({
                 </Dialog.Title>
                 <form autoComplete="off" noValidate onSubmit={submit}>
                   <div className="mt-4 border-t-2">
-                    <div className="text-sm p-8 text-gray-500">
+                    <div className="text-sm pt-6 pl-6 pr-6 text-gray-500">
                       <div className="flex flex-row items-center mb-5">
                         <label htmlFor="code" className="font-semibold w-28">
                           Employee ID
@@ -76,7 +76,7 @@ const ModalCreatePresensi = ({
                         <label htmlFor="shift" className="font-semibold w-28">
                           Shift
                         </label>
-                        <div className="ml-3" onChange={handleShiftPresensi}>
+                        <div className="ml-10" onChange={handleShiftPresensi}>
                           <input
                             type="radio"
                             name="shift"
@@ -107,7 +107,7 @@ const ModalCreatePresensi = ({
                         <label htmlFor="status" className="font-semibold w-28">
                           Status
                         </label>
-                        <div className="ml-3" onChange={handleStatusPresensi}>
+                        <div className="ml-12" onChange={handleStatusPresensi}>
                           <input
                             type="radio"
                             name="status"

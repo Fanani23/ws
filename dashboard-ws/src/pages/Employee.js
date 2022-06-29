@@ -7,6 +7,8 @@ import Search from "../components/Search";
 import axios from "axios";
 import {Link} from "react-router-dom";
 import ModalCreateEmployee from "../components/ModalCreateEmployee";
+import ModalEditEmployee from "../components/ModalEditEmployee";
+import ModalDeleteEmployee from "../components/ModalDeleteEmployee";
 
 const Employee = () => {
   TabTitle("Employee - Kato Haircut");
@@ -14,6 +16,11 @@ const Employee = () => {
   const [openAddEmployee, setOpenAddEmployee] = useState(false);
   const closeAddEmployeeModal = () => setOpenAddEmployee(false);
   const openAddEmployeeModal = () => setOpenAddEmployee(true);
+  const [openEditEmployee, setOpenEditEmployee] = useState(false);
+  const closeEditEmployeeModal = () => setOpenEditEmployee(false);
+  const [openDeleteEmployee, setOpenDeleteEmployee] = useState(false);
+  const closeDeleteEmployeeModal = () => setOpenDeleteEmployee(false);
+
   // table and pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -26,6 +33,15 @@ const Employee = () => {
   const [phone, setPhone] = useState("");
   const [dataJob, setDataJob] = useState("");
   const [job, setJob] = useState();
+  // Handle Edit
+  const [idEdit, setIdEdit] = useState("");
+  const [codeEdit, setCodeEdit] = useState("");
+  const [phoneEdit, setPhoneEdit] = useState("");
+  const [nameEdit, setNameEdit] = useState("");
+  const [jobEdit, setJobEdit] = useState("");
+  // Hanlde Edit
+  const [idDelete, setIdDelete] = useState("");
+  const [nameDelete, setNameDelete] = useState("");
   // print function
   const idTable = "tableEmployee";
 
@@ -113,6 +129,73 @@ const Employee = () => {
     }
   };
 
+  const prepareEdit = (value) => {
+    setIdEdit(value);
+    getEditData(value);
+    setOpenEditEmployee(true);
+  };
+
+  const getEditData = async (value) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/employees/${value}}`
+      );
+      setCodeEdit(data.data.code)
+      setPhoneEdit(data.data.phone);
+      setNameEdit(data.data.name);
+      setJobEdit(data.data.job);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(
+        `https://api.kattohair.com/api/employees/update/${idEdit}`,
+        {
+          code: codeEdit,
+          phone: phoneEdit,
+          name: nameEdit,
+          job_id: jobEdit,
+        }
+      );
+      fetchData();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const prepareDelete = (id) => {
+    setIdDelete(id);
+    getDeleteData(id);
+    setOpenDeleteEmployee(true);
+  };
+
+  const getDeleteData = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/employees/${id}}`
+      );
+      setNameDelete(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        `https://api.kattohair.com/api/employees/delete/${idDelete}`
+      );
+      fetchData();
+      getTotalCount();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
       <ModalCreateEmployee
@@ -126,6 +209,26 @@ const Employee = () => {
         phoneValue={phone}
         setPhoneValue={setPhone}
         submit={handleSubmit}
+      />
+      <ModalEditEmployee
+        show={openEditEmployee}
+        close={closeEditEmployeeModal}
+        codeEditValue={codeEdit}
+        setCodeEditValue={setCodeEdit}
+        nameEditValue={nameEdit}
+        setNameEditValue={setName}
+        phoneEditValue={phoneEdit}
+        setPhoneEditValue={setPhone}
+        dataJob={dataJob}
+        jobEditValue={jobEdit}
+        setJobEditValue={setJob}
+        submit={handleEdit}
+      />
+      <ModalDeleteEmployee
+        show={openDeleteEmployee}
+        close={closeDeleteEmployeeModal}
+        nameDeleteValue={nameDelete}
+        submit={handleDelete}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
         <div className="flex justify-between">
@@ -147,7 +250,12 @@ const Employee = () => {
         </div>
         {tableCount ? (
           <>
-            <TableEmployee tableData={tableData} idTable={idTable} />
+            <TableEmployee 
+              tableData={tableData} 
+              idTable={idTable}
+              editRow={prepareEdit}
+              deleteRow={prepareDelete}
+            />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
               currentPage={currentTablePage}

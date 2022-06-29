@@ -6,8 +6,6 @@ const ModalCreateCustomer = ({
   show,
   close,
   submit,
-  codeValue,
-  setCodeValue,
   birthdayValue,
   setBirthdayValue,
   nameValue,
@@ -116,7 +114,7 @@ const ModalCreateCustomer = ({
                           <input
                             type="radio"
                             name="membership"
-                            value="reguler"
+                            value="Reguler"
                             id="membership"
                             className="mr-2"
                           />
@@ -124,7 +122,7 @@ const ModalCreateCustomer = ({
                           <input
                             type="radio"
                             name="membership"
-                            value="vip"
+                            value="VIP"
                             id="membership"
                             className="ml-5 mr-2"
                           />

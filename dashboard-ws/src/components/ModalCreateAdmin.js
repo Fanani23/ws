@@ -45,7 +45,7 @@ const ModalCreateAdmin = ({show, close, submit, nameValue, setNameValue, phoneVa
                                 <form autoComplete="off" noValidate onSubmit={submit}>
                                     <div className="mt-2 border-t-2">
                                         <div className="text-sm p-6 text-gray-500">
-                                            <div className="flex flex-row items-center">
+                                            <div className="flex flex-row p-3 items-center">
                                                 <label htmlFor="phone" className="font-semibold w-28">
                                                     Phone Number
                                                 </label>
@@ -58,20 +58,20 @@ const ModalCreateAdmin = ({show, close, submit, nameValue, setNameValue, phoneVa
                                                     onChange={(e) => setPhoneValue(e.target.value)}
                                                 />
                                             </div>
-                                            <div>
-                                                <label htmlFor="name" className="font-semibold w-28">
+                                            <div className="flex flex-row p-3 items-center">
+                                                <label htmlFor="username" className="font-semibold w-28">
                                                     Username
                                                 </label>
                                                 <input
                                                     type="text"
-                                                    name="name"
-                                                    id="name"
+                                                    name="username"
+                                                    id="username"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
                                                     value={nameValue}
                                                     onChange={(e) => setNameValue(e.target.value)}
                                                 />
                                             </div>
-                                            <div>
+                                            <div className="flex flex-row p-3 items-center">
                                                 <label htmlFor="password" className="font-semibold w-28">
                                                     Password
                                                 </label>
@@ -84,7 +84,7 @@ const ModalCreateAdmin = ({show, close, submit, nameValue, setNameValue, phoneVa
                                                     onChange={(e) => setPasswordValue(e.target.value)}
                                                 />
                                             </div>
-                                            <div>
+                                            <div className="flex flex-row p-3 items-center">
                                                 <label htmlFor="password_confirmation" className="font-semibold w-28">
                                                     Password Confirmation
                                                 </label>

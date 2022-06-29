@@ -6,17 +6,17 @@ const ModalEditCustomer = ({
   show,
   close,
   submit,
-  birthdayValue,
-  setBirthdayValue,
-  nameValue,
-  setNameValue,
-  phoneValue,
-  setPhoneValue,
-  membershipValue,
-  setMembershipValue,
+  birthdayEditValue,
+  setBirthdayEditValue,
+  nameEditValue,
+  setNameEditValue,
+  phoneEditValue,
+  setPhoneEditValue,
+  membershipEditValue,
+  setMembershipEditValue,
 }) => {
   const handleRadioSelect = (e) => {
-    setMembershipValue(e.target.value);
+    setMembershipEditValue(e.target.value);
   };
   return (
     <Transition appear show={show} as={Fragment}>
@@ -73,8 +73,8 @@ const ModalEditCustomer = ({
                           name="birthday"
                           id="birthday"
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={birthdayValue}
-                          onChange={(e) => setBirthdayValue(e.target.value)}
+                          value={birthdayEditValue}
+                          onChange={(e) => setBirthdayEditValue(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-row items-center mb-2">
@@ -86,8 +86,8 @@ const ModalEditCustomer = ({
                           name="name"
                           id="name"
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameValue}
-                          onChange={(e) => setNameValue(e.target.value)}
+                          value={nameEditValue}
+                          onChange={(e) => setNameEditValue(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-row items-center mb-5">
@@ -99,8 +99,8 @@ const ModalEditCustomer = ({
                           name="phone"
                           id="phone"
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={phoneValue}
-                          onChange={(e) => setPhoneValue(e.target.value)}
+                          value={phoneEditValue}
+                          onChange={(e) => setPhoneEditValue(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-row items-center mb-2">
@@ -117,7 +117,7 @@ const ModalEditCustomer = ({
                             value="reguler"
                             id="membership"
                             className="mr-2"
-                            checked={membershipValue === "reguler"}
+                            checked={membershipEditValue === "reguler"}
                           />
                           <span>Reguler</span>
                           <input
@@ -126,7 +126,7 @@ const ModalEditCustomer = ({
                             value="vip"
                             id="membership"
                             className="ml-5 mr-2"
-                            checked={membershipValue === "vip"}
+                            checked={membershipEditValue === "vip"}
                           />
                           <span>VIP</span>
                         </div>

@@ -27,14 +27,14 @@ const SettingAdmin = () => {
   // Search
   const [searchValue, setSearchValue] = useState();
   // Handle Create
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   //Handle Edit
   const [idEdit, setIdEdit] = useState("");
   const [phoneEdit, setPhoneEdit] = useState("");
-  const [nameEdit, setNameEdit] = useState("");
+  const [usernameEdit, setUsernameEdit] = useState("");
   // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
@@ -102,7 +102,7 @@ const SettingAdmin = () => {
     e.preventDefault();
     try {
       await axios.post("https://api.kattohair.com/api/admin/create", {
-        username: name,
+        username: username,
         phone: phone,
         password: password,
         password_confirmation: passwordConfirmation,
@@ -127,7 +127,7 @@ const SettingAdmin = () => {
         `https://api.kattohair.com/api/admin/${value}}`
       );
       setPhoneEdit(data.data.phone);
-      setNameEdit(data.data.name);
+      setUsernameEdit(data.data.username);
     } catch (err) {
       console.log(err);
     }
@@ -137,8 +137,8 @@ const SettingAdmin = () => {
     e.preventDefault();
     try {
       await axios.put(`https://api.kattohair.com/api/admin/update/${idEdit}`, {
+        username: usernameEdit,
         phone: phoneEdit,
-        name: nameEdit,
       });
       fetchData();
     } catch (err) {
@@ -182,8 +182,8 @@ const SettingAdmin = () => {
         close={closeAddAdminModal}
         phone={phone}
         setPhoneValue={setPhone}
-        name={name}
-        setNameValue={setName}
+        username={username}
+        setUsernameValue={setUsername}
         password={password}
         setPasswordValue={setPassword}
         passwordConfirmation={passwordConfirmation}
@@ -195,8 +195,8 @@ const SettingAdmin = () => {
         close={closeEditAdminModal}
         phoneEditValue={phoneEdit}
         setPhoneEditValue={setPhoneEdit}
-        nameEditValue={nameEdit}
-        setNameEditValue={setNameEdit}
+        usernameEditValue={usernameEdit}
+        setUsernameEditValue={setUsernameEdit}
         submit={handleEdit}
       />
       <ModalDeleteAdmin
