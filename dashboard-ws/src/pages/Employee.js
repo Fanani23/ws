@@ -143,7 +143,7 @@ const Employee = () => {
       setCodeEdit(data.data.code)
       setPhoneEdit(data.data.phone);
       setNameEdit(data.data.name);
-      setJobEdit(data.data.job);
+      setJobEdit(data.data.job_name);
     } catch (err) {
       console.log(err);
     }
@@ -152,13 +152,21 @@ const Employee = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
+      let i;
+      let job_id = 0;
+      for (i in dataJob) {
+        if (dataJob[i].name == jobEdit) {
+          job_id = dataJob[i].id;
+        }
+      }
+      console.log("job_id = "+job_id);
       await axios.put(
         `https://api.kattohair.com/api/employees/update/${idEdit}`,
         {
           code: codeEdit,
           phone: phoneEdit,
           name: nameEdit,
-          job_id: jobEdit,
+          job_id: job_id,
         }
       );
       fetchData();

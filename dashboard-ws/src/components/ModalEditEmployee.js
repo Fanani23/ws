@@ -119,15 +119,16 @@ const ModalEditEmployee= ({
                                                      onChange={(e) => setJobEditValue(e.target.value)}
                                                 >
                                                     {dataJob &&
-                                                        dataJob.map((val) => (
-                                                        <option
-                                                            defaultValue={val.name}
-                                                            key={val.id}
-                                                            className="text-black"
-                                                        >
-                                                            {val.name}
-                                                        </option>
-                                                        ))}
+                                                        dataJob.map(function(val){
+                                                            console.log("test: "+val.name+ " # "+jobEditValue);
+                                                            return <option
+                                                                val={val.name}
+                                                                key={val.id}
+                                                                className="text-black"
+                                                            >
+                                                                {val.name}
+                                                            </option>
+                                                        })}
                                                 </select>
                                             </div>
                                         </div>
