@@ -70,7 +70,7 @@ const ModalEditEmployee= ({
                                                     name="code"
                                                     id="code"
                                                     className="border-2 grow border-gray-200 mb-2 rounded-lg px-3 py-2"
-                                                    value={codeEditValue}
+                                                    defaultValue={codeEditValue}
                                                     onChange={(e) => setCodeEditValue(e.target.value)}
                                                 />
                                             </div>
@@ -86,7 +86,7 @@ const ModalEditEmployee= ({
                                                     name="name"
                                                     id="name"
                                                     className="border-2 grow border-gray-200 mb-2 rounded-lg px-3 py-2"
-                                                    value={nameEditValue}
+                                                    defaultValue={nameEditValue}
                                                     onChange={(e) => setNameEditValue(e.target.value)}
                                                 />
                                             </div>
@@ -102,7 +102,7 @@ const ModalEditEmployee= ({
                                                     name="phone"
                                                     id="phone"
                                                     className="border-2 grow border-gray-200 mt-2 mb-2 rounded-lg px-3 py-2"
-                                                    value={phoneEditValue}
+                                                    defaultValue={phoneEditValue}
                                                     onChange={(e) => setPhoneEditValue(e.target.value)}
                                                 />
                                             </div>
@@ -115,13 +115,13 @@ const ModalEditEmployee= ({
                                                 </label>
                                                 <select
                                                      className="bg-transparent border-2 mt-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                     value={jobEditValue}
+                                                     defaultValue={jobEditValue}
                                                      onChange={(e) => setJobEditValue(e.target.value)}
                                                 >
                                                     {dataJob &&
                                                         dataJob.map((val) => (
                                                         <option
-                                                            value={val.id}
+                                                            defaultValue={val.name}
                                                             key={val.id}
                                                             className="text-black"
                                                         >
