@@ -120,7 +120,6 @@ const ModalEditEmployee= ({
                                                 >
                                                     {dataJob &&
                                                         dataJob.map(function(val){
-                                                            console.log("test: "+val.name+ " # "+jobEditValue);
                                                             return <option
                                                                 val={val.name}
                                                                 key={val.id}

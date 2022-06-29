@@ -6,27 +6,27 @@ const ModalEditProduct = ({
   show,
   close,
   submit,
-  codeValue,
-  setCodeValue,
+  codeEditValue,
+  setCodeEditValue,
   dataCategory,
-  categoryValue,
-  setCategoryValue,
-  nameValue,
-  setNameValue,
-  priceValue,
-  setPriceValue,
-  feeCategoryValue,
-  setFeeCategoryValue,
-  feeValue,
-  setFeeValue,
-  imageValue,
-  setImageValue,
+  categoryEditValue,
+  setCategoryEditValue,
+  nameEditValue,
+  setNameEditValue,
+  priceEditValue,
+  setPriceEditValue,
+  feeCategoryEditValue,
+  setFeeCategoryEditValue,
+  feeEditValue,
+  setFeeEditValue,
+  imageEditValue,
+  setImageEditValue,
 }) => {
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
     console.log(event.target.files);
     if (event.target.files[0]) {
-      setImageValue(event.target.files[0]);
+      setImageEditValue(event.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
         setInputImage(reader.result);
@@ -41,7 +41,7 @@ const ModalEditProduct = ({
   };
 
   useEffect(() => {
-    previewImage(imageValue);
+    previewImage(imageEditValue);
   });
   return (
     <Transition appear show={show} as={Fragment}>
@@ -95,32 +95,33 @@ const ModalEditProduct = ({
                           name="code"
                           id="code"
                           className="border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={codeValue}
-                          onChange={(e) => setCodeValue(e.target.value)}
+                          defaultValue={codeEditValue}
+                          onChange={(e) => setCodeEditValue(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-row items-center mb-2">
                         <label
-                          htmlFor="category"
+                          htmlFor="category_id"
                           className="font-semibold w-28"
                         >
                           Category Product
                         </label>
                         <select
                           className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={categoryValue}
-                          onChange={(e) => setCategoryValue(e.target.value)}
+                          defaultValue={categoryEditValue}
+                          onChange={(e) => setCategoryEditValue(e.target.value)}
                         >
                           {dataCategory &&
-                            dataCategory.map((val) => (
-                              <option
-                                value={val.name}
-                                key={val.id}
-                                className="text-black"
+                            dataCategory.map(function(val){
+                              return <option
+                                  val={val.name}
+                                  key={val.id}
+                                  className="text-black"
                               >
-                                {val.name}
+                                  {val.name}
                               </option>
-                            ))}
+                            })
+                          }
                         </select>
                       </div>
                       <div className="flex flex-row items-center mb-2">
@@ -132,8 +133,8 @@ const ModalEditProduct = ({
                           name="name"
                           id="name"
                           className="border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameValue}
-                          onChange={(e) => setNameValue(e.target.value)}
+                          defaultValue={nameEditValue}
+                          onChange={(e) => setNameEditValue(e.target.value)}
                         />
                       </div>
                       <div className="flex flex-row w-full mb-2">
@@ -151,8 +152,8 @@ const ModalEditProduct = ({
                               name="price"
                               id="price"
                               className="border-2 w-full text-right border-gray-200 rounded-lg pl-7 pr-3 py-2"
-                              value={priceValue}
-                              onChange={(e) => setPriceValue(e.target.value)}
+                              defaultValue={priceEditValue}
+                              onChange={(e) => setPriceEditValue(e.target.value)}
                             />
                           </div>
                         </div>
@@ -165,9 +166,9 @@ const ModalEditProduct = ({
                           </label>
                           <select
                             className="bg-transparent border-2 grow w-full border-gray-200 rounded-lg px-3 py-2"
-                            value={feeCategoryValue}
+                            defaultValue={feeCategoryEditValue}
                             onChange={(e) =>
-                              setFeeCategoryValue(e.target.value)
+                              setFeeCategoryEditValue(e.target.value)
                             }
                           >
                             <option value="nominal" className="text-black">
@@ -190,8 +191,8 @@ const ModalEditProduct = ({
                             name="commission_value"
                             id="commission_value"
                             className="border-2 w-full text-right border-gray-200 rounded-lg px-3 py-2"
-                            value={feeValue}
-                            onChange={(e) => setFeeValue(e.target.value)}
+                            defaultValue={feeEditValue}
+                            onChange={(e) => setFeeEditValue(e.target.value)}
                           />
                         </div>
                       </div>
@@ -213,7 +214,7 @@ const ModalEditProduct = ({
                               className="hidden"
                               onChange={getDataImage}
                             />
-                            {!imageValue ? (
+                            {!imageEditValue ? (
                               <div className="flex flex-col justify-center items-center h-full">
                                 <MdImage className="text-gray-200 text-6xl" />
                                 <span className="text-gray-400">
@@ -231,13 +232,13 @@ const ModalEditProduct = ({
                         </div>
                         <div className="basis-1/3 pl-1">
                           <button
-                            disabled={!imageValue}
+                            disabled={!imageEditValue}
                             className={`w-full py-2 rounded-lg ${
-                              !imageValue
+                              !imageEditValue
                                 ? "bg-red-100 "
                                 : "bg-red-300 text-white"
                             }`}
-                            onClick={() => setImageValue("")}
+                            onClick={() => setImageEditValue("")}
                           >
                             Clear Image
                           </button>

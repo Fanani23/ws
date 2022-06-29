@@ -159,7 +159,7 @@ const Employee = () => {
           job_id = dataJob[i].id;
         }
       }
-      console.log("job_id = "+job_id);
+      // console.log("job_id = "+job_id);
       await axios.put(
         `https://api.kattohair.com/api/employees/update/${idEdit}`,
         {
@@ -224,12 +224,12 @@ const Employee = () => {
         codeEditValue={codeEdit}
         setCodeEditValue={setCodeEdit}
         nameEditValue={nameEdit}
-        setNameEditValue={setName}
+        setNameEditValue={setNameEdit}
         phoneEditValue={phoneEdit}
-        setPhoneEditValue={setPhone}
+        setPhoneEditValue={setPhoneEdit}
         dataJob={dataJob}
         jobEditValue={jobEdit}
-        setJobEditValue={setJob}
+        setJobEditValue={setJobEdit}
         submit={handleEdit}
       />
       <ModalDeleteEmployee

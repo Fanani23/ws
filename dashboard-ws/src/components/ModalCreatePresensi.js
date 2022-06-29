@@ -96,11 +96,11 @@ const ModalCreatePresensi = ({
                           <input
                             type="radio"
                             name="shift"
-                            value="malam"
-                            id="shift-malam"
+                            value="siang"
+                            id="shift-siang"
                             className="ml-5 mr-2"
                           />
-                          <label htmlFor="shift-malam">Malam</label>
+                          <label htmlFor="shift-siang">Siang</label>
                         </div>
                       </div>
                       <div className="flex flex-row items-center mb-5">

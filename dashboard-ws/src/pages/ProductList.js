@@ -42,7 +42,7 @@ const ProductList = () => {
   const [nameEdit, setNameEdit] = useState("");
   const [priceEdit, setPriceEdit] = useState();
   const [feeCategoryEdit, setFeeCategoryEdit] = useState("Nominal");
-  const [feeValueEdit, setFeeValueEdit] = useState();
+  const [feeEdit, setFeeEdit] = useState();
   const [imageEdit, setImageEdit] = useState();
   //Handle Delete
   const [idDelete, setIdDelete] = useState("");
@@ -126,7 +126,7 @@ const ProductList = () => {
       setCategoryEdit(data.data.category);
       setPriceEdit(data.data.price);
       setFeeCategoryEdit(data.data.commission_type);
-      setFeeValueEdit(data.data.commission_value);
+      setFeeEdit(data.data.commission_value);
       setImageEdit(data.data.image);
     } catch (err) {
       console.log(err);
@@ -135,23 +135,32 @@ const ProductList = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", imageEdit);
-    formData.append("category_id", categoryEdit);
-    formData.append("name", nameEdit);
-    formData.append("price", priceEdit);
-    formData.append("commission_type", feeCategoryEdit);
-    formData.append("commission_value", feeValueEdit);
     try {
+      let i;
+        let category_id = 0;
+        for (i in dataCategory) {
+          if (dataCategory[i].name == categoryEdit) {
+            category_id = dataCategory[i].id;
+          }
+        }
+        // console.log("category_id = "+category_id);
       await axios.put(
         `https://api.kattohair.com/api/products/update/${idEdit}`,
-        formData
+        {
+          code: codeEdit,
+          category_id: category_id,
+          name: nameEdit,
+          price: priceEdit,
+          commission_type: feeCategoryEdit,
+          commission_value: feeEdit,
+          image: imageEdit
+        }
       );
       fetchData();
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   const prepareDelete = (id) => {
     setIdDelete(id);
@@ -204,6 +213,21 @@ const ProductList = () => {
       <ModalEditProduct
         show={openEditProduct}
         close={closeEditProductModal}
+        dataCategory={dataCategory}
+        codeEditValue={codeEdit}
+        setCodeEditValue={setCodeEdit}
+        categoryEditValue={categoryEdit}
+        setCategoryEditValue={setCategoryEdit}
+        nameEditValue={nameEdit}
+        setNameEditValue={setNameEdit}
+        priceEditValue={priceEdit}
+        setPriceEditValue={setPriceEdit}
+        feeCategoryEditValue={feeCategoryEdit}
+        setFeeCategoryEditValue={setFeeCategoryEdit}
+        feeEditValue={feeEdit}
+        setFeeEditValue={setFeeEdit}
+        imageEditValue={imageEdit}
+        setImageEditValue={setImageEdit}
         submit={handleEdit}
       />
       <ModalDeleteProduct
