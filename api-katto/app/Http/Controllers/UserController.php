@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\User\UserResource;
+use App\Models\Customer;
 use App\Models\User;
 
 class UserController extends Controller
@@ -32,9 +33,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(User $user)
     {
-        //
+        return new UserResource($user);
     }
 
     public function update(UserRequest $request, User $user)
