@@ -26,7 +26,7 @@ const Presensi = () => {
   const [status, setStatus] = useState("");
   //Handle Delete
   const [idDelete, setIdDelete] = useState("");
-  const [codeDelete, setCodeDelete] = useState("");
+  const [nameDelete, setNameDelete] = useState("");
   // Print Function
   const idTable = "tablePresensi";
 
@@ -110,7 +110,7 @@ const Presensi = () => {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/presences/${id}}`
       );
-      setCodeDelete(data.data.name);
+      setNameDelete(data.data.employee_name);
     } catch (err) {
       console.log(err);
     }
@@ -119,7 +119,7 @@ const Presensi = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/presences/delete/${idDelete}`
+        `https://api.kattohair.com/api/presences/destroy/${idDelete}`
       );
       fetchData();
       getTotalCount();
@@ -142,7 +142,7 @@ const Presensi = () => {
       <ModalDeletePresensi
         show={openDeletePresensi}
         close={closeDeletePresensiModal}
-        codeDeleteValue={codeDelete}
+        nameDeleteValue={nameDelete}
         submit={handleDelete}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
