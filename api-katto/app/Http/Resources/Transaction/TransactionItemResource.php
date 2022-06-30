@@ -22,12 +22,10 @@ class TransactionItemResource extends JsonResource
             "price" => formatPrice($this->price),
             'price_after_discount' => formatPrice($this->price_after_discount),
             'commission_type' => $this->commission_type,
-            'commission_value' => $this->commission_value,
+            'commission_value' => $this->commission_type == 'nominal' ? formatPrice($this->commission_value) : $this->commission_value,
             'fee' => formatPrice($this->fee),
             "discount_type" => $this->discount_type,
             "discount_amount" => $this->discount_amount,
-            "commission_type" => $this->commission_type,
-            "commission_value" => $this->commission_value,
             "total_fee" => formatPrice($this->total_fee),
         ];
     }

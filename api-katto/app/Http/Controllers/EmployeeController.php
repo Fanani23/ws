@@ -39,7 +39,7 @@ class EmployeeController extends Controller
     {
         Employee::create([
             'job_id' => $request->job_id,
-            'code' => getCode('E-'),
+            'code' => 'E-' . $request->phone,
             'name' => $request->name,
             'phone' => $request->phone,
         ]);

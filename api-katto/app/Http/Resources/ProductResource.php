@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             'category' => $this->category->name,
             'price' => formatPrice($this->price),
             'commission_type' => $this->commission_type,
-            'commission_value' => $this->commission_value,
+            'commission_value' => $this->commission_type == 'nominal' ? formatPrice($this->commission_value) : $this->commission_value,
             'image' =>  $this->image ? env('APP_URL').'storage/'.$this->image : null,
         ];
     }

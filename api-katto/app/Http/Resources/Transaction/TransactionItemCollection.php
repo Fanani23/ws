@@ -23,7 +23,7 @@ class TransactionItemCollection extends ResourceCollection
                     'price' => formatPrice($transactionItems->price),
                     'price_after_discount' => $transactionItems->price_after_discount,
                     'commission_type' => $transactionItems->commission_type,
-                    'commission_value' => $transactionItems->commission_value,
+                    'commission_value' => $transactionItems->commission_type == 'nominal' ? formatPrice($transactionItems->commission_value) : $transactionItems->commission_value,
                     'fee' => formatPrice($transactionItems->fee),
                     'datetime' => $transactionItems->datetime,
                 ];

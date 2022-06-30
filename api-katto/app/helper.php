@@ -12,6 +12,13 @@ function formatPrice($price)
     return number_format($price, 0, ',', '.');
 }
 
+function formatPhoneNumber($phone)
+{
+    $phone = preg_replace('/[^0-9]/', '', $phone);
+    $phone = substr($phone, 0, 4) . '-' . substr($phone, 4, 4) . '-' . substr($phone, 8, 4);
+    return $phone;
+}
+
 function searchByName($data, $with, $resource, $new = false, $additionalSearch)
 {
     $data = $data->newQuery();
