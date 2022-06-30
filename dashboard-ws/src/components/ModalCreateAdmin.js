@@ -2,7 +2,7 @@ import {Dialog, Transition} from "@headlessui/react";
 import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
 
-const ModalCreateAdmin = ({show, close, submit, nameValue, setNameValue, phoneValue, setPhoneValue, passwordValue, setPasswordValue, passwordConfirmationValue, setPasswordConfirmationValue}) => {
+const ModalCreateAdmin = ({show, close, submit, usernameValue, setUsernameValue, phoneValue, setPhoneValue, passwordValue, setPasswordValue, passwordConfirmationValue, setPasswordConfirmationValue}) => {
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -67,8 +67,8 @@ const ModalCreateAdmin = ({show, close, submit, nameValue, setNameValue, phoneVa
                                                     name="username"
                                                     id="username"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={nameValue}
-                                                    onChange={(e) => setNameValue(e.target.value)}
+                                                    value={usernameValue}
+                                                    onChange={(e) => setUsernameValue(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-row p-3 items-center">

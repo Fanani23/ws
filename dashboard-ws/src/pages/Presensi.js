@@ -27,6 +27,8 @@ const Presensi = () => {
   //Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [codeDelete, setCodeDelete] = useState("");
+  // Print Function
+  const idTable = "tablePresensi";
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -80,9 +82,9 @@ const Presensi = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({code: code,
-      shift: shift,
-      status: status});
+    // console.log({code: code,
+    //   shift: shift,
+    //   status: status});
     try {
       await axios.post("https://api.kattohair.com/api/presences/create", {
         code: code,
@@ -156,7 +158,11 @@ const Presensi = () => {
         </div>
         {tableCount ? (
           <>
-            <TablePresensi tableData={tableData} deleteRow={prepareDelete} />
+            <TablePresensi 
+            tableData={tableData}
+            idTable={idTable} 
+            deleteRow={prepareDelete} 
+          />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
               currentPage={currentTablePage}
