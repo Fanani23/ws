@@ -1,4 +1,5 @@
 import {MdDeleteOutline} from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const TablePresensi = ({tableData, deleteRow}) => {
   return (
@@ -21,6 +22,11 @@ const TablePresensi = ({tableData, deleteRow}) => {
                 <button onClick={() => deleteRow(row.id)}>
                   <MdDeleteOutline className="text-red-500 hover:text-red-800" />
                 </button>
+                <Link to={`${row.id}`}>
+                    <button className="px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
+                        See Detail
+                    </button>
+                </Link>
               </td>
             </tr>
           ))}

@@ -6,6 +6,7 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import ModalCreatePresensi from "../components/ModalCreatePresensi";
 import ModalDeletePresensi from "../components/ModalDeletePresensi";
+import PresensiDetail from "../components/PresensiDetail";
 
 const Presensi = () => {
   TabTitle("Presensi - Kato Haircut");
@@ -29,6 +30,10 @@ const Presensi = () => {
   const [nameDelete, setNameDelete] = useState("");
   // Print Function
   const idTable = "tablePresensi";
+  // Detail 
+  const [detailShow, setDetailShow] = useState();
+  const [detailPresensi, setDetailPresensi] = useState();
+  const [activeId, setActiveId] = useState();
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -128,8 +133,30 @@ const Presensi = () => {
     }
   };
 
+  const fetchDetailData = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/presences/${id}`
+      );
+      setDetailPresensi(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const detailData = (id) => {
+    if (activeId == id) {
+      setDetailShow(!detailShow);
+    } else {
+      console.log("You want to get", id);
+      fetchDetailData(id);
+      setActiveId(id);
+      setDetailShow(true);
+    }
+  };
+
   return (
-    <div>
+    <div className="flex flex-col h-full font-noto-sans">
       <ModalCreatePresensi
         show={openAddPresensi}
         close={closeAddPresensiModal}
@@ -145,32 +172,47 @@ const Presensi = () => {
         nameDeleteValue={nameDelete}
         submit={handleDelete}
       />
-      <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
-        <div className="flex justify-between">
-          <button
-            type="submit"
-            className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-            onClick={openAddPresensiModal}
-          >
-            <MdAdd className="text-white mr-2" />
-            <span>Add Presensi</span>
-          </button>
+      <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
+        <div
+          className={`
+          basis-full${detailShow ? " md:basis-1/2 lg:basis-4/6" : ""}`}
+        >
+          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+            <div className="flex mt-2 relative">
+              <button
+                type="submit"
+                className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+                onClick={openAddPresensiModal}
+              >
+                <MdAdd className="text-white mr-2" />
+                <span>Add Presensi</span>
+              </button>
+            </div>
+            {tableCount ? (
+              <>
+                <TablePresensi 
+                tableData={tableData}
+                idTable={idTable} 
+                deleteRow={prepareDelete}
+                detailData={detailData} 
+              />
+                <Pagination
+                  maxPage={Math.ceil(tableCount / itemsPerPage)}
+                  currentPage={currentTablePage}
+                  showTablePage={showTablePage}
+                />
+              </>
+            ) : (
+              <p className="w-full text-black">No result</p>
+            )}
+          </div>
         </div>
-        {tableCount ? (
-          <>
-            <TablePresensi 
-            tableData={tableData}
-            idTable={idTable} 
-            deleteRow={prepareDelete} 
-          />
-            <Pagination
-              maxPage={Math.ceil(tableCount / itemsPerPage)}
-              currentPage={currentTablePage}
-              showTablePage={showTablePage}
+        {detailPresensi && detailShow && (
+          <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
+            <PresensiDetail
+              detailPresensi={detailPresensi}
             />
-          </>
-        ) : (
-          <p className="w-full text-black">No result</p>
+          </div>
         )}
       </div>
     </div>

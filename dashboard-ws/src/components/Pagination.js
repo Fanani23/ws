@@ -41,7 +41,7 @@ export default function Pagination(props) {
   };
 
   return (
-    <nav className="flex flex-row space-x-3 mx-auto">
+    <nav className="flex flex-row space-x-3 mt-8 mx-auto">
       {pageOptions &&
         pageOptions.map((page, idx) => (
           <button
