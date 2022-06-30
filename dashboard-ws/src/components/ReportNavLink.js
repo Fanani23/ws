@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 const ReportNavLink = () => {
   return (
@@ -14,6 +14,16 @@ const ReportNavLink = () => {
         Order
       </NavLink>
       <NavLink
+        to="../commission"
+        className={({isActive}) =>
+          isActive
+            ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-2 rounded-lg"
+            : "flex items-center bg-black text-white hover:bg-primary-500 font-semibold px-5 py-2 rounded-lg"
+        }
+      >
+        Commission
+      </NavLink>
+      <NavLink
         to="../transaction"
         className={({isActive}) =>
           isActive
@@ -25,6 +35,6 @@ const ReportNavLink = () => {
       </NavLink>
     </div>
   );
-}
+};
 
 export default ReportNavLink;

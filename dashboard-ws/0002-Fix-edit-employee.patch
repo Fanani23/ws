@@ -1,0 +1,80 @@
+From 95db77566f013d5a3cb66e75a0701521d28aca22 Mon Sep 17 00:00:00 2001
+From: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+Date: Wed, 29 Jun 2022 21:30:29 +0700
+Subject: [PATCH 2/2] Fix edit employee
+
+Signed-off-by: Ammar Faizi <ammarfaizi2@gnuweeb.org>
+---
+ .../src/components/ModalEditEmployee.js       | 19 ++++++++++---------
+ dashboard-ws/src/pages/Employee.js            | 12 ++++++++++--
+ 2 files changed, 20 insertions(+), 11 deletions(-)
+
+diff --git a/dashboard-ws/src/components/ModalEditEmployee.js b/dashboard-ws/src/components/ModalEditEmployee.js
+index 7bd4286..caa9360 100644
+--- a/dashboard-ws/src/components/ModalEditEmployee.js
++++ b/dashboard-ws/src/components/ModalEditEmployee.js
+@@ -119,15 +119,16 @@ const ModalEditEmployee= ({
+                                                      onChange={(e) => setJobEditValue(e.target.value)}
+                                                 >
+                                                     {dataJob &&
+-                                                        dataJob.map((val) => (
+-                                                        <option
+-                                                            defaultValue={val.name}
+-                                                            key={val.id}
+-                                                            className="text-black"
+-                                                        >
+-                                                            {val.name}
+-                                                        </option>
+-                                                        ))}
++                                                        dataJob.map(function(val){
++                                                            console.log("test: "+val.name+ " # "+jobEditValue);
++                                                            return <option
++                                                                val={val.name}
++                                                                key={val.id}
++                                                                className="text-black"
++                                                            >
++                                                                {val.name}
++                                                            </option>
++                                                        })}
+                                                 </select>
+                                             </div>
+                                         </div>
+diff --git a/dashboard-ws/src/pages/Employee.js b/dashboard-ws/src/pages/Employee.js
+index 9d45027..166c8d5 100644
+--- a/dashboard-ws/src/pages/Employee.js
++++ b/dashboard-ws/src/pages/Employee.js
+@@ -143,7 +143,7 @@ const Employee = () => {
+       setCodeEdit(data.data.code)
+       setPhoneEdit(data.data.phone);
+       setNameEdit(data.data.name);
+-      setJobEdit(data.data.job);
++      setJobEdit(data.data.job_name);
+     } catch (err) {
+       console.log(err);
+     }
+@@ -152,13 +152,21 @@ const Employee = () => {
+   const handleEdit = async (e) => {
+     e.preventDefault();
+     try {
++      let i;
++      let job_id = 0;
++      for (i in dataJob) {
++        if (dataJob[i].name == jobEdit) {
++          job_id = dataJob[i].id;
++        }
++      }
++      console.log("job_id = "+job_id);
+       await axios.put(
+         `https://api.kattohair.com/api/employees/update/${idEdit}`,
+         {
+           code: codeEdit,
+           phone: phoneEdit,
+           name: nameEdit,
+-          job_id: jobEdit,
++          job_id: job_id,
+         }
+       );
+       fetchData();
+-- 
+2.34.1
+
