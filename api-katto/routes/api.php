@@ -95,6 +95,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('transaction', [DashboardController::class, 'transaction']);
         Route::get('comparison-transaction', [DashboardController::class, 'comparisonTransaction']);
         Route::get('comparison-revenue', [DashboardController::class, 'comparisonRevenue']);
-        // Route::get('comparison-membership', [DashboardController::class, 'comparisonMembership']);
+        Route::get('comparison-membership', [DashboardController::class, 'comparisonMembership']);
     });
 });

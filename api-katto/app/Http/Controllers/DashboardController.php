@@ -688,7 +688,7 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function comparisonMember()
+    public function comparisonMembership()
     {
         if (request()->month) {
             // date
@@ -706,7 +706,7 @@ class DashboardController extends Controller
                     return [
                         'month_number' => (new DateTime($date))->format('n'),
                         'label' => $date,
-                        'today' => $data->sum('subtotal'),
+                        'today' => $data->count(),
                     ];
                 })
                 ->values();
@@ -728,7 +728,7 @@ class DashboardController extends Controller
             $year3 = Carbon::now()->subYears(3)->year;
 
             // data
-            $allData = Transaction::get();
+            $allData = Customer::get();
 
             // groupData
             $groupData = $allData
@@ -738,7 +738,7 @@ class DashboardController extends Controller
                 ->map(function ($data, $year) {
                     return [
                         'label' => $year,
-                        'today' => $data->sum('subtotal'),
+                        'today' => $data->count(),
                     ];
                 })
                 ->values();
@@ -761,7 +761,7 @@ class DashboardController extends Controller
             $to = Carbon::now()->endOfWeek()->format('Y-m-d');
 
             // data
-            $allData = Transaction::all();
+            $allData = Customer::all();
 
             // groupData
             $groupData = $allData
@@ -835,11 +835,11 @@ class DashboardController extends Controller
                 $yesterday = $sortedData[$key - 1]['today'];
             } else {
                 if (request()->year) {
-                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(4)->year)->sum('subtotal');
+                    $yesterday = Customer::whereYear('datetime', Carbon::now()->subYear(4)->year)->count();
                 } elseif (request()->month) {
-                    $yesterday = Transaction::whereYear('datetime', Carbon::now()->subYear(1)->year)->whereMonth('datetime', '12')->sum('subtotal');
+                    $yesterday = Customer::whereYear('datetime', Carbon::now()->subYear(1)->year)->whereMonth('datetime', '12')->count();
                 } else {
-                    $yesterday = Transaction::whereDate('datetime', Carbon::now()->startOfWeek()->subDay()->format('Y-m-d'))->sum('subtotal');
+                    $yesterday = Customer::whereDate('datetime', Carbon::now()->startOfWeek()->subDay()->format('Y-m-d'))->count();
                 }
             }
 
