@@ -31,13 +31,7 @@ class PresenceController extends Controller
     {
         // $carbon = Carbon::parse("2022-06-25 17:07:58");
         // $now = $carbon->format('H:i:s');
-
-        // Pagi, 09.00 - 17.00
-        // Middle, 10.30 - 18.30
-        // Siang, 12.00 - 20.00
-
-        // Shift = pagi/middle/siang
-        // Status = datang/pulang
+        $now = date('H:i:s');
 
         request()->validate([
             'code' => 'exists:employees,code'
@@ -59,25 +53,25 @@ class PresenceController extends Controller
             $timeTo = '20:00:00';
         }
 
-        if ($status == 'datang' && (now() >= $timeFrom) && (now() < $timeTo)) {
+        if ($status == 'datang' && ($now >= $timeFrom) && ($now < $timeTo)) {
             if ($employee->presenced->count() > 0) {
                 return response()->json([
                     'message' => 'You have made a presence.'
                 ], 400);
             }
             $employee->presences()->create([
-                'coming_time' => now()
+                'coming_time' => date('Y-m-d H:i:s')
             ]);
             return response()->json([
                 'message' => 'Berhasil datang'
             ], 200);
 
-        } elseif ($status == 'pulang' && now() >= $timeTo) {
+        } elseif ($status == 'pulang' && $now >= $timeTo) {
             $presence = Presence::where('employee_id', $employee->id)->whereDate('coming_time', date('Y-m-d'))->latest()->first();
 
             if ($presence->return_time == null) {
                 $presence->update([
-                    'return_time' => now()
+                    'return_time' => date('Y-m-d H:i:s')
                 ]);
                 
                 return response()->json([
