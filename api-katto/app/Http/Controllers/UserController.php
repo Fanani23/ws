@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\User\UserResource;
+use App\Models\Customer;
 use App\Models\User;
 
 class UserController extends Controller
@@ -13,10 +14,10 @@ class UserController extends Controller
         $user = $user->newQuery();
 
         if (request()->has('name')) {
-            $user->where('name','like',"%".request()->name."%");
+            $user->where('username','like',"%".request()->name."%");
         }
 
-        return UserResource::collection($user->orderBy('name')->paginate(6));
+        return UserResource::collection($user->orderBy('username')->paginate(9));
     }
 
     public function create(UserRequest $request)
@@ -32,9 +33,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function show()
+    public function show(User $user)
     {
-        //
+        return new UserResource($user);
     }
 
     public function update(UserRequest $request, User $user)
@@ -42,7 +43,6 @@ class UserController extends Controller
         $user->update([
             'username' => $request->username,
             'phone' => $request->phone,
-            'password' => bcrypt($request->password)
         ]);
 
         return response()->json([

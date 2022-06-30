@@ -11,24 +11,29 @@ class ProductController extends Controller
 {
     public function index(Product $products)
     {
-        $products = $products->newQuery();
+        return searchByName($products, '', 'App\Http\Resources\ProductResource', false, '');
+    }
 
-        if (request()->has('name')) {
-            $products->where('name', 'like', "%" . request()->name . "%");
-        }
-
-        return ProductResource::collection($products->with('category')->orderBy('name')->paginate(6));
+    public function show(Product $product)
+    {
+        return new ProductResource($product);
     }
 
     public function create(ProductRequest $request)
     {
-        $code = $request->code;
+        if ($request->file('image')) {
+            $request->validate([
+                'image' => 'mimes:jpg,jpeg,bmp,png',
+            ]);
+        }
+
+        $code = getCode('P-');
         $date = date('Y-m-d');
         if ($request->file('image')) {
             $image = $request->file('image');
             $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
         } else {
-            $imageUrl = 'null';
+            $imageUrl = null;
         }
 
         Product::create([
@@ -36,8 +41,8 @@ class ProductController extends Controller
             'code' => $code,
             'name' => $request->name,
             'price' => $request->price,
-            'fee_commission_rupiah' => $request->fee_commission_rupiah,
-            'fee_commission_percent' => $request->fee_commission_percent,
+            'commission_type' => $request->commission_type,
+            'commission_value' => $request->commission_value,
             'image' => $imageUrl,
         ]);
 
@@ -46,31 +51,31 @@ class ProductController extends Controller
         ]);
     }
 
-    public function show(Product $product)
-    {
-        return new ProductResource($product);
-    }
-
     public function update(ProductRequest $request, Product $product)
     {
-        $code = $request->code;
+        if ($request->file('image')) {
+            $request->validate([
+                'image' => 'mimes:jpg,jpeg,bmp,png',
+            ]);
+        }
+        
         $date = date('Y-m-d');
         if ($request->file('image')) {
             \Storage::delete($product->image);
 
             $image = $request->file('image');
-            $imageUrl = $image->storeAs("images/products", "{$code}-{$date}.{$image->extension()}");
+            $imageUrl = $image->storeAs("images/products", "{$product->code}-{$date}.{$image->extension()}");
         } else {
             $imageUrl = $product->image;
         }
 
         $product->update([
             'category_id' => $request->category_id,
-            'code' => $code,
+            'code' => $request->code,
             'name' => $request->name,
             'price' => $request->price,
-            'fee_commission_rupiah' => $request->fee_commission_rupiah,
-            'fee_commission_percent' => $request->fee_commission_percent,
+            'commission_type' => $request->commission_type,
+            'commission_value' => $request->commission_value,
             'image' => $imageUrl,
         ]);
 

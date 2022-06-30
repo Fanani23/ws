@@ -16,9 +16,9 @@ class PresenceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->employee->name,
-            'code' => $this->employee->code,
-            'when' => $this->when
+            'employee_name' => $this->employee->name,
+            'coming_time' => $this->coming_time,
+            'return_time' => $this->return_time
         ];
     }
 }

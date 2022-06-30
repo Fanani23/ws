@@ -24,7 +24,7 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'code' => 'required|min:6|regex:/^\S*$/u|unique:customers,code',
+            'code' => 'min:6|regex:/^\S*$/u|unique:customers,code',
             'name' => 'required|min:4',
             'phone' => 'required|unique:customers,phone',
             'birthday' => 'date',

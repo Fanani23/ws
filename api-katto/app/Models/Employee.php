@@ -28,6 +28,16 @@ class Employee extends Model
 
     public function presenced()
     {
-        return $this->presences()->whereDate('when', '>=', date('Y-m-d'));
+        return $this->presences()->whereDate('coming_time', '>=', date('Y-m-d'));
+    }
+
+    public function cartItems()
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function transactionItems()
+    {
+        return $this->hasMany(TransactionItem::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
+use App\Models\Job;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -14,14 +15,19 @@ class EmployeeController extends Controller
         $employees = $employees->newQuery();
 
         if (request()->has('name')) {
-            $employees->where('name','like',"%".request()->name."%");
+            $employees->where('name', 'like', "%" . request()->name . "%");
         }
-    
+
+        if (request()->has('code')) {
+            $employees->where('code', request()->code);
+        }
+
         if (request()->has('job')) {
-            $employees->where('job', request()->job);
+            $job_id = Job::where('name', request()->job)->first()->id;
+            $employees->where('job_id', $job_id);
         }
-    
-        return EmployeeResource::collection($employees->with('job')->orderBy('name')->paginate(6));
+
+        return EmployeeResource::collection($employees->orderBy('name')->paginate(9));
     }
 
     public function show(Employee $employee)
@@ -33,7 +39,7 @@ class EmployeeController extends Controller
     {
         Employee::create([
             'job_id' => $request->job_id,
-            'code' => $request->code,
+            'code' => getCode('E-'),
             'name' => $request->name,
             'phone' => $request->phone,
         ]);
@@ -46,10 +52,10 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, Employee $employee)
     {
         $employee->update([
+            'job_id' => $request->job_id,
             'code' => $request->code,
             'name' => $request->name,
             'phone' => $request->phone,
-            'job' => $request->job,
         ]);
 
         return response()->json([

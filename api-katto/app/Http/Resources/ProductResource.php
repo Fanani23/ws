@@ -19,10 +19,10 @@ class ProductResource extends JsonResource
             'code' => $this->code,
             'name' => $this->name,
             'category' => $this->category->name,
-            'price' => $this->price,
-            'fee_commission_rupiah' => $this->fee_commission_rupiah,
-            'fee_commission_percent' => $this->fee_commission_percent,
-            'image' => $this->image,
+            'price' => formatPrice($this->price),
+            'commission_type' => $this->commission_type,
+            'commission_value' => $this->commission_value,
+            'image' =>  $this->image ? env('APP_URL').'storage/'.$this->image : null,
         ];
     }
 }

@@ -24,14 +24,8 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'code' => 'required|min:6|regex:/^\S*$/u|unique:categories,code',
             'name' => 'required|min:2'
         ];
-
-        if (isset($this->category->id)) {
-            $id = $this->category->id;
-            $rules['code'] .= ",$id";
-        }
 
         return $rules;
     }

@@ -9,13 +9,15 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $with = ['category'];
+
     protected $fillable = [
         'category_id',
         'code',
         'name',
         'price',
-        'fee_commission_rupiah',
-        'fee_commission_percent',
+        'commission_type',
+        'commission_value',
         'image',
     ];
 

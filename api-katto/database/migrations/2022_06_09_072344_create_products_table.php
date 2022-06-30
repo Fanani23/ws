@@ -15,12 +15,12 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('code')->unique();
             $table->string('name');
             $table->integer('price');
-            $table->integer('fee_commission_rupiah');
-            $table->double('fee_commission_percent');
+            $table->enum('commission_type', ['percent', 'nominal'])->nullable();
+            $table->double('commission_value')->nullable();
             $table->string('image')->nullable();
             $table->timestamps();
         });
