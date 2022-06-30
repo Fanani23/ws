@@ -18,6 +18,8 @@ class CreatePresencesTable extends Migration
             $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
             $table->dateTime('coming_time');
             $table->dateTime('return_time')->nullable();
+            $table->string('shift');
+            $table->string('status');
             $table->timestamps();
         });
     }

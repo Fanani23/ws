@@ -12,6 +12,8 @@ class Presence extends Model
     protected $fillable = [
         'coming_time',
         'return_time',
+        'shift',
+        'status'
     ];
 
     public function employee()

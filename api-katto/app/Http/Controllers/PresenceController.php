@@ -13,7 +13,7 @@ class PresenceController extends Controller
 {
     public function index()
     {
-        $presences = Presence::with('employee')->whereDate('coming_time', date('Y-m-d'))->latest()->paginate(9);
+        $presences = Presence::with('employee')->whereDate('coming_time', date('Y-m-d'))->orderBy('updated_at', 'desc')->paginate(9);
         return PresenceResource::collection($presences);
     }
 
@@ -60,7 +60,9 @@ class PresenceController extends Controller
                 ], 400);
             }
             $employee->presences()->create([
-                'coming_time' => date('Y-m-d H:i:s')
+                'coming_time' => date('Y-m-d H:i:s'),
+                'shift' => $shift,
+                'status' => $status
             ]);
             return response()->json([
                 'message' => 'Berhasil datang'
@@ -71,7 +73,8 @@ class PresenceController extends Controller
 
             if ($presence->return_time == null) {
                 $presence->update([
-                    'return_time' => date('Y-m-d H:i:s')
+                    'return_time' => date('Y-m-d H:i:s'),
+                    'status' => $status
                 ]);
                 
                 return response()->json([
