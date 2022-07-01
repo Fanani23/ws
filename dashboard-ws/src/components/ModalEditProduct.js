@@ -23,8 +23,8 @@ const ModalEditProduct = ({
   setImageEditValue,
 }) => {
   const [inputImage, setInputImage] = useState();
+
   const getDataImage = (event) => {
-    console.log(event.target.files);
     if (event.target.files[0]) {
       setImageEditValue(event.target.files[0]);
       const reader = new FileReader();
@@ -34,15 +34,17 @@ const ModalEditProduct = ({
       reader.readAsDataURL(event.target.files[0]);
     }
   };
-  const previewImage = (val) => {
-    if (val) {
-      setInputImage(val);
-    }
-  };
 
-  useEffect(() => {
-    previewImage(imageEditValue);
-  });
+  // const previewImage = (val) => {
+  //   if (val) {
+  //     setInputImage(val);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   previewImage(imageEditValue);
+  // });
+
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={close}>

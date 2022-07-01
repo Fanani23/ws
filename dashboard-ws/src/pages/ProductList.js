@@ -8,6 +8,7 @@ import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
 import ModalDeleteProduct from "../components/ModalDeleteProduct";
 import ModalEditProduct from "../components/ModalEditProduct";
+import Session from "../Session";
 
 const ProductList = () => {
   TabTitle("List Product - Kato Haircut");
@@ -53,7 +54,8 @@ const ProductList = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/products${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
       setTableCount(pageData.data.meta.total);
@@ -66,7 +68,8 @@ const ProductList = () => {
   const fetchDataCategory = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/products/categories/all`
+        `https://api.kattohair.com/api/products/categories/all`,
+        Session()
       );
       setDataCategory(getData.data.data);
     } catch (err) {
@@ -92,6 +95,7 @@ const ProductList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(category);
     const formData = new FormData();
     formData.append("image", image);
     formData.append("category_id", category);
@@ -100,7 +104,11 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create", formData);
+      axios.post(
+        "https://api.kattohair.com/api/products/create",
+        Session(),
+        formData
+      );
       setImage("");
       setName("");
       setCategory("");
@@ -110,23 +118,44 @@ const ProductList = () => {
     }
   };
 
-  const prepareEdit = (id) => {
-    setIdEdit(id);
-    getEditData(id);
+  const prepareEdit = (val) => {
+    let fee_commission = new String(val.commission_value);
+    let price = new String(val.price);
+
+    fee_commission = fee_commission.replace(".", "");
+    price = price.replace(".", "");
+
+    setPriceEdit(price);
+    setFeeEdit(fee_commission);
+    setIdEdit(val.id);
+    setCodeEdit(val.code);
+    setNameEdit(val.name);
+    setCategoryEdit(val.category);
+    setFeeCategoryEdit(val.commission_type);
+    setImageEdit(val.image);
+    getEditData(val);
     setOpenEditProduct(true);
   };
 
-  const getEditData = async (value) => {
+  const getEditData = async (val) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${value}}`
+        `https://api.kattohair.com/api/products/${val.id}}`,
+        Session()
       );
+
+      let fee_commission = new String(data.data.commission_value);
+      let price = new String(data.data.price);
+
+      fee_commission = fee_commission.replace(".", "");
+      price = price.replace(".", "");
+
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
       setCategoryEdit(data.data.category);
-      setPriceEdit(data.data.price);
+      setPriceEdit(price);
       setFeeCategoryEdit(data.data.commission_type);
-      setFeeEdit(data.data.commission_value);
+      setFeeEdit(fee_commission);
       setImageEdit(data.data.image);
     } catch (err) {
       console.log(err);
@@ -143,17 +172,21 @@ const ProductList = () => {
           category_id = dataCategory[i].id;
         }
       }
-      await axios.put(
+
+      let formData = new FormData();
+      formData.append("code", codeEdit);
+      formData.append("category_id", category_id);
+      formData.append("name", nameEdit);
+      formData.append("price", priceEdit);
+      formData.append("commission_type", feeCategoryEdit);
+      formData.append("commission_value", feeEdit);
+      formData.append("image", imageEdit);
+      formData.append("_method", "PUT");
+
+      await axios.post(
         `https://api.kattohair.com/api/products/update/${idEdit}`,
-        {
-          code: codeEdit,
-          category_id: category_id,
-          name: nameEdit,
-          price: priceEdit,
-          commission_type: feeCategoryEdit,
-          commission_value: feeEdit,
-          image: imageEdit,
-        }
+        Session(),
+        formData
       );
       fetchData();
     } catch (err) {
@@ -170,7 +203,8 @@ const ProductList = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${id}}`
+        `https://api.kattohair.com/api/products/${id}}`,
+        Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -181,7 +215,8 @@ const ProductList = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/products/delete/${idDelete}`
+        `https://api.kattohair.com/api/products/delete/${idDelete}`,
+        Session()
       );
       fetchData();
     } catch (err) {

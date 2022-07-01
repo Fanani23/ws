@@ -9,6 +9,7 @@ import InfoStatsVisitor from "../components/InfoStatsVisitor";
 import InfoStatsRevenue from "../components/InfoStatsRevenue";
 import ChartPieMember from "../components/ChartPieMember";
 import axios from "axios";
+import Session from "../Session";
 
 const Dashboard = () => {
   TabTitle("Dashboard - Kato Haircut");
@@ -30,7 +31,7 @@ const Dashboard = () => {
   const fetchDataTotal = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/total`
+        `https://api.kattohair.com/api/dashboard/total`, Session()
       );
       setDataTotal(data.data);
     } catch ({response}) {
@@ -41,7 +42,7 @@ const Dashboard = () => {
   const fetchDataRevenue = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/revenue${parameter}`
+        `https://api.kattohair.com/api/dashboard/revenue${parameter}`, Session()
       );
       setDataRevenue(data.data);
     } catch ({response}) {
@@ -52,7 +53,7 @@ const Dashboard = () => {
   const fetchDataMembership = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/membership`
+        `https://api.kattohair.com/api/dashboard/membership`, Session()
       );
       setDataMembership(data.data);
     } catch ({response}) {
@@ -63,7 +64,7 @@ const Dashboard = () => {
   const fetchDataCategoriesPopular = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/category`
+        `https://api.kattohair.com/api/dashboard/category`, Session()
       );
       setDataCategoriesPopular(data.data);
     } catch ({response}) {
@@ -74,7 +75,7 @@ const Dashboard = () => {
   const fetchDataTransaction = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/transaction${parameter}`
+        `https://api.kattohair.com/api/dashboard/transaction${parameter}`, Session()
       );
       setDataTransaction(data.data);
     } catch ({response}) {
@@ -85,7 +86,7 @@ const Dashboard = () => {
   const fetchDataComparisonTransaction = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/comparison-transaction${parameter}`
+        `https://api.kattohair.com/api/dashboard/comparison-transaction${parameter}`, Session()
       );
       setDataComparison(data.data);
     } catch ({response}) {
@@ -96,7 +97,7 @@ const Dashboard = () => {
   const fetchDataComparisonRevenue = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`
+        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`, Session()
       );
       setDataComparison(data.data);
     } catch ({response}) {

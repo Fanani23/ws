@@ -6,6 +6,7 @@ import DropdownMenuExport from "../components/DropdownMenuExport";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import TabTitle from "../utils/GeneralFunction";
+import Session from "../Session";
 
 const EmployeeSingle = () => {
   const {employeeId} = useParams();
@@ -26,7 +27,7 @@ const EmployeeSingle = () => {
   const fetchProfileEmployee = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${employeeId}`
+        `https://api.kattohair.com/api/employees/${employeeId}`, Session()
       );
       setProfileEmployee(data.data);
     } catch (err) {
@@ -37,7 +38,7 @@ const EmployeeSingle = () => {
   const fetchSalaryEmployee = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/orders/employee/${employeeId}`
+        `https://api.kattohair.com/api/orders/employee/${employeeId}`, Session()
       );
       setSalaryEmployee(data);
     } catch (err) {

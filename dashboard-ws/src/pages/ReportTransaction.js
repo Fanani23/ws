@@ -6,6 +6,7 @@ import ReportNavLink from "../components/ReportNavLink";
 import Search from "../components/Search";
 import TableReportTransaction from "../components/TableReportTransaction";
 import TabTitle from "../utils/GeneralFunction";
+import Session from "../Session";
 
 const ReportTransaction = () => {
   TabTitle("Transaction - Kato Haircut");
@@ -21,7 +22,7 @@ const ReportTransaction = () => {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/transactions${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableData(data.data);
       setTableCount(data.meta.total);

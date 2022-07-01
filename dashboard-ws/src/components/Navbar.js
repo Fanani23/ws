@@ -2,6 +2,7 @@ import {NavLink, useLocation} from "react-router-dom";
 import {MdMenu, MdNotificationsNone, MdExpandMore} from "react-icons/md";
 import logo from "../img/kato-logo.png";
 import {useState} from "react";
+import {getName} from "../Session";
 
 const Navbar = ({toggleSidebar}) => {
   const location = useLocation().pathname;
@@ -9,6 +10,12 @@ const Navbar = ({toggleSidebar}) => {
   const [notificationOpen, setNotificationOpen] = useState(false);
   const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  let handleLogout = function () {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location = "/login";
   };
 
   return (
@@ -67,7 +74,7 @@ const Navbar = ({toggleSidebar}) => {
               />
               <div className="hidden sm:flex flex-col mr-0 sm:mr-5 text-left relative z-20">
                 <h1 className="font-noto-sans text-sm font-bold group-active:text-black">
-                  Ajeng Sekar M
+                  {getName()}
                 </h1>
                 <h5 className="font-noto-sans text-xs text-[#C4C4C4] group-active:text-black">
                   Owner
@@ -79,7 +86,7 @@ const Navbar = ({toggleSidebar}) => {
                   profileOpen ? "" : "hidden"
                 } group-active:flex absolute top-16 left-0 right-0 pt-3 px-3 pb-3 z-10 bg-white shadow-lg rounded-lg`}
               >
-                <div className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-left px-3 py-2">
+                <div onClick={handleLogout} className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-left px-3 py-2">
                   Keluar
                 </div>
               </div>

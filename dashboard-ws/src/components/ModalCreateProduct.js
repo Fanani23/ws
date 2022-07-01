@@ -85,7 +85,7 @@ const ModalCreateProduct = ({
                           name="name"
                           id="name"
                           className="border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameValue}
+                          defaultValue={nameValue}
                           onChange={(e) => setNameValue(e.target.value)}
                         />
                       </div>
@@ -98,10 +98,10 @@ const ModalCreateProduct = ({
                         </label>
                         <select
                           className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={categoryValue}
+                          defaultValue={categoryValue}
                           onChange={(e) => setCategoryValue(e.target.value)}
                         >
-                          <option disabled selected>
+                          <option>
                             Select Category
                           </option>
                           {dataCategory &&
@@ -131,7 +131,7 @@ const ModalCreateProduct = ({
                               name="price"
                               id="price"
                               className="border-2 w-full text-right border-gray-200 rounded-lg pl-7 pr-3 py-2"
-                              value={priceValue}
+                              defaultValue={priceValue}
                               onChange={(e) => setPriceValue(e.target.value)}
                             />
                           </div>
@@ -145,14 +145,13 @@ const ModalCreateProduct = ({
                           </label>
                           <select
                             className="bg-transparent border-2 grow w-full border-gray-200 rounded-lg px-3 py-2"
-                            value={feeCategoryValue}
+                            defaultValue={"nominal"}
                             onChange={(e) =>
                               setFeeCategoryValue(e.target.value)
                             }
                           >
                             <option
                               value="nominal"
-                              selected
                               className="text-black"
                             >
                               Nominal
@@ -174,7 +173,7 @@ const ModalCreateProduct = ({
                             name="commission_value"
                             id="commission_value"
                             className="border-2 w-full text-right border-gray-200 rounded-lg px-3 py-2"
-                            value={feeValue}
+                            defaultValue={feeValue}
                             onChange={(e) => setFeeValue(e.target.value)}
                           />
                         </div>

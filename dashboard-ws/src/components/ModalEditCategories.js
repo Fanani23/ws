@@ -63,7 +63,7 @@ const ModalEditCategories = ({
                           name="name"
                           id="name"
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameEditValue}
+                          defaultValue={nameEditValue}
                           onChange={(e) => setNameEditValue(e.target.value)}
                         />
                       </div>

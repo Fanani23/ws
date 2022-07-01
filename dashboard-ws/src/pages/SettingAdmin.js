@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 import ModalCreateAdmim from "../components/ModalCreateAdmin";
 import ModalEditAdmin from "../components/ModalEditAdmin";
 import ModalDeleteAdmin from "../components/ModalDeleteAdmin";
+import Session from "../Session";
 
 const SettingAdmin = () => {
   TabTitle("Admin - Katto Haircut");
@@ -44,7 +45,7 @@ const SettingAdmin = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -57,7 +58,7 @@ const SettingAdmin = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
@@ -71,7 +72,7 @@ const SettingAdmin = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -106,7 +107,7 @@ const SettingAdmin = () => {
         phone: phone,
         password: password,
         password_confirmation: passwordConfirmation,
-      });
+      }, Session());
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -124,7 +125,7 @@ const SettingAdmin = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/admin/${value}}`
+        `https://api.kattohair.com/api/admin/${value}}`, Session()
       );
       setPhoneEdit(data.data.phone);
       setUsernameEdit(data.data.username);
@@ -139,7 +140,7 @@ const SettingAdmin = () => {
       await axios.put(`https://api.kattohair.com/api/admin/update/${idEdit}`, {
         username: usernameEdit,
         phone: phoneEdit,
-      });
+      }, Session());
       fetchData();
     } catch (err) {
       console.log(err);
@@ -155,7 +156,7 @@ const SettingAdmin = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/admin/${id}`
+        `https://api.kattohair.com/api/admin/${id}`, Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -166,7 +167,7 @@ const SettingAdmin = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/admin/delete/${idDelete}`
+        `https://api.kattohair.com/api/admin/delete/${idDelete}`, Session()
       );
       fetchData();
       getTotalCount();

@@ -54,7 +54,7 @@ const TableListProducts = ({tableData, editRow, deleteRow}) => {
                 <td className="py-2">
                   <button
                     onClick={() => {
-                      editRow(row.id);
+                      editRow(row);
                     }}
                   >
                     <MdModeEditOutline className="text-red-500 hover:text-red-800" />

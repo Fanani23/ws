@@ -39,7 +39,7 @@ const ModalDeleteProduct = ({ show, close, submit, nameDeleteValue}) => {
                                         className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
                                         role="button"
                                     >
-                                        <MdClose MdClose className="relative" />
+                                        <MdClose className="relative" />
                                     </div>
                                 </Dialog.Title>
                                 <div className="mt-4 px-6 pb-6 flex justify-center">
