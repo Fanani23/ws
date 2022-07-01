@@ -39,12 +39,23 @@ function App() {
     return setSidebar(!sidebar);
   };
 
+  let sidebarTag;
+  let toggleSidebarTag;
+
+  if (window.location.pathname === "/login") {
+    sidebarTag = "";
+    toggleSidebarTag = "";
+  } else {
+    sidebarTag = (<Sidebar show={sidebar} />);
+    toggleSidebarTag = (<Navbar toggleSidebar={toggleSidebar} />);
+  }
+
   return (
     <BrowserRouter>
       <div className="flex flex-col bg-black h-screen">
-        <Navbar toggleSidebar={toggleSidebar} />
+        {toggleSidebarTag}
         <div className="flex flex-row h-full mt-20 overflow-hidden">
-          <Sidebar show={sidebar} />
+          {sidebarTag}
           <div className="overflow-y-auto p-2 w-full text-white scrollbar-shown">
             <Routes>
               <Route path="/">
