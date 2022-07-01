@@ -24,6 +24,11 @@ class CategoryController extends Controller
 
     public function show(Category $category)
     {
+        return new CategoryResource($category);
+    }
+
+    public function productByCategory(Category $category)
+    {
         if (request()->has('name')) {
             $products = Product::where('category_id', $category->id)->where('name', 'like', '%' . request('name') . '%')->paginate(9);
             return response()->json([
@@ -51,6 +56,7 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update([
+            'code' => $request->code,
             'name' => $request->name
         ]);
 
