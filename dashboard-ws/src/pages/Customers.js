@@ -8,10 +8,11 @@ import Pagination from "../components/Pagination";
 import ModalCreateCustomer from "../components/ModalCreateCustomer";
 import ModalEditCustomer from "../components/ModalEditCustomer";
 import ModalDeleteCustomer from "../components/ModalDeleteCustomer";
+import CustomerDetail from "../components/CustomerDetail";
 
 const Customers = () => {
   TabTitle("Customers - Kato Haircut");
-  // modal
+  // Modal
   const [openAddCustomer, setOpenAddCustomer] = useState(false);
   const closeAddCustomerModal = () => setOpenAddCustomer(false);
   const openAddCustomerModal = () => setOpenAddCustomer(true);
@@ -19,28 +20,32 @@ const Customers = () => {
   const closeEditCustomerModal = () => setOpenEditCustomer(false);
   const [openDeleteCustomer, setOpenDeleteCustomer] = useState(false);
   const closeDeleteCustomerModal = () => setOpenDeleteCustomer(false);
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
-  // handle create
+  // Handle Create
   const [birthday, setBirthday] = useState("");
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [membership, setMembership] = useState("");
-  // handle edit
+  // Handle Edit
   const [idEdit, setIdEdit] = useState("");
   const [codeEdit, setCodeEdit] = useState("");
   const [birthdayEdit, setBirthdayEdit] = useState("");
   const [phoneEdit, setPhoneEdit] = useState("");
   const [nameEdit, setNameEdit] = useState("");
   const [membershipEdit, setMembershipEdit] = useState("");
-  // handle delete
+  // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
+  // Detail
+  const [detailShow, setDetailShow] = useState(false);
+  const [detailCustomer, setDetailCustomer] = useState();
+  const [activeId, setActiveId] = useState();
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -146,10 +151,10 @@ const Customers = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    // console.log({code: codeEdit, name: nameEdit,
-    //   phone: phoneEdit,
-    //   birthday: birthdayEdit,
-    //   membership: membershipEdit})
+    console.log({code: codeEdit, name: nameEdit,
+      phone: phoneEdit,
+      birthday: birthdayEdit,
+      membership: membershipEdit})
     try {
       await axios.put(
         `https://api.kattohair.com/api/customers/update/${idEdit}`,
@@ -196,8 +201,30 @@ const Customers = () => {
     }
   };
 
+  const fetchDetailData = async (id) => {
+    try{
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/customers/${id}`
+      );
+      setDetailCustomer(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const detailData = (id) => {
+    if (activeId == id) {
+      setDetailShow(!detailShow);
+    } else {
+      console.log("You want to get", id);
+      fetchDetailData(id);
+      setActiveId(id);
+      setDetailShow(true);
+    }
+  };
+
   return (
-    <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
+    <div className="flex flex-col h-full font-noto-sans">
       <ModalCreateCustomer
         show={openAddCustomer}
         close={closeAddCustomerModal}
@@ -230,39 +257,54 @@ const Customers = () => {
         nameDeleteValue={nameDelete}
         submit={handleDelete}
       />
-      <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
-        <div className="flex justify-between">
-          <Search
-            textColor={"text-black"}
-            bgColor={"bg-white"}
-            placeholder={"Search by customers name..."}
-            searchValue={searchValue}
-            setSearchValue={showSearchedTablePage}
-          />
-          <button
-            type="submit"
-            className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-            onClick={openAddCustomerModal}
-          >
-            <MdAdd className="text-white mr-2" />
-            <span>Add Member</span>
-          </button>
+      <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
+        <div
+          className={`
+          basis-full${detailShow ? " md:basis-1/2 lg:basis-4/6" : ""}`}
+        >
+          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+            <div className="flex mt-2 relative">
+              <Search
+                textColor={"text-black"}
+                bgColor={"bg-white"}
+                placeholder={"Search by customers name..."}
+                searchValue={searchValue}
+                setSearchValue={showSearchedTablePage}
+              />
+              <button
+                type="submit"
+                className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+                onClick={openAddCustomerModal}
+              >
+                <MdAdd className="text-white mr-2" />
+                <span>Add Member</span>
+              </button>
+            </div>
+            {tableCount ? (
+              <>
+                <TableCustomers
+                  tableData={tableData}
+                  editRow={prepareEdit}
+                  deleteRow={prepareDelete}
+                  detailData={detailData}
+                />
+                <Pagination
+                  maxPage={Math.ceil(tableCount / itemsPerPage)}
+                  currentPage={currentTablePage}
+                  showTablePage={showTablePage}
+                />
+              </>
+            ) : (
+              <p className="w-full text-black">No result</p>
+            )}
+          </div>
         </div>
-        {tableCount ? (
-          <>
-            <TableCustomers
-              tableData={tableData}
-              editRow={prepareEdit}
-              deleteRow={prepareDelete}
+        {detailCustomer && detailShow && (
+          <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
+            <CustomerDetail
+              detailCustomer={detailCustomer}
             />
-            <Pagination
-              maxPage={Math.ceil(tableCount / itemsPerPage)}
-              currentPage={currentTablePage}
-              showTablePage={showTablePage}
-            />
-          </>
-        ) : (
-          <p className="w-full text-black">No result</p>
+          </div>
         )}
       </div>
     </div>

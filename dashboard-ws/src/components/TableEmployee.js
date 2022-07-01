@@ -32,11 +32,6 @@ const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
                 <td className="py-2">{row.phone}</td>
                 <td className="py-2">{capitalizeEachWord(row.job_name)}</td>
                 <td className="py-2">
-                  <Link to={`${row.id}`}>
-                    <button className="px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
-                      Detail
-                    </button>
-                  </Link>
                   <button
                     onClick={() => {
                       editRow(row.id);
@@ -47,6 +42,11 @@ const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
                   <button onClick={() => deleteRow(row.id)}>
                     <MdDeleteOutline className="text-red-500 hover:text-red-800" />
                   </button>
+                  <Link to={`${row.id}`}>
+                    <button className="px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
+                      Detail
+                    </button>
+                  </Link>
                 </td>
               </tr>
             ))}

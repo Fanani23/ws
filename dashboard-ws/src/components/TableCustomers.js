@@ -1,6 +1,7 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
+import { Link } from "react-router-dom";
 
-const TableCustomers = ({tableData, editRow, deleteRow}) => {
+const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
   const capitalizeEachWord = (sentence) => {
     const words = sentence.split(" ");
     for (let i = 0; i < words.length; i++) {
@@ -16,6 +17,7 @@ const TableCustomers = ({tableData, editRow, deleteRow}) => {
           <th className="py-2">Customers Id</th>
           <th className="py-2">Birthday</th>
           <th className="py-2">Name</th>
+          <th className="py-2">Phone Number</th>
           <th className="py-2">Membership</th>
           <th className="py-2">Action</th>
         </tr>
@@ -23,10 +25,15 @@ const TableCustomers = ({tableData, editRow, deleteRow}) => {
       <tbody>
         {tableData.length > 0 &&
           tableData.map((row) => (
-            <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
+            <tr
+              key={row.id}
+              className="even:bg-[#F9F9FC] text-black"
+              onClick={() => detailData(row.id)}
+            >
               <td className="py-2">{row.code}</td>
               <td className="py-2">{row.birthday}</td>
               <td className="py-2">{row.name}</td>
+              <td className="py-2">{row.phone}</td>
               <td className="py-2">
                 {row.membership === "vip"
                   ? row.membership.toUpperCase()
