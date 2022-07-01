@@ -13,9 +13,9 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
         }
       >
         <div className="flex flex-wrap grow overflow-y-auto relative">
-          {dataProduct.map((val) => (
+          {dataProduct?.map((val) => (
             <div
-              className="basis-full md:basis-1/2 lg:basis-1/3 pb-2 last:pb-0 md:last:pb-10 lg:pb-10 pr-0 md:pr-2 lg:pr-10"
+              className="basis-full md:basis-1/2 lg:basis-1/3 pb-2 lg:pb-10 pr-0 md:pr-2 lg:pr-10"
               key={val.id}
             >
               <button

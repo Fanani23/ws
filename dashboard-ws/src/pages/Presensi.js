@@ -41,7 +41,8 @@ const Presensi = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -54,7 +55,8 @@ const Presensi = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
@@ -67,7 +69,8 @@ const Presensi = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -89,11 +92,15 @@ const Presensi = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://api.kattohair.com/api/presences/create", {
-        code: code,
-        shift: shift,
-        status: status,
-      }, Session());
+      await axios.post(
+        "https://api.kattohair.com/api/presences/create",
+        {
+          code: code,
+          shift: shift,
+          status: status,
+        },
+        Session()
+      );
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -111,7 +118,8 @@ const Presensi = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/presences/${id}}`, Session()
+        `https://api.kattohair.com/api/presences/${id}}`,
+        Session()
       );
       setNameDelete(data.data.employee_name);
     } catch (err) {
@@ -122,7 +130,8 @@ const Presensi = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/presences/destroy/${idDelete}`, Session()
+        `https://api.kattohair.com/api/presences/destroy/${idDelete}`,
+        Session()
       );
       fetchData();
       getTotalCount();
@@ -134,7 +143,8 @@ const Presensi = () => {
   const fetchDetailData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/presences/${id}`, Session()
+        `https://api.kattohair.com/api/presences/${id}`,
+        Session()
       );
       setDetailPresensi(data.data);
     } catch (err) {

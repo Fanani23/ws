@@ -33,11 +33,15 @@ const Cashier = () => {
   const [discountValue, setDiscountValue] = useState();
   const [cart, setCart] = useState(getLocalStorageData);
   const [detailCart, setDetailCart] = useState(getDetailLocalStorageData);
+  const [customer, setCustomer] = useState();
+
+  const [message, setMessage] = useState("");
 
   const fetchCategoryData = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/all`, Session()
+        `https://api.kattohair.com/api/products/categories/all`,
+        Session()
       );
       setDataCategory(data.data);
     } catch (err) {
@@ -48,7 +52,8 @@ const Cashier = () => {
   const fetchSpecificCategoryProduct = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/${id}`, Session()
+        `https://api.kattohair.com/api/products/categories/products-by-category/${id}`,
+        Session()
       );
       setDataProduct(data.data);
     } catch (err) {
@@ -58,7 +63,10 @@ const Cashier = () => {
 
   const fetchAllCategoryProduct = async () => {
     try {
-      const {data} = await axios.get(`https://api.kattohair.com/api/products`, Session());
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products`,
+        Session()
+      );
       setDataProduct(data.data);
     } catch (err) {
       console.log(err);
@@ -67,7 +75,10 @@ const Cashier = () => {
 
   const fetchDataEmployee = async () => {
     try {
-      const {data} = await axios.get(`https://api.kattohair.com/api/employees`);
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/employees`,
+        Session()
+      );
       setDataEmployee(data.data);
     } catch (err) {
       console.log(err);
@@ -83,7 +94,8 @@ const Cashier = () => {
   const getDetailProduct = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${id}`, Session()
+        `https://api.kattohair.com/api/products/${id}`,
+        Session()
       );
       setSelectProduct(data.data);
     } catch (err) {
@@ -108,16 +120,16 @@ const Cashier = () => {
           service_discount_amount: discountValue,
         },
       ]);
-      // setDetailCart((data) => [
-      //   ...data,
-      //   {
-      //     stylist_id: parseInt(stylist),
-      //     stylist_name:
-      //     product_id: selectProduct.id,
-      //     service_discount_type: discountType,
-      //     service_discount_amount: discountValue,
-      //   },
-      // ]);
+      setDetailCart((data) => [
+        {
+          stylist_id: parseInt(stylist),
+          product_name: selectProduct.name,
+          price: selectProduct.price,
+          product_id: selectProduct.id,
+          service_discount_type: discountType,
+          service_discount_amount: discountValue,
+        },
+      ]);
       setStylist("");
     } catch (err) {
       console.log(err);
@@ -128,12 +140,15 @@ const Cashier = () => {
     fetchCategoryData();
     fetchAllCategoryProduct();
     fetchDataEmployee();
-    console.log(cart);
   }, []);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
+
+  useEffect(() => {
+    localStorage.setItem("detail-cart", JSON.stringify(detailCart));
+  }, [detailCart]);
 
   return (
     <div className="flex flex-col h-full font-nunito-sans">
@@ -171,7 +186,7 @@ const Cashier = () => {
         <div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
           <div className="bg-white flex flex-col rounded-tl-lg rounded-tr-lg md:rounded-tr-none h-full">
             <CashierRightPanelTop />
-            <CashierDataInput dataCashier={cart} />
+            <CashierDataInput dataCashier={detailCart} />
           </div>
         </div>
       </div>

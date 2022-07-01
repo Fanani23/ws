@@ -62,7 +62,7 @@ const ModalSelectProductCashier = ({
                 <div className="mt-2 border-t-2">
                   <form onSubmit={submit}>
                     <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center mb-5">
                         <label
                           htmlFor="stylist-name"
                           className="font-semibold w-28"
@@ -70,7 +70,7 @@ const ModalSelectProductCashier = ({
                           Nama Stylist
                         </label>
                         <select
-                          className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                          className="bg-transparent border-2 grow border-gray-200 rounded-lg px-3 py-2"
                           value={stylistValue}
                           id="stylist-name"
                           defaultValue=""
@@ -91,7 +91,7 @@ const ModalSelectProductCashier = ({
                             ))}
                         </select>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center mb-5">
                         <span className="font-semibold w-28">
                           Discount Type
                         </span>
@@ -122,7 +122,7 @@ const ModalSelectProductCashier = ({
                           </label>
                         </div>
                       </div>
-                      <div className="flex flex-row items-center">
+                      <div className="flex flex-row items-center mb-5">
                         <label
                           htmlFor="discount-amount"
                           className="font-semibold w-28"

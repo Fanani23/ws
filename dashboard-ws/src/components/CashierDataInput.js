@@ -35,13 +35,17 @@ const CashierDataInput = ({dataCashier}) => {
                 {index + 1}
               </span>
               <div className="flex flex-col p-2">
-                <h1 className="font-semibold text-black">{data.product_id}</h1>
+                <h1 className="font-semibold text-black">
+                  {data.product_name}
+                </h1>
                 <h5 className="font-medium text-gray-500">
                   By {data.stylist_id}
                 </h5>
               </div>
               <div className="flex items-center ml-auto">
-                <h1 className="font-semibold mr-2 text-black">Rp</h1>
+                <h1 className="font-semibold mr-2 text-black">
+                  Rp{data.price}
+                </h1>
                 <div className="flex flex-col h-full">
                   <button className="bg-red-400 text-white px-3 py-1 flex-1">
                     <MdDeleteOutline />

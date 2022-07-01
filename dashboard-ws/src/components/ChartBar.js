@@ -11,13 +11,13 @@ const ChartBar = ({dataChart, labelA, labelB}) => {
       {
         label: "Past",
         data: data?.map((data) => data.yesterday),
-        backgroundColor: "#147AD6",
+        backgroundColor: "#7388A95A",
         borderColor: "#00000000",
       },
       {
         label: "Present",
         data: data?.map((data) => data.today),
-        backgroundColor: "#7388A95A",
+        backgroundColor: "#147AD6",
         borderColor: "#00000000",
       },
     ],
