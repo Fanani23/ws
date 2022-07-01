@@ -112,13 +112,20 @@ const ProductList = () => {
   };
 
   const prepareEdit = (val) => {
+
+    let fee_commission = new String(val.commission_value);
+    let price = new String(val.price);
+
+    fee_commission = fee_commission.replace(".", "");
+    price = price.replace(".", "");
+
+    setPriceEdit(price);
+    setFeeEdit(fee_commission);
     setIdEdit(val.id);
     setCodeEdit(val.code);
     setNameEdit(val.name);
     setCategoryEdit(val.category);
-    setPriceEdit(val.price);
     setFeeCategoryEdit(val.commission_type);
-    setFeeEdit(val.commission_value);
     setImageEdit(val.image);
     getEditData(val);
     setOpenEditProduct(true);
@@ -129,12 +136,19 @@ const ProductList = () => {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/products/${val.id}}`
       );
+
+      let fee_commission = new String(data.data.commission_value);
+      let price = new String(data.data.price);
+
+      fee_commission = fee_commission.replace(".", "");
+      price = price.replace(".", "");
+
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
       setCategoryEdit(data.data.category);
-      setPriceEdit(data.data.price);
+      setPriceEdit(price);
       setFeeCategoryEdit(data.data.commission_type);
-      setFeeEdit(data.data.commission_value);
+      setFeeEdit(fee_commission);
       setImageEdit(data.data.image);
     } catch (err) {
       console.log(err);
