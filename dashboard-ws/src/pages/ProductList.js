@@ -159,25 +159,23 @@ const ProductList = () => {
     e.preventDefault();
     try {
       let i;
-        let category_id = 0;
-        for (i in dataCategory) {
-          if (dataCategory[i].name == categoryEdit) {
-            category_id = dataCategory[i].id;
-          }
+      let category_id = 0;
+      for (i in dataCategory) {
+        if (dataCategory[i].name == categoryEdit) {
+          category_id = dataCategory[i].id;
         }
-        // console.log("category_id = "+category_id);
-      await axios.put(
-        `https://api.kattohair.com/api/products/update/${idEdit}`,
-        {
-          code: codeEdit,
-          category_id: category_id,
-          name: nameEdit,
-          price: priceEdit,
-          commission_type: feeCategoryEdit,
-          commission_value: feeEdit,
-          image: imageEdit
-        }
-      );
+      }
+
+      let formData = new FormData();
+      formData.append("code", codeEdit);
+      formData.append("category_id", category_id);
+      formData.append("name", nameEdit);
+      formData.append("price", priceEdit);
+      formData.append("commission_type", feeCategoryEdit);
+      formData.append("commission_value", feeEdit);
+      formData.append("image", imageEdit);
+      await axios.put(`https://api.kattohair.com/api/products/update/${idEdit}`,
+                      formData);
       fetchData();
     } catch (err) {
       console.log(err);

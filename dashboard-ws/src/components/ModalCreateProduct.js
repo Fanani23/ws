@@ -24,7 +24,6 @@ const ModalCreateProduct = ({
   const [inputImage, setInputImage] = useState();
   const getDataImage = (event) => {
     if (event.target.files[0]) {
-      console.log("ada");
       setImageValue(event.target.files[0]);
       const reader = new FileReader();
       reader.addEventListener("load", () => {
