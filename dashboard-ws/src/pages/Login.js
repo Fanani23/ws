@@ -8,7 +8,7 @@ function saveLoginCredentials(data)
 {
 	let lc = localStorage;
 	data = data.data;
-	lc.setItem("user", data.data);
+	lc.setItem("user", JSON.stringify(data.data));
 	lc.setItem("token", data.token);
 }
 
