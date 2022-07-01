@@ -20,6 +20,16 @@ import CashierSingle from "./pages/CashierSingle";
 import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
 
+const config = {
+  headers: {
+    "Authorization": "Bearer ",
+  }
+};
+
+function getConfig() {
+  
+}
+
 function App() {
   const [sidebar, setSidebar] = useState(false);
 

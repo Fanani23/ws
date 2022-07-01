@@ -174,7 +174,9 @@ const ProductList = () => {
       formData.append("commission_type", feeCategoryEdit);
       formData.append("commission_value", feeEdit);
       formData.append("image", imageEdit);
-      await axios.put(`https://api.kattohair.com/api/products/update/${idEdit}`,
+      formData.append("_method", "PUT");
+
+      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
                       formData);
       fetchData();
     } catch (err) {
