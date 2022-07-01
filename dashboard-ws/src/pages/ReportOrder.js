@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
+import Session from "../Session";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
@@ -28,7 +29,7 @@ const ReportOrder = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/orders${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -41,7 +42,7 @@ const ReportOrder = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/products/categories${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
@@ -53,7 +54,7 @@ const ReportOrder = () => {
   const fetchDetailData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/orders/${id}`
+        `https://api.kattohair.com/api/orders/${id}`, Session()
       );
       setDetailOrder(data.data);
     } catch (err) {

@@ -8,7 +8,8 @@ import {
 import {Fragment, useState} from "react";
 import {Link} from "react-router-dom";
 import {Dialog, Transition} from "@headlessui/react";
-import TabTitle from "../utils/GeneralFunction"
+import TabTitle from "../utils/GeneralFunction";
+import Session from "../Session";
 
 const SettingLogLogin = () => {
   TabTitle("Log - Kato Haircut")

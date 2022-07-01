@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import ModalSelectProductCashier from "../components/ModalSelectProductCashier";
 import CashierRightPanelTop from "../components/CashierRightPanelTop";
 import CashierDataInput from "../components/CashierDataInput";
+import Session from "../Session";
 
 const Cashier = () => {
   TabTitle("Cashier - Kato Haircut");
@@ -24,7 +25,7 @@ const Cashier = () => {
   const fetchCategoryData = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/all`
+        `https://api.kattohair.com/api/products/categories/all`, Session()
       );
       setDataCategory(data.data);
     } catch (err) {
@@ -35,7 +36,7 @@ const Cashier = () => {
   const fetchSpecificCategoryProduct = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/${id}`
+        `https://api.kattohair.com/api/products/categories/${id}`, Session()
       );
       setDataProduct(data.data);
     } catch (err) {
@@ -45,7 +46,7 @@ const Cashier = () => {
 
   const fetchAllCategoryProduct = async () => {
     try {
-      const {data} = await axios.get(`https://api.kattohair.com/api/products`);
+      const {data} = await axios.get(`https://api.kattohair.com/api/products`, Session());
       setDataProduct(data.data);
     } catch (err) {
       console.log(err);
@@ -61,7 +62,7 @@ const Cashier = () => {
   const getDetailProduct = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${id}`
+        `https://api.kattohair.com/api/products/${id}`, Session()
       );
       setSelectProduct(data.data);
     } catch (err) {

@@ -8,6 +8,7 @@ import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
 import ModalDeleteProduct from "../components/ModalDeleteProduct";
 import ModalEditProduct from "../components/ModalEditProduct";
+import Session from "../Session";
 
 const ProductList = () => {
   TabTitle("List Product - Kato Haircut");
@@ -53,7 +54,7 @@ const ProductList = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/products${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableData(pageData.data.data);
       setTableCount(pageData.data.meta.total);
@@ -66,7 +67,7 @@ const ProductList = () => {
   const fetchDataCategory = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/products/categories/all`
+        `https://api.kattohair.com/api/products/categories/all`, Session()
       );
       setDataCategory(getData.data.data);
     } catch (err) {
@@ -101,7 +102,7 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create", formData);
+      axios.post("https://api.kattohair.com/api/products/create", Session(), formData);
       setImage("");
       setName("");
       setCategory("");
@@ -134,7 +135,7 @@ const ProductList = () => {
   const getEditData = async (val) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${val.id}}`
+        `https://api.kattohair.com/api/products/${val.id}}`, Session()
       );
 
       let fee_commission = new String(data.data.commission_value);
@@ -176,7 +177,7 @@ const ProductList = () => {
       formData.append("image", imageEdit);
       formData.append("_method", "PUT");
 
-      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
+      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`, Session(),
                       formData);
       fetchData();
     } catch (err) {
@@ -193,7 +194,7 @@ const ProductList = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${id}}`
+        `https://api.kattohair.com/api/products/${id}}`, Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -204,7 +205,7 @@ const ProductList = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/products/delete/${idDelete}`
+        `https://api.kattohair.com/api/products/delete/${idDelete}`, Session()
       );
       fetchData();
     } catch (err) {

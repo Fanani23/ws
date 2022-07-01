@@ -9,6 +9,7 @@ import {Link} from "react-router-dom";
 import ModalCreateEmployee from "../components/ModalCreateEmployee";
 import ModalEditEmployee from "../components/ModalEditEmployee";
 import ModalDeleteEmployee from "../components/ModalDeleteEmployee";
+import Session from "../Session";
 
 const Employee = () => {
   TabTitle("Employee - Kato Haircut");
@@ -50,7 +51,7 @@ const Employee = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -63,7 +64,7 @@ const Employee = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
@@ -76,7 +77,7 @@ const Employee = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`, Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -107,7 +108,7 @@ const Employee = () => {
   const fetchJobData = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/employees/jobs`
+        `https://api.kattohair.com/api/employees/jobs`, Session()
       );
       setDataJob(getData.data.data);
     } catch (err) {
@@ -122,7 +123,7 @@ const Employee = () => {
         name: name,
         phone: phone,
         job_id: job,
-      });
+      }, Session());
       fetchData();
     } catch ({response}) {
       console.log(response.message);
@@ -141,7 +142,7 @@ const Employee = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${value.id}}`
+        `https://api.kattohair.com/api/employees/${value.id}}`, Session()
       );
       setCodeEdit(data.data.code);
       setPhoneEdit(data.data.phone);
@@ -170,7 +171,7 @@ const Employee = () => {
           phone: phoneEdit,
           name: nameEdit,
           job_id: job_id,
-        }
+        }, Session()
       );
       fetchData();
     } catch (err) {
@@ -187,7 +188,7 @@ const Employee = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${id}}`
+        `https://api.kattohair.com/api/employees/${id}}`, Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -198,7 +199,7 @@ const Employee = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/employees/delete/${idDelete}`
+        `https://api.kattohair.com/api/employees/delete/${idDelete}`, Session()
       );
       fetchData();
       getTotalCount();
