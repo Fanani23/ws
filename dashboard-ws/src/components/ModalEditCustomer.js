@@ -117,7 +117,7 @@ const ModalEditCustomer = ({
                             value="reguler"
                             id="membership"
                             className="mr-2"
-                            checked={membershipEditValue === "reguler"}
+                            defaultChecked={membershipEditValue}
                           />
                           <span>Reguler</span>
                           <input
@@ -126,7 +126,7 @@ const ModalEditCustomer = ({
                             value="vip"
                             id="membership"
                             className="ml-5 mr-2"
-                            checked={membershipEditValue === "vip"}
+                            defaultChecked={membershipEditValue}
                           />
                           <span>VIP</span>
                         </div>

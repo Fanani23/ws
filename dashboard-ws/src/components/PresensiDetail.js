@@ -19,10 +19,7 @@ const PresensiDetail = ({detailPresensi}) => {
                         <div className="flex flex-row">
                             <div className="flex flex-col">
                                 <h1 style={{fontWeight: 'bold'}} className="text-black font-bold text-lg mt-1 mb-2 mr-20" >
-                                    {detailPresensi.name}
-                                </h1>
-                                <h1 className="text-gray-400 font-semibold text-md">
-                                    {detailPresensi.code}
+                                    {detailPresensi.employee_name}
                                 </h1>
                                 <h5 style={{fontWeight: 'normal'}} className="text-black text-lg mt-6">
                                     Total Presensi

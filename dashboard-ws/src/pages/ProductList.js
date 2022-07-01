@@ -92,6 +92,7 @@ const ProductList = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(category);
     const formData = new FormData();
     formData.append("image", image);
     formData.append("category_id", category);
@@ -110,16 +111,23 @@ const ProductList = () => {
     }
   };
 
-  const prepareEdit = (id) => {
-    setIdEdit(id);
-    getEditData(id);
+  const prepareEdit = (val) => {
+    setIdEdit(val.id);
+    setCodeEdit(val.code);
+    setNameEdit(val.name);
+    setCategoryEdit(val.category);
+    setPriceEdit(val.price);
+    setFeeCategoryEdit(val.commission_type);
+    setFeeEdit(val.commission_value);
+    setImageEdit(val.image);
+    getEditData(val);
     setOpenEditProduct(true);
   };
 
-  const getEditData = async (value) => {
+  const getEditData = async (val) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${value}}`
+        `https://api.kattohair.com/api/products/${val.id}}`
       );
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);

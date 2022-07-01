@@ -130,7 +130,10 @@ const Employee = () => {
   };
 
   const prepareEdit = (value) => {
-    setIdEdit(value);
+    setIdEdit(value.id);
+    setNameEdit(value.name);
+    setJobEdit(value.job_name);
+    setPhoneEdit(value.phone);
     getEditData(value);
     setOpenEditEmployee(true);
   };
@@ -138,7 +141,7 @@ const Employee = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${value}}`
+        `https://api.kattohair.com/api/employees/${value.id}}`
       );
       setCodeEdit(data.data.code);
       setPhoneEdit(data.data.phone);

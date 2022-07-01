@@ -95,7 +95,9 @@ const ProductCategory = () => {
   };
 
   const prepareEdit = (value) => {
-    setIdEdit(value);
+    // console.log(value);
+    setIdEdit(value.id);
+    setNameEdit(value.name);
     getEditData(value);
     setOpenEditCategory(true);
   };
@@ -103,7 +105,7 @@ const ProductCategory = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/${value}}`
+        `https://api.kattohair.com/api/products/categories/${value.id}}`
       );
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
@@ -161,7 +163,7 @@ const ProductCategory = () => {
       <ModalCreateCategories
         show={openAddCategory}
         close={closeAddCategoryModal}
-        name={name}
+        nameValue={name}
         setNameValue={setName}
         submit={handleSubmit}
       />
