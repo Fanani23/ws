@@ -1,4 +1,13 @@
 
+function getName()
+{
+	let lc = localStorage;
+	let user = JSON.parse(lc.getItem("user"));
+	if (!user)
+		return null;
+	return user.username;
+}
+
 function Session() {
 	let lc = localStorage;
 	let hdr;
@@ -9,7 +18,7 @@ function Session() {
 			headers: {
 				"Authorization": "Bearer "+token
 			}
-		}
+		};
 	} else {
 		hdr = null;
 	}
@@ -17,4 +26,5 @@ function Session() {
 	return hdr;
 }
 
+export { getName, Session };
 export default Session;
