@@ -151,17 +151,14 @@ const Customers = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log({code: codeEdit, name: nameEdit,
-      phone: phoneEdit,
-      birthday: birthdayEdit,
-      membership: membershipEdit})
+    let phoneVal = phoneEdit.replace(/-/g, "");
     try {
       await axios.put(
         `https://api.kattohair.com/api/customers/update/${idEdit}`,
         {
           code: codeEdit,
           name: nameEdit,
-          phone: phoneEdit,
+          phone: phoneVal,
           birthday: birthdayEdit,
           membership: membershipEdit,
         }
