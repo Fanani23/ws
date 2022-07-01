@@ -8,7 +8,8 @@ function getName()
 	return user.username;
 }
 
-function Session() {
+function Session()
+{
 	let lc = localStorage;
 	let hdr;
 	let token = lc.getItem("token");

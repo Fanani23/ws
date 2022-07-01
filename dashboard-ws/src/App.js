@@ -19,6 +19,7 @@ import {useEffect, useState} from "react";
 import CashierSingle from "./pages/CashierSingle";
 import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
+import Session from "./Session";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -46,6 +47,10 @@ function App() {
     sidebarTag = "";
     toggleSidebarTag = "";
   } else {
+    if (!Session()) {
+      window.location = "/login";
+      return (<div></div>);
+    }
     sidebarTag = (<Sidebar show={sidebar} />);
     toggleSidebarTag = (<Navbar toggleSidebar={toggleSidebar} />);
   }
