@@ -1,6 +1,6 @@
 import React from "react";
 
-const TableReportTransaction = ({tableData}) => {
+const TableReportCommission = ({tableData}) => {
   return (
     <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
       <thead className="sticky top-0">
@@ -34,4 +34,4 @@ const TableReportTransaction = ({tableData}) => {
   );
 };
 
-export default TableReportTransaction
+export default TableReportCommission;

@@ -5,9 +5,9 @@ import DropdownMenuExport from "../components/DropdownMenuExport";
 import Pagination from "../components/Pagination";
 import ReportNavLink from "../components/ReportNavLink";
 import Search from "../components/Search";
-import TableReportTransaction from "../components/TableReportTransaction";
 import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
+import TableReportCommission from "../components/TableReportCommission";
 
 const ReportCommission = () => {
   TabTitle("Transaction - Kato Haircut");
@@ -23,7 +23,8 @@ const ReportCommission = () => {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/transactions${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(data.data);
       setTableCount(data.meta.total);
@@ -77,7 +78,7 @@ const ReportCommission = () => {
               />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
-              <TableReportTransaction tableData={tableData} />
+              <TableReportCommission tableData={tableData} />
               <Pagination
                 maxPage={Math.ceil(tableCount / itemsPerPage)}
                 currentPage={currentTablePage}
