@@ -9,6 +9,7 @@ import ModalCreateCustomer from "../components/ModalCreateCustomer";
 import ModalEditCustomer from "../components/ModalEditCustomer";
 import ModalDeleteCustomer from "../components/ModalDeleteCustomer";
 import CustomerDetail from "../components/CustomerDetail";
+import Session from "../Session";
 
 const Customers = () => {
   TabTitle("Customers - Kato Haircut");
@@ -52,7 +53,8 @@ const Customers = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/customers${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -65,7 +67,8 @@ const Customers = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/customers${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
@@ -78,7 +81,8 @@ const Customers = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/customers${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
+        }`,
+        Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -119,7 +123,7 @@ const Customers = () => {
         phone: phone,
         name: name,
         membership: membership,
-      });
+      }, Session());
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -137,7 +141,7 @@ const Customers = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${value}}`
+        `https://api.kattohair.com/api/customers/${value}}`, Session()
       );
       setCodeEdit(data.data.code);
       setBirthdayEdit(data.data.birthday);
@@ -161,7 +165,8 @@ const Customers = () => {
           phone: phoneVal,
           birthday: birthdayEdit,
           membership: membershipEdit,
-        }
+        },
+        Session()
       );
       fetchData();
     } catch (err) {
@@ -178,7 +183,7 @@ const Customers = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${id}}`
+        `https://api.kattohair.com/api/customers/${id}}`, Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -189,7 +194,7 @@ const Customers = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/customers/delete/${idDelete}`
+        `https://api.kattohair.com/api/customers/delete/${idDelete}`, Session()
       );
       fetchData();
       getTotalCount();
@@ -201,7 +206,7 @@ const Customers = () => {
   const fetchDetailData = async (id) => {
     try{
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${id}`
+        `https://api.kattohair.com/api/customers/${id}`, Session()
       );
       setDetailCustomer(data.data);
     } catch (err) {
