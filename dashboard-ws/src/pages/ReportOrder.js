@@ -86,7 +86,6 @@ const ReportOrder = () => {
     if (activeId === id) {
       setDetailShow(!detailShow);
     } else {
-      console.log("You want to get", id);
       fetchDetailData(id);
       setActiveId(id);
       setDetailShow(true);

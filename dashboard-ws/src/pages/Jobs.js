@@ -45,7 +45,7 @@ const Jobs = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -58,7 +58,7 @@ const Jobs = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -71,7 +71,7 @@ const Jobs = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -96,7 +96,6 @@ const Jobs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log({name});
     try {
       await axios.post("https://api.kattohair.com/api/employees/jobs/create", {
         name: name,
@@ -129,10 +128,10 @@ const Jobs = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log({code: codeEdit, name: nameEdit});
     try {
-      await axios.put(`https://api.kattohair.com/api/employees/jobs/update/${idEdit}`,
-      { code: codeEdit, name: nameEdit }
+      await axios.put(
+        `https://api.kattohair.com/api/employees/jobs/update/${idEdit}`,
+        {code: codeEdit, name: nameEdit}
       );
       fetchData();
     } catch (err) {

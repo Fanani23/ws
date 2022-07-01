@@ -44,28 +44,15 @@ const ProductCategory = () => {
         }`
       );
       setTableData(pageData.data.data);
+      setTableCount(pageData.data.meta.total);
+      setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
-    }
-  };
-
-  const getTotalCount = async (page = currentTablePage, search = "") => {
-    try {
-      const AllData = await axios.get(
-        `https://api.kattohair.com/api/products/categories${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`
-      );
-      setTableCount(AllData.data.meta.total);
-      setItemsPerPage(AllData.data.meta.per_page);
-    } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
   useEffect(() => {
     fetchData();
-    getTotalCount();
   }, []);
 
   const showTablePage = (page) => {
@@ -77,7 +64,6 @@ const ProductCategory = () => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
-    getTotalCount(currentTablePage, searchValue);
   };
 
   const handleSubmit = async (e) => {
@@ -88,7 +74,6 @@ const ProductCategory = () => {
         {name}
       );
       fetchData();
-      getTotalCount();
     } catch (err) {
       console.log(err);
     }
@@ -114,7 +99,6 @@ const ProductCategory = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    // console.log({code: codeEdit, name: nameEdit});
     try {
       await axios.put(
         `https://api.kattohair.com/api/products/categories/update/${idEdit}`,
@@ -138,7 +122,6 @@ const ProductCategory = () => {
         `https://api.kattohair.com/api/products/categories/${id}`
       );
       setNameDelete(data.data.name);
-      console.log(data.data.name);
     } catch (err) {
       console.log(err);
     }
@@ -150,7 +133,6 @@ const ProductCategory = () => {
         `https://api.kattohair.com/api/products/categories/delete/${idDelete}`
       );
       fetchData();
-      getTotalCount();
     } catch (err) {
       console.log(err);
     }

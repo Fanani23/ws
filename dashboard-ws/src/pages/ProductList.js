@@ -59,7 +59,7 @@ const ProductList = () => {
       setTableCount(pageData.data.meta.total);
       setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -137,13 +137,12 @@ const ProductList = () => {
     e.preventDefault();
     try {
       let i;
-        let category_id = 0;
-        for (i in dataCategory) {
-          if (dataCategory[i].name == categoryEdit) {
-            category_id = dataCategory[i].id;
-          }
+      let category_id = 0;
+      for (i in dataCategory) {
+        if (dataCategory[i].name == categoryEdit) {
+          category_id = dataCategory[i].id;
         }
-        // console.log("category_id = "+category_id);
+      }
       await axios.put(
         `https://api.kattohair.com/api/products/update/${idEdit}`,
         {
@@ -153,14 +152,14 @@ const ProductList = () => {
           price: priceEdit,
           commission_type: feeCategoryEdit,
           commission_value: feeEdit,
-          image: imageEdit
+          image: imageEdit,
         }
       );
       fetchData();
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const prepareDelete = (id) => {
     setIdDelete(id);

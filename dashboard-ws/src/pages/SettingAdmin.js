@@ -48,7 +48,7 @@ const SettingAdmin = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -62,7 +62,7 @@ const SettingAdmin = () => {
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -75,7 +75,7 @@ const SettingAdmin = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 

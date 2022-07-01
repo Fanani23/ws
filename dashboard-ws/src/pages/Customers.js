@@ -56,7 +56,7 @@ const Customers = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -69,7 +69,7 @@ const Customers = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -82,7 +82,7 @@ const Customers = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -151,10 +151,13 @@ const Customers = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    console.log({code: codeEdit, name: nameEdit,
+    console.log({
+      code: codeEdit,
+      name: nameEdit,
       phone: phoneEdit,
       birthday: birthdayEdit,
-      membership: membershipEdit})
+      membership: membershipEdit,
+    });
     try {
       await axios.put(
         `https://api.kattohair.com/api/customers/update/${idEdit}`,
@@ -202,7 +205,7 @@ const Customers = () => {
   };
 
   const fetchDetailData = async (id) => {
-    try{
+    try {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/customers/${id}`
       );
@@ -213,10 +216,9 @@ const Customers = () => {
   };
 
   const detailData = (id) => {
-    if (activeId == id) {
+    if (activeId === id) {
       setDetailShow(!detailShow);
     } else {
-      console.log("You want to get", id);
       fetchDetailData(id);
       setActiveId(id);
       setDetailShow(true);
@@ -262,7 +264,7 @@ const Customers = () => {
           className={`
           basis-full${detailShow ? " md:basis-1/2 lg:basis-4/6" : ""}`}
         >
-          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+          <div className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col p-3">
             <div className="flex mt-2 relative">
               <Search
                 textColor={"text-black"}
@@ -301,9 +303,7 @@ const Customers = () => {
         </div>
         {detailCustomer && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <CustomerDetail
-              detailCustomer={detailCustomer}
-            />
+            <CustomerDetail detailCustomer={detailCustomer} />
           </div>
         )}
       </div>
