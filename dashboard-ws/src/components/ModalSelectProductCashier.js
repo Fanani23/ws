@@ -2,7 +2,20 @@ import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment} from "react";
 import {MdClose} from "react-icons/md";
 
-const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
+const ModalSelectProductCashier = ({
+  show,
+  close,
+  dataProduct,
+  dataEmployee,
+  stylistValue,
+  setStlylistValue,
+  setDiscountType,
+  setDiscountValue,
+  submit,
+}) => {
+  const handleDiscountType = (event) => {
+    setDiscountType(event.target.value);
+  };
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-20" onClose={close}>
@@ -36,7 +49,6 @@ const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
                 >
                   <h3>{dataProduct?.name}</h3>
                   <div className="flex">
-                    {/* <h1 className="line-through text-gray-400 mr-3">disc</h1> */}
                     <h1>Rp{dataProduct?.price}</h1>
                   </div>
                   <div
@@ -52,59 +64,77 @@ const ModalSelectProductCashier = ({show, close, dataProduct, submit}) => {
                     <div className="text-sm p-6 text-gray-500">
                       <div className="flex flex-row items-center">
                         <label
-                          htmlFor="nama-stylist"
+                          htmlFor="stylist-name"
                           className="font-semibold w-28"
                         >
                           Nama Stylist
                         </label>
-                        <input
-                          type="text"
-                          name="nama-stylist"
-                          id="nama-stylist"
-                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                        />
+                        <select
+                          className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                          value={stylistValue}
+                          id="stylist-name"
+                          defaultValue=""
+                          onChange={(e) => setStlylistValue(e.target.value)}
+                        >
+                          <option value="" disabled>
+                            Select Employee...
+                          </option>
+                          {dataEmployee &&
+                            dataEmployee?.map((val) => (
+                              <option
+                                value={val.id}
+                                key={val.id}
+                                className="text-black"
+                              >
+                                {val.name}
+                              </option>
+                            ))}
+                        </select>
                       </div>
                       <div className="flex flex-row items-center">
                         <span className="font-semibold w-28">
                           Discount Type
                         </span>
-                        <input
-                          type="radio"
-                          name="discount"
-                          value="persen"
-                          id="persen"
-                        />
-                        <label
-                          htmlFor="persen"
-                          className="mx-1 font-semibold px-3 py-2"
-                        >
-                          Persentage (%)
-                        </label>
-                        <input
-                          type="radio"
-                          name="discount"
-                          value="nominal"
-                          id="nominal"
-                        />
-                        <label
-                          htmlFor="nominal"
-                          className="mx-1 font-semibold px-3 py-2"
-                        >
-                          Nominal (Rp)
-                        </label>
+                        <div onChange={handleDiscountType}>
+                          <input
+                            type="radio"
+                            name="service_discount_type"
+                            value="percent"
+                            id="persen"
+                          />
+                          <label
+                            htmlFor="persen"
+                            className="mx-1 font-semibold px-3 py-2"
+                          >
+                            Persentage (%)
+                          </label>
+                          <input
+                            type="radio"
+                            name="service_discount_type"
+                            value="nominal"
+                            id="nominal"
+                          />
+                          <label
+                            htmlFor="nominal"
+                            className="mx-1 font-semibold px-3 py-2"
+                          >
+                            Nominal (Rp)
+                          </label>
+                        </div>
                       </div>
                       <div className="flex flex-row items-center">
                         <label
                           htmlFor="discount-amount"
                           className="font-semibold w-28"
                         >
-                          Amount
+                          Discount Value
                         </label>
                         <input
                           type="number"
-                          name="discount-amount"
+                          name="service_discount_amount"
                           id="discount-amount"
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                          onChange={(e) => setDiscountValue(e.target.value)}
                         />
                       </div>
                     </div>

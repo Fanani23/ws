@@ -3,9 +3,21 @@ import {Pie} from "react-chartjs-2";
 import {Chart as ChartJS} from "chart.js/auto";
 
 const ChartPieMember = ({dataChart}) => {
+  const capitalizeEachWord = (sentence) => {
+    const words = sentence.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+
+    return words.join(" ");
+  };
   const [data, setData] = useState();
   const statsData = {
-    labels: data?.map((data) => data.name),
+    labels: data?.map((data) =>
+      data.name === "vip"
+        ? data.name.toUpperCase()
+        : capitalizeEachWord(data.name)
+    ),
     datasets: [
       {
         label: "Membership",

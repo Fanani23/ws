@@ -9,6 +9,11 @@ import ModalSelectProductCashier from "../components/ModalSelectProductCashier";
 import CashierRightPanelTop from "../components/CashierRightPanelTop";
 import CashierDataInput from "../components/CashierDataInput";
 
+const getLocalStorageData = JSON.parse(localStorage.getItem("cart") || "[]");
+const getDetailLocalStorageData = JSON.parse(
+  localStorage.getItem("detailCart") || "[]"
+);
+
 const Cashier = () => {
   TabTitle("Cashier - Kato Haircut");
   // modal
@@ -17,9 +22,16 @@ const Cashier = () => {
   const openSelectProductModal = () => setOpenSelectProduct(true);
   // search
   const [dataCategory, setDataCategory] = useState([]);
+  const [dataEmployee, setDataEmployee] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("All");
   const [dataProduct, setDataProduct] = useState([]);
+  // select
   const [selectProduct, setSelectProduct] = useState();
+  const [stylist, setStylist] = useState("");
+  const [discountType, setDiscountType] = useState();
+  const [discountValue, setDiscountValue] = useState();
+  const [cart, setCart] = useState(getLocalStorageData);
+  const [detailCart, setDetailCart] = useState(getDetailLocalStorageData);
 
   const fetchCategoryData = async () => {
     try {
@@ -52,6 +64,15 @@ const Cashier = () => {
     }
   };
 
+  const fetchDataEmployee = async () => {
+    try {
+      const {data} = await axios.get(`https://api.kattohair.com/api/employees`);
+      setDataEmployee(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleChangeCategory = (val) => {
     val !== "All"
       ? fetchSpecificCategoryProduct(val)
@@ -75,13 +96,43 @@ const Cashier = () => {
   };
 
   const addToCart = (e) => {
-    console.log(e);
+    e.preventDefault();
+    try {
+      setCart((data) => [
+        ...data,
+        {
+          stylist_id: parseInt(stylist),
+          product_id: selectProduct.id,
+          service_discount_type: discountType,
+          service_discount_amount: discountValue,
+        },
+      ]);
+      // setDetailCart((data) => [
+      //   ...data,
+      //   {
+      //     stylist_id: parseInt(stylist),
+      //     stylist_name:
+      //     product_id: selectProduct.id,
+      //     service_discount_type: discountType,
+      //     service_discount_amount: discountValue,
+      //   },
+      // ]);
+      setStylist("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     fetchCategoryData();
     fetchAllCategoryProduct();
+    fetchDataEmployee();
+    console.log(cart);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   return (
     <div className="flex flex-col h-full font-nunito-sans">
@@ -89,6 +140,11 @@ const Cashier = () => {
         show={openSelectProduct}
         close={closeSelectProductModal}
         dataProduct={selectProduct}
+        dataEmployee={dataEmployee}
+        stylistValue={stylist}
+        setStlylistValue={setStylist}
+        setDiscountType={setDiscountType}
+        setDiscountValue={setDiscountValue}
         submit={addToCart}
       />
       <div className="h-10">
@@ -114,7 +170,7 @@ const Cashier = () => {
         <div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
           <div className="bg-white flex flex-col rounded-tl-lg rounded-tr-lg md:rounded-tr-none h-full">
             <CashierRightPanelTop />
-            {/* <CashierDataInput /> */}
+            <CashierDataInput dataCashier={cart} />
           </div>
         </div>
       </div>
