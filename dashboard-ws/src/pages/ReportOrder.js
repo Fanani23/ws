@@ -107,8 +107,9 @@ const ReportOrder = () => {
       <ReportNavLink />
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
-          className={`
-          basis-full${detailShow ? " md:basis-1/2 lg:basis-4/6" : ""}`}
+          className={`${
+            detailShow ? "md:basis-1/2 lg:basis-4/6" : ""
+          } basis-full`}
         >
           <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
             <div className="flex mt-2 relative">

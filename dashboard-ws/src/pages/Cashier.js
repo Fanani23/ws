@@ -98,8 +98,8 @@ const Cashier = () => {
           placeholder={"Search by product name..."}
         />
       </div>
-      <div className="flex flex-col relative md:flex-row grow overflow-auto scrollbar-shown">
-        <div className="flex flex-col basis-full md:relative md:overflow-x-auto md:basis-1/2 lg:basis-4/6">
+      <div className="relative flex flex-col md:flex-row grow overflow-auto scrollbar-shown">
+        <div className="flex flex-col mb-2 md:mb-0 basis-full md:relative md:overflow-x-auto md:basis-1/2 lg:basis-4/6">
           <CashierCategoryList
             dataCategory={dataCategory}
             currentCategory={currentCategory}
