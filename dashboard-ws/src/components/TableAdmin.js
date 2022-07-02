@@ -7,6 +7,7 @@ const TableAdmin = ({tableData, editRow, deleteRow}) => {
         <tr className="bg-[#F9F9FC] text-black text-left">
           <th className="py-2">Phone Number</th>
           <th className="py-2">Username</th>
+          <th className="py-2">Password</th>
           <th className="py-2">Action</th>
         </tr>
       </thead>
@@ -16,6 +17,7 @@ const TableAdmin = ({tableData, editRow, deleteRow}) => {
             <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
               <td className="py-2">{row.phone}</td>
               <td className="py-2">{row.username}</td>
+              <td className="py-2">{row.password}</td>
               <td className="py-2">
                 <button
                   onClick={() => {

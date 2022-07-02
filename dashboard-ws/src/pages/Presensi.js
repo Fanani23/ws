@@ -211,7 +211,7 @@ const Presensi = () => {
                 />
               </>
             ) : (
-              <p className="w-full text-black">No result</p>
+              <p className="w-full text-black">Waiting for Data</p>
             )}
           </div>
         </div>
