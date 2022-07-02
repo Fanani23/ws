@@ -131,8 +131,10 @@ const Customers = () => {
       fetchData();
       getTotalCount();
       getItemsPerPage();
+      alert("Succesfully add customer, if customer didn't added you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Add customer failed")
     }
   };
 
@@ -174,8 +176,10 @@ const Customers = () => {
         Session()
       );
       fetchData();
+      alert("Succesfully update customer data, if data didn't update you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Update data failed")
     }
   };
 
@@ -205,8 +209,10 @@ const Customers = () => {
       );
       fetchData();
       getTotalCount();
+      alert("Succesfully delete customer")
     } catch (err) {
       console.log(err);
+      alert("Delete customer failed")
     }
   };
 

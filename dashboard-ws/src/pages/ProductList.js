@@ -6,7 +6,7 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
-import ModalDeleteProduct from "../components/ModalDeleteProduct";git 
+import ModalDeleteProduct from "../components/ModalDeleteProduct";
 import ModalEditProduct from "../components/ModalEditProduct";
 import Session from "../Session";
 
@@ -104,13 +104,15 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create",  formData), Session();
+      axios.post("https://api.kattohair.com/api/products/create",   formData, Session() );
       setImage("");
       setName("");
       setCategory("");
       fetchData();
+      alert("Succesfully added, if data didn't show you must refresh your browser");
     } catch (err) {
       console.log(err);
+      alert("Adding data unsuccesfull, you must check your input data")
     }
   };
 
@@ -180,10 +182,12 @@ const ProductList = () => {
       formData.append("_method", "PUT");
 
       await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
-                      formData) ,Session();
+      formData , Session()) ;
       fetchData();
+      alert("Succesfully edit data, if data didn't show updated you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Updating data failed")
     }
   };
 
@@ -212,8 +216,10 @@ const ProductList = () => {
         Session()
       );
       fetchData();
+      alert("Sucessfully delete data")
     } catch (err) {
       console.log(err);
+      alert("Delete data failed")
     }
   };
 

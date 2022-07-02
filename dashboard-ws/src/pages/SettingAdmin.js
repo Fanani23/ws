@@ -111,8 +111,10 @@ const SettingAdmin = () => {
       fetchData();
       getTotalCount();
       getItemsPerPage();
+      alert("Succesfully add admin, if admin data didn't show you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Add admin failed")
     }
   };
 
@@ -125,7 +127,8 @@ const SettingAdmin = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/admin/${value}}`, Session()
+        `https://api.kattohair.com/api/admin/${value}}`,
+        Session()
       );
       setPhoneEdit(data.data.phone);
       setUsernameEdit(data.data.username);
@@ -142,8 +145,10 @@ const SettingAdmin = () => {
         phone: phoneEdit,
       }, Session());
       fetchData();
+      alert("Succesfully update admin, if admin data didn't update you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Update admin failed")
     }
   };
 
@@ -156,7 +161,8 @@ const SettingAdmin = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/admin/${id}`, Session()
+        `https://api.kattohair.com/api/admin/${id}`,
+        Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -167,12 +173,15 @@ const SettingAdmin = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/admin/delete/${idDelete}`, Session()
+        `https://api.kattohair.com/api/admin/delete/${idDelete}`,
+        Session()
       );
       fetchData();
       getTotalCount();
+      alert("Succesfully delete admin")
     } catch (err) {
       console.log(err);
+      alert("Delete admin failed")
     }
   };
 

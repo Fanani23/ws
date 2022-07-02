@@ -12,7 +12,7 @@ import Session from "../Session";
 
 const ProductCategory = () => {
   TabTitle("Category - Kato Haircut");
-  // modal
+  // Modal
   const [openAddCategory, setOpenAddCategory] = useState(false);
   const closeAddCategoryModal = () => setOpenAddCategory(false);
   const openAddCategoryModal = () => setOpenAddCategory(true);
@@ -20,20 +20,20 @@ const ProductCategory = () => {
   const closeEditCategoryModal = () => setOpenEditCategory(false);
   const [openDeleteCategory, setOpenDeleteCategory] = useState(false);
   const closeDeleteCategoryModal = () => setOpenDeleteCategory(false);
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
-  // handle create
+  // Handle Create
   const [name, setName] = useState("");
-  // handle edit
+  // Handle Edit
   const [idEdit, setIdEdit] = useState("");
   const [codeEdit, setCodeEdit] = useState("");
   const [nameEdit, setNameEdit] = useState("");
-  // handle delete
+  // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
 
@@ -70,6 +70,7 @@ const ProductCategory = () => {
 
   useEffect(() => {
     fetchData();
+    getTotalCount();
   }, []);
 
   const showTablePage = (page) => {
@@ -81,6 +82,7 @@ const ProductCategory = () => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
+    getTotalCount(currentTablePage, searchValue);
   };
 
   const handleSubmit = async (e) => {
@@ -92,8 +94,11 @@ const ProductCategory = () => {
         Session()
       );
       fetchData();
+      getTotalCount();
+      alert("Succesfully added category, if data didn't show you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Add category failed")
     }
   };
 
@@ -127,8 +132,10 @@ const ProductCategory = () => {
         Session()
       );
       fetchData();
+      alert("Succesfully update category, if category didn't update you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Update data failed")
     }
   };
 
@@ -157,8 +164,11 @@ const ProductCategory = () => {
         Session()
       );
       fetchData();
+      getTotalCount();
+      alert("Succesfully delete category")
     } catch (err) {
       console.log(err);
+      alert("Delete category failed")
     }
   };
 
