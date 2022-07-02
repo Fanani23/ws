@@ -54,7 +54,7 @@ const ModalCreateAdmin = ({show, close, submit, usernameValue, setUsernameValue,
                                                     name="phone"
                                                     id="phone"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={phoneValue}
+                                                    defaultValue={phoneValue}
                                                     onChange={(e) => setPhoneValue(e.target.value)}
                                                 />
                                             </div>
@@ -67,7 +67,7 @@ const ModalCreateAdmin = ({show, close, submit, usernameValue, setUsernameValue,
                                                     name="username"
                                                     id="username"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={usernameValue}
+                                                    defaultValue={usernameValue}
                                                     onChange={(e) => setUsernameValue(e.target.value)}
                                                 />
                                             </div>
@@ -80,7 +80,7 @@ const ModalCreateAdmin = ({show, close, submit, usernameValue, setUsernameValue,
                                                     name="password"
                                                     id="password"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={passwordValue}
+                                                    defaultValue={passwordValue}
                                                     onChange={(e) => setPasswordValue(e.target.value)}
                                                 />
                                             </div>
@@ -93,7 +93,7 @@ const ModalCreateAdmin = ({show, close, submit, usernameValue, setUsernameValue,
                                                     name="password_confirmation"
                                                     id="password_confirmation"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={passwordConfirmationValue}
+                                                    defaultValue={passwordConfirmationValue}
                                                     onChange={(e) => setPasswordConfirmationValue(e.target.value)}
                                                 />
                                             </div>

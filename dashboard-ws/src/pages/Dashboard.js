@@ -249,7 +249,7 @@ const Dashboard = () => {
                 Membership
               </h1>
               <h1 className="text-white font-nunito-sans text-xs">
-                Here go numbers 40 of total 600
+                Information Membership
               </h1>
             </div>
             <div className="grow lg:p-3">
@@ -356,7 +356,7 @@ const Dashboard = () => {
               <select
                 className="bg-transparent border-2 border-white rounded-lg px-2 py-1"
                 aria-label="Default select example"
-                value={selectComparison}
+                defaultValue={selectComparison}
                 onChange={(e) => setSelectComparison(e.target.value)}
               >
                 <option selected value="transaction" className="text-black">

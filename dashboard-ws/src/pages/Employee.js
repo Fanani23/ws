@@ -13,7 +13,7 @@ import Session from "../Session";
 
 const Employee = () => {
   TabTitle("Employee - Kato Haircut");
-  // modal
+  // Modal
   const [openAddEmployee, setOpenAddEmployee] = useState(false);
   const closeAddEmployeeModal = () => setOpenAddEmployee(false);
   const openAddEmployeeModal = () => setOpenAddEmployee(true);
@@ -21,15 +21,14 @@ const Employee = () => {
   const closeEditEmployeeModal = () => setOpenEditEmployee(false);
   const [openDeleteEmployee, setOpenDeleteEmployee] = useState(false);
   const closeDeleteEmployeeModal = () => setOpenDeleteEmployee(false);
-
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
-  // handle create
+  // Handle Create
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [dataJob, setDataJob] = useState("");
@@ -43,7 +42,7 @@ const Employee = () => {
   // Hanlde Edit
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
-  // print function
+  // Print function
   const idTable = "tableEmployee";
 
   const fetchData = async (page = currentTablePage, search = "") => {
@@ -55,7 +54,7 @@ const Employee = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -68,7 +67,7 @@ const Employee = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -81,7 +80,7 @@ const Employee = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -108,7 +107,8 @@ const Employee = () => {
   const fetchJobData = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/employees/jobs`, Session()
+        `https://api.kattohair.com/api/employees/jobs`,
+        Session()
       );
       setDataJob(getData.data.data);
     } catch (err) {
@@ -123,10 +123,13 @@ const Employee = () => {
         name: name,
         phone: phone,
         job_id: job,
-      }, Session());
-      fetchData();
+      }, Session()
+    );
+    fetchData();
+    alert("Succesfully add employee, if employee data didn't show you must refresh your browser")
     } catch ({response}) {
       console.log(response.message);
+      alert("Add employee failed")
     }
   };
 
@@ -142,7 +145,8 @@ const Employee = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${value.id}}`, Session()
+        `https://api.kattohair.com/api/employees/${value.id}}`,
+        Session()
       );
       setCodeEdit(data.data.code);
       setPhoneEdit(data.data.phone);
@@ -163,6 +167,7 @@ const Employee = () => {
           job_id = dataJob[i].id;
         }
       }
+      // console.log("job_id = "+job_id);
       await axios.put(
         `https://api.kattohair.com/api/employees/update/${idEdit}`,
         {
@@ -173,8 +178,10 @@ const Employee = () => {
         }, Session()
       );
       fetchData();
+      alert("Succesfully update employee data, if data didn't update you must refresh your data")
     } catch (err) {
       console.log(err);
+      alert("Update data failed")
     }
   };
 
@@ -187,7 +194,8 @@ const Employee = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees/${id}}`, Session()
+        `https://api.kattohair.com/api/employees/${id}}`,
+        Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -198,12 +206,15 @@ const Employee = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/employees/delete/${idDelete}`, Session()
+        `https://api.kattohair.com/api/employees/delete/${idDelete}`,
+        Session()
       );
       fetchData();
       getTotalCount();
+      alert("Succesfully delete employee data")
     } catch (err) {
       console.log(err);
+      alert("Delete employee data failed")
     }
   };
 
@@ -274,7 +285,7 @@ const Employee = () => {
             />
           </>
         ) : (
-          <p className="w-full text-black">No result</p>
+          <p className="w-full text-black">Waiting for Data</p>
         )}
       </div>
     </div>

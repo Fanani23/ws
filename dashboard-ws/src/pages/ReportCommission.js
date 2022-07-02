@@ -11,7 +11,7 @@ import TableReportCommission from "../components/TableReportCommission";
 
 const ReportCommission = () => {
   TabTitle("Transaction - Kato Haircut");
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);

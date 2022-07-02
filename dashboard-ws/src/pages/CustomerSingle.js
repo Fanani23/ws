@@ -1,3 +1,5 @@
+import Session from "../Session";
+
 const CustomerSingle = () => {
 	return (
 		<>

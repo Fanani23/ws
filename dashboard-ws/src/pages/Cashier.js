@@ -17,11 +17,11 @@ const getDetailLocalStorageData = JSON.parse(
 
 const Cashier = () => {
   TabTitle("Cashier - Kato Haircut");
-  // modal
+  // Modal
   const [openSelectProduct, setOpenSelectProduct] = useState(false);
   const closeSelectProductModal = () => setOpenSelectProduct(false);
   const openSelectProductModal = () => setOpenSelectProduct(true);
-  // search
+  // Search
   const [dataCategory, setDataCategory] = useState([]);
   const [dataEmployee, setDataEmployee] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("All");

@@ -20,12 +20,12 @@ const Jobs = () => {
   const closeEditJobModal = () => setOpenEditJob(false);
   const [openDeleteJob, setOpenDeleteJob] = useState(false);
   const closeDeleteJobModal = () => setOpenDeleteJob(false);
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
   // Handle Create
   const [name, setName] = useState("");
@@ -47,7 +47,7 @@ const Jobs = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -61,7 +61,7 @@ const Jobs = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -75,7 +75,7 @@ const Jobs = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log(err);
+      console.log("error in fetching table data", err);
     }
   };
 
@@ -100,19 +100,20 @@ const Jobs = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log({name});
     try {
-      await axios.post(
-        "https://api.kattohair.com/api/employees/jobs/create",
-        {
-          name: name,
-        },
-        Session()
-      );
-      fetchData();
-      getTotalCount();
-      getItemsPerPage();
+      await axios.post("https://api.kattohair.com/api/employees/jobs/create", {
+        name: name,
+      },
+      Session()
+    );
+    fetchData();
+    getTotalCount();
+    getItemsPerPage();
+    alert("Succesfully add job, if job data didn't show you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Add job failed")
     }
   };
 
@@ -137,15 +138,17 @@ const Jobs = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
+    // console.log({code: codeEdit, name: nameEdit});
     try {
-      await axios.put(
-        `https://api.kattohair.com/api/employees/jobs/update/${idEdit}`,
-        {code: codeEdit, name: nameEdit},
-        Session()
-      );
-      fetchData();
+      await axios.put(`https://api.kattohair.com/api/employees/jobs/update/${idEdit}`,
+      { code: codeEdit, name: nameEdit },
+      Session()
+    );
+    fetchData();
+    alert("Succesfully update job data, if data job didn't update you must refresh your browser")
     } catch (err) {
       console.log(err);
+      alert("Update job failed")
     }
   };
 
@@ -175,8 +178,10 @@ const Jobs = () => {
       );
       fetchData();
       getTotalCount();
+      alert("Succesfully delete job")
     } catch (err) {
       console.log(err);
+      alert("Delete job failed")
     }
   };
 
@@ -234,7 +239,7 @@ const Jobs = () => {
             />
           </>
         ) : (
-          <p className="w-full text-black">No result</p>
+          <p className="w-full text-black">Waiting for Data</p>
         )}
       </div>
     </div>

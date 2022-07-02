@@ -26,7 +26,7 @@ const Navbar = ({toggleSidebar}) => {
             <img
               src={logo}
               alt="Kato Hair Design"
-              className="hidden md:block"
+              className="hidden ml-11 md:block"
             />
           </NavLink>
           <div
@@ -77,7 +77,7 @@ const Navbar = ({toggleSidebar}) => {
                   {getName()}
                 </h1>
                 <h5 className="font-noto-sans text-xs text-[#C4C4C4] group-active:text-black">
-                  Owner
+                  Admin
                 </h5>
               </div>
               <MdExpandMore className="text-2xl hidden sm:block relative z-20" />
@@ -86,8 +86,8 @@ const Navbar = ({toggleSidebar}) => {
                   profileOpen ? "" : "hidden"
                 } group-active:flex absolute top-16 left-0 right-0 pt-3 px-3 pb-3 z-10 bg-white shadow-lg rounded-lg`}
               >
-                <div onClick={handleLogout} className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-left px-3 py-2">
-                  Keluar
+                <div onClick={handleLogout} className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-center px-3 py-2">
+                  Log Out
                 </div>
               </div>
             </button>

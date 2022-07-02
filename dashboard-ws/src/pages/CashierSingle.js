@@ -4,6 +4,7 @@ import success from "../img/payment-success.png";
 import {Fragment, useState} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import BackButton from "../components/BackButton";
+import Session from "../Session";
 
 const CashierSingle = () => {
   const [inputNumber, setInputNumber] = useState();

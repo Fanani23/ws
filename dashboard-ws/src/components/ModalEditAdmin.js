@@ -9,7 +9,11 @@ const ModalEditAdmin = ({
     phoneEditValue,
     setPhoneEditValue,
     usernameEditValue,
-    setUsernameEditValue
+    setUsernameEditValue,
+    passwordEditValue,
+    setPasswordEditValue,
+    passwordConfirmationEditValue,
+    setPasswordConfirmationEditValue
   }) => {
     return (
         <Transition appear show={show} as={Fragment}>
@@ -65,7 +69,7 @@ const ModalEditAdmin = ({
                                                     name="phone"
                                                     id="phone"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={phoneEditValue}
+                                                    defaultValue={phoneEditValue}
                                                     onChange={(e) => setPhoneEditValue(e.target.value)}
                                                 />
                                             </div>
@@ -78,8 +82,34 @@ const ModalEditAdmin = ({
                                                     name="name"
                                                     id="name"
                                                     className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    value={usernameEditValue}
+                                                    defaultValue={usernameEditValue}
                                                     onChange={(e) => setUsernameEditValue(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="flex flex-row items-center mb-6">
+                                                <label htmlFor="name" className="font-semibold w-28">
+                                                    Password
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="name"
+                                                    id="name"
+                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                                                    defaultValue={passwordEditValue}
+                                                    onChange={(e) => setPasswordEditValue(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="flex flex-row items-center mb-6">
+                                                <label htmlFor="password_confirmation" className="font-semibold w-28">
+                                                    Password Confirmation
+                                                </label>
+                                                <input
+                                                    type="text"
+                                                    name="password_confirmation"
+                                                    id="password_confirmation"
+                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
+                                                    defaultValue={passwordConfirmationEditValue}
+                                                    onChange={(e) => setPasswordConfirmationEditValue(e.target.value)}
                                                 />
                                             </div>
                                         </div>
