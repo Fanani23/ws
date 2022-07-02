@@ -59,7 +59,7 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col bg-black h-screen">
         {toggleSidebarTag}
-        <div className="flex flex-row h-full mt-20 overflow-hidden">
+        <div className="flex flex-row h-full overflow-hidden">
           {sidebarTag}
           <div className="overflow-y-auto p-2 w-full text-white scrollbar-shown">
             <Routes>
