@@ -26,7 +26,7 @@ const Navbar = ({toggleSidebar}) => {
             <img
               src={logo}
               alt="Kato Hair Design"
-              className="hidden md:block"
+              className="hidden ml-11 md:block"
             />
           </NavLink>
           <div
