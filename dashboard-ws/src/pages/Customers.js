@@ -58,7 +58,7 @@ const Customers = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -72,7 +72,7 @@ const Customers = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -86,7 +86,7 @@ const Customers = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -118,12 +118,16 @@ const Customers = () => {
       membership: membership,
     });
     try {
-      await axios.post("https://api.kattohair.com/api/customers/create", {
-        birthday: birthday,
-        phone: phone,
-        name: name,
-        membership: membership,
-      }, Session());
+      await axios.post(
+        "https://api.kattohair.com/api/customers/create",
+        {
+          birthday: birthday,
+          phone: phone,
+          name: name,
+          membership: membership,
+        },
+        Session()
+      );
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -141,7 +145,8 @@ const Customers = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${value}}`, Session()
+        `https://api.kattohair.com/api/customers/${value}}`,
+        Session()
       );
       setCodeEdit(data.data.code);
       setBirthdayEdit(data.data.birthday);
@@ -183,7 +188,8 @@ const Customers = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${id}}`, Session()
+        `https://api.kattohair.com/api/customers/${id}}`,
+        Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -194,7 +200,8 @@ const Customers = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/customers/delete/${idDelete}`, Session()
+        `https://api.kattohair.com/api/customers/delete/${idDelete}`,
+        Session()
       );
       fetchData();
       getTotalCount();
@@ -204,9 +211,10 @@ const Customers = () => {
   };
 
   const fetchDetailData = async (id) => {
-    try{
+    try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/customers/${id}`, Session()
+        `https://api.kattohair.com/api/customers/${id}`,
+        Session()
       );
       setDetailCustomer(data.data);
     } catch (err) {
@@ -215,10 +223,9 @@ const Customers = () => {
   };
 
   const detailData = (id) => {
-    if (activeId == id) {
+    if (activeId === id) {
       setDetailShow(!detailShow);
     } else {
-      console.log("You want to get", id);
       fetchDetailData(id);
       setActiveId(id);
       setDetailShow(true);
@@ -264,7 +271,7 @@ const Customers = () => {
           className={`
           basis-full${detailShow ? " md:basis-1/2 lg:basis-4/6" : ""}`}
         >
-          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+          <div className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col p-3">
             <div className="flex mt-2 relative">
               <Search
                 textColor={"text-black"}
@@ -303,9 +310,7 @@ const Customers = () => {
         </div>
         {detailCustomer && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <CustomerDetail
-              detailCustomer={detailCustomer}
-            />
+            <CustomerDetail detailCustomer={detailCustomer} />
           </div>
         )}
       </div>

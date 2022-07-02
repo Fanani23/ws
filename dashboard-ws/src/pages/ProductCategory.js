@@ -42,9 +42,12 @@ const ProductCategory = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/products/categories${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
+      setTableCount(pageData.data.meta.total);
+      setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
       console.log("error in fetching table data", err);
     }
@@ -55,7 +58,8 @@ const ProductCategory = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/products/categories${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
@@ -66,7 +70,6 @@ const ProductCategory = () => {
 
   useEffect(() => {
     fetchData();
-    getTotalCount();
   }, []);
 
   const showTablePage = (page) => {
@@ -78,7 +81,6 @@ const ProductCategory = () => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
-    getTotalCount(currentTablePage, searchValue);
   };
 
   const handleSubmit = async (e) => {
@@ -86,10 +88,10 @@ const ProductCategory = () => {
     try {
       await axios.post(
         "https://api.kattohair.com/api/products/categories/create",
-        {name}, Session()
+        {name},
+        Session()
       );
       fetchData();
-      getTotalCount();
     } catch (err) {
       console.log(err);
     }
@@ -106,7 +108,8 @@ const ProductCategory = () => {
   const getEditData = async (value) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/${value.id}}`, Session()
+        `https://api.kattohair.com/api/products/categories/${value.id}}`,
+        Session()
       );
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
@@ -117,11 +120,11 @@ const ProductCategory = () => {
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    // console.log({code: codeEdit, name: nameEdit});
     try {
       await axios.put(
         `https://api.kattohair.com/api/products/categories/update/${idEdit}`,
-        {code: codeEdit, name: nameEdit}, Session()
+        {code: codeEdit, name: nameEdit},
+        Session()
       );
       fetchData();
     } catch (err) {
@@ -138,10 +141,10 @@ const ProductCategory = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/categories/${id}`, Session()
+        `https://api.kattohair.com/api/products/categories/${id}`,
+        Session()
       );
       setNameDelete(data.data.name);
-      console.log(data.data.name);
     } catch (err) {
       console.log(err);
     }
@@ -150,10 +153,10 @@ const ProductCategory = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/products/categories/delete/${idDelete}`, Session()
+        `https://api.kattohair.com/api/products/categories/delete/${idDelete}`,
+        Session()
       );
       fetchData();
-      getTotalCount();
     } catch (err) {
       console.log(err);
     }

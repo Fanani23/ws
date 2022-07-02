@@ -13,7 +13,7 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
         }
       >
         <div className="flex flex-wrap grow overflow-y-auto relative">
-          {dataProduct.map((val) => (
+          {dataProduct?.map((val) => (
             <div
               className="basis-full md:basis-1/2 lg:basis-1/3 pb-2 lg:pb-10 pr-0 md:pr-2 lg:pr-10"
               key={val.id}
@@ -30,8 +30,12 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
                   className="rounded-full w-[150px] h-[150px]"
                 />
                 <div className="ml-5 md:ml-0">
-                  <h1 className="font-regular">{val.name}</h1>
-                  <h1 className="font-bold text-xl">Rp{val.price}</h1>
+                  <h1 className="font-regular text-left md:text-center">
+                    {val.name}
+                  </h1>
+                  <h1 className="font-bold text-xl text-left md:text-center">
+                    Rp{val.price}
+                  </h1>
                 </div>
               </button>
             </div>
@@ -45,7 +49,7 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
         </div>
       )}
       {dataProduct[0] && (
-        <div className="sticky flex justify-center bottom-0 min-h-[3rem] my-2 pt-1 bg-black z-[2]">
+        <div className="sticky flex justify-center bottom-0 min-h-[3rem] pt-1 bg-black z-[2]">
           <Pagination />
         </div>
       )}

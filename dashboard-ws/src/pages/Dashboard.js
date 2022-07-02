@@ -31,7 +31,8 @@ const Dashboard = () => {
   const fetchDataTotal = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/total`, Session()
+        `https://api.kattohair.com/api/dashboard/total`,
+        Session()
       );
       setDataTotal(data.data);
     } catch ({response}) {
@@ -42,7 +43,8 @@ const Dashboard = () => {
   const fetchDataRevenue = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/revenue${parameter}`, Session()
+        `https://api.kattohair.com/api/dashboard/revenue${parameter}`,
+        Session()
       );
       setDataRevenue(data.data);
     } catch ({response}) {
@@ -53,7 +55,8 @@ const Dashboard = () => {
   const fetchDataMembership = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/membership`, Session()
+        `https://api.kattohair.com/api/dashboard/membership`,
+        Session()
       );
       setDataMembership(data.data);
     } catch ({response}) {
@@ -64,7 +67,8 @@ const Dashboard = () => {
   const fetchDataCategoriesPopular = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/category`, Session()
+        `https://api.kattohair.com/api/dashboard/category`,
+        Session()
       );
       setDataCategoriesPopular(data.data);
     } catch ({response}) {
@@ -75,7 +79,8 @@ const Dashboard = () => {
   const fetchDataTransaction = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/transaction${parameter}`, Session()
+        `https://api.kattohair.com/api/dashboard/transaction${parameter}`,
+        Session()
       );
       setDataTransaction(data.data);
     } catch ({response}) {
@@ -86,7 +91,8 @@ const Dashboard = () => {
   const fetchDataComparisonTransaction = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/comparison-transaction${parameter}`, Session()
+        `https://api.kattohair.com/api/dashboard/comparison-transaction${parameter}`,
+        Session()
       );
       setDataComparison(data.data);
     } catch ({response}) {
@@ -97,10 +103,22 @@ const Dashboard = () => {
   const fetchDataComparisonRevenue = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`, Session()
+        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`,
+        Session()
       );
       setDataComparison(data.data);
-      console.log(data.data);
+    } catch ({response}) {
+      setErrorMsg(response.message);
+    }
+  };
+
+  const fetchDataComparisonMembership = async (parameter = "") => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`,
+        Session()
+      );
+      setDataComparison(data.data);
     } catch ({response}) {
       setErrorMsg(response.message);
     }
@@ -347,6 +365,9 @@ const Dashboard = () => {
                 <option value="revenue" className="text-black">
                   Revenue
                 </option>
+                <option value="membership" className="text-black">
+                  Membership
+                </option>
               </select>
             </div>
             <div className="rounded-lg flex mx-2 w-fit border-2 overflow-hidden">
@@ -364,6 +385,8 @@ const Dashboard = () => {
                     fetchDataComparisonTransaction();
                   } else if (selectComparison === "revenue") {
                     fetchDataComparisonRevenue();
+                  } else if (selectComparison === "membership") {
+                    fetchDataComparisonMembership();
                   }
                 }}
               >
@@ -383,6 +406,8 @@ const Dashboard = () => {
                     fetchDataComparisonTransaction("?month=true");
                   } else if (selectComparison === "revenue") {
                     fetchDataComparisonRevenue("?month=true");
+                  } else if (selectComparison === "membership") {
+                    fetchDataComparisonMembership("?month=true");
                   }
                 }}
               >
@@ -402,6 +427,8 @@ const Dashboard = () => {
                     fetchDataComparisonTransaction("?year=true");
                   } else if (selectComparison === "revenue") {
                     fetchDataComparisonRevenue("?year=true");
+                  } else if (selectComparison === "membership") {
+                    fetchDataComparisonMembership("?year=true");
                   }
                 }}
               >

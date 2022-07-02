@@ -90,6 +90,7 @@ const ModalCreateEmployee = ({
                         <select
                           className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
                           value={jobValue}
+                          id="job"
                           onChange={(e) => setJobValue(e.target.value)}
                         >
                           <option disabled selected>

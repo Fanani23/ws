@@ -30,7 +30,7 @@ const ReportTransaction = () => {
       setProfit(data.total_profit);
       setItemsPerPage(data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 

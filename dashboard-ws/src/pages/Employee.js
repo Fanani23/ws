@@ -55,7 +55,7 @@ const Employee = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -68,7 +68,7 @@ const Employee = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -81,7 +81,7 @@ const Employee = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -163,7 +163,6 @@ const Employee = () => {
           job_id = dataJob[i].id;
         }
       }
-      // console.log("job_id = "+job_id);
       await axios.put(
         `https://api.kattohair.com/api/employees/update/${idEdit}`,
         {

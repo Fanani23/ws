@@ -31,7 +31,7 @@ const Presensi = () => {
   const [nameDelete, setNameDelete] = useState("");
   // Print Function
   const idTable = "tablePresensi";
-  // Detail 
+  // Detail
   const [detailShow, setDetailShow] = useState();
   const [detailPresensi, setDetailPresensi] = useState();
   const [activeId, setActiveId] = useState();
@@ -41,11 +41,12 @@ const Presensi = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -54,11 +55,12 @@ const Presensi = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -67,11 +69,12 @@ const Presensi = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/presences${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -88,15 +91,16 @@ const Presensi = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log({code: code,
-    //   shift: shift,
-    //   status: status});
     try {
-      await axios.post("https://api.kattohair.com/api/presences/create", {
-        code: code,
-        shift: shift,
-        status: status,
-      }, Session());
+      await axios.post(
+        "https://api.kattohair.com/api/presences/create",
+        {
+          code: code,
+          shift: shift,
+          status: status,
+        },
+        Session()
+      );
       fetchData();
       getTotalCount();
       getItemsPerPage();
@@ -114,7 +118,8 @@ const Presensi = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/presences/${id}}`, Session()
+        `https://api.kattohair.com/api/presences/${id}}`,
+        Session()
       );
       setNameDelete(data.data.employee_name);
     } catch (err) {
@@ -125,7 +130,8 @@ const Presensi = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/presences/destroy/${idDelete}`, Session()
+        `https://api.kattohair.com/api/presences/destroy/${idDelete}`,
+        Session()
       );
       fetchData();
       getTotalCount();
@@ -137,7 +143,8 @@ const Presensi = () => {
   const fetchDetailData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/presences/${id}`, Session()
+        `https://api.kattohair.com/api/presences/${id}`,
+        Session()
       );
       setDetailPresensi(data.data);
     } catch (err) {
@@ -146,10 +153,9 @@ const Presensi = () => {
   };
 
   const detailData = (id) => {
-    if (activeId == id) {
+    if (activeId === id) {
       setDetailShow(!detailShow);
     } else {
-      console.log("You want to get", id);
       fetchDetailData(id);
       setActiveId(id);
       setDetailShow(true);
@@ -191,12 +197,12 @@ const Presensi = () => {
             </div>
             {tableCount ? (
               <>
-                <TablePresensi 
-                tableData={tableData}
-                idTable={idTable} 
-                deleteRow={prepareDelete}
-                detailData={detailData} 
-              />
+                <TablePresensi
+                  tableData={tableData}
+                  idTable={idTable}
+                  deleteRow={prepareDelete}
+                  detailData={detailData}
+                />
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
                   currentPage={currentTablePage}
@@ -210,9 +216,7 @@ const Presensi = () => {
         </div>
         {detailPresensi && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <PresensiDetail
-              detailPresensi={detailPresensi}
-            />
+            <PresensiDetail detailPresensi={detailPresensi} />
           </div>
         )}
       </div>

@@ -6,7 +6,7 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import ModalCreateProduct from "../components/ModalCreateProduct";
-import ModalDeleteProduct from "../components/ModalDeleteProduct";
+import ModalDeleteProduct from "../components/ModalDeleteProduct";git 
 import ModalEditProduct from "../components/ModalEditProduct";
 import Session from "../Session";
 
@@ -54,20 +54,22 @@ const ProductList = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/products${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
       setTableCount(pageData.data.meta.total);
       setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
   const fetchDataCategory = async () => {
     try {
       const getData = await axios.get(
-        `https://api.kattohair.com/api/products/categories/all`, Session()
+        `https://api.kattohair.com/api/products/categories/all`,
+        Session()
       );
       setDataCategory(getData.data.data);
     } catch (err) {
@@ -102,7 +104,7 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create",  formData), Session(),;
+      axios.post("https://api.kattohair.com/api/products/create",  formData), Session();
       setImage("");
       setName("");
       setCategory("");
@@ -113,7 +115,6 @@ const ProductList = () => {
   };
 
   const prepareEdit = (val) => {
-
     let fee_commission = new String(val.commission_value);
     let price = new String(val.price);
 
@@ -135,7 +136,8 @@ const ProductList = () => {
   const getEditData = async (val) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${val.id}}`, Session()
+        `https://api.kattohair.com/api/products/${val.id}}`,
+        Session()
       );
 
       let fee_commission = new String(data.data.commission_value);
@@ -177,13 +179,13 @@ const ProductList = () => {
       formData.append("image", imageEdit);
       formData.append("_method", "PUT");
 
-      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`, Session(),
+      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
                       formData) ,Session();
       fetchData();
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   const prepareDelete = (id) => {
     setIdDelete(id);
@@ -194,7 +196,8 @@ const ProductList = () => {
   const getDeleteData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/products/${id}}`, Session()
+        `https://api.kattohair.com/api/products/${id}}`,
+        Session()
       );
       setNameDelete(data.data.name);
     } catch (err) {
@@ -205,7 +208,8 @@ const ProductList = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://api.kattohair.com/api/products/delete/${idDelete}`, Session()
+        `https://api.kattohair.com/api/products/delete/${idDelete}`,
+        Session()
       );
       fetchData();
     } catch (err) {

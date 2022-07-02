@@ -30,7 +30,6 @@ const EmployeeSingle = () => {
         `https://api.kattohair.com/api/employees/${employeeId}`, Session()
       );
       setProfileEmployee(data.data);
-      console.log(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -42,7 +41,6 @@ const EmployeeSingle = () => {
         `https://api.kattohair.com/api/orders/employee/${employeeId}`, Session()
       );
       setSalaryEmployee(data);
-      console.log(data);
     } catch (err) {
       console.log(err);
     }
