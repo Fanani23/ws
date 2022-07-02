@@ -10,7 +10,7 @@ const InfoStats = ({totalProfit, growth, type}) => {
         </div>
       </div>
       <h1 className="font-nunito-sans text-white font-bold text-2xl my-4">
-        {totalProfit}
+        Rp{totalProfit}
       </h1>
       <div className="flex flex-row items-center">
         {type === "up" ? (

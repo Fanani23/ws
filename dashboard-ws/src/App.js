@@ -49,14 +49,15 @@ function App() {
   } else {
     if (!Session()) {
       window.location = "/login";
-      return (<div></div>);
+      return <div></div>;
     }
-    sidebarTag = (<Sidebar show={sidebar} />);
-    toggleSidebarTag = (<Navbar toggleSidebar={toggleSidebar} />);
+    sidebarTag = <Sidebar show={sidebar} />;
+    toggleSidebarTag = <Navbar toggleSidebar={toggleSidebar} />;
   }
 
   return (
     <BrowserRouter>
+      {/* <Toaster /> */}
       <div className="flex flex-col bg-black h-screen">
         {toggleSidebarTag}
         <div className="flex flex-row h-full mt-20 overflow-hidden">
