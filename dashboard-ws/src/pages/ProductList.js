@@ -12,7 +12,7 @@ import Session from "../Session";
 
 const ProductList = () => {
   TabTitle("List Product - Kato Haircut");
-  // modal
+  // Modal
   const [openAddProduct, setOpenAddProduct] = useState(false);
   const closeAddProductModal = () => setOpenAddProduct(false);
   const openAddProductModal = () => setOpenAddProduct(true);
@@ -20,14 +20,14 @@ const ProductList = () => {
   const closeEditProductModal = () => setOpenEditProduct(false);
   const [openDeleteProduct, setOpenDeleteProduct] = useState(false);
   const closeDeleteProductModal = () => setOpenDeleteProduct(false);
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
-  // handle create
+  // Handle Create
   const [code, setCode] = useState("");
   const [dataCategory, setDataCategory] = useState("");
   const [category, setCategory] = useState();
@@ -45,7 +45,7 @@ const ProductList = () => {
   const [feeCategoryEdit, setFeeCategoryEdit] = useState("Nominal");
   const [feeEdit, setFeeEdit] = useState();
   const [imageEdit, setImageEdit] = useState();
-  //Handle Delete
+  // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
 
@@ -102,7 +102,7 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create", Session(), formData);
+      axios.post("https://api.kattohair.com/api/products/create",  formData), Session(),;
       setImage("");
       setName("");
       setCategory("");
@@ -178,7 +178,7 @@ const ProductList = () => {
       formData.append("_method", "PUT");
 
       await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`, Session(),
-                      formData);
+                      formData) ,Session();
       fetchData();
     } catch (err) {
       console.log(err);

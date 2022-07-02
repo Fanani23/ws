@@ -12,11 +12,11 @@ import Session from "../Session";
 
 const Cashier = () => {
   TabTitle("Cashier - Kato Haircut");
-  // modal
+  // Modal
   const [openSelectProduct, setOpenSelectProduct] = useState(false);
   const closeSelectProductModal = () => setOpenSelectProduct(false);
   const openSelectProductModal = () => setOpenSelectProduct(true);
-  // search
+  // Search
   const [dataCategory, setDataCategory] = useState([]);
   const [currentCategory, setCurrentCategory] = useState("All");
   const [dataProduct, setDataProduct] = useState([]);

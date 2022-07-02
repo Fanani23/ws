@@ -12,14 +12,14 @@ import Session from "../Session";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
-  // table and pagination
+  // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  // search
+  // Search
   const [searchValue, setSearchValue] = useState();
-  // detail
+  // Detail
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
   const [activeId, setActiveId] = useState();
