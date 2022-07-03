@@ -21,12 +21,12 @@ const TableReportTransaction = ({tableData}) => {
             <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
               <td className="py-2">{row.datetime}</td>
               <td className="py-2">{row.code}</td>
-              <td className="py-2">{row.employee_name}</td>
+              <td className="py-2">{row.product_name}</td>
               <td className="py-2">{row.category_name}</td>
               <td className="py-2">{row.qty}</td>
               <td className="py-2">{row.price}</td>
               <td className="py-2">{row.commission_value}</td>
-              <td className="py-2">{row.fee}</td>
+              <td className="py-2">{row.profit}</td>
             </tr>
           ))}
       </tbody>
