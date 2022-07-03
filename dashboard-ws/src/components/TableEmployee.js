@@ -40,10 +40,10 @@ const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
                     <MdModeEditOutline className="text-red-500 hover:text-red-800" />
                   </button>
                   <button onClick={() => deleteRow(row.id)}>
-                    <MdDeleteOutline className="text-red-500 hover:text-red-800" />
+                    <MdDeleteOutline className="ml-2 text-red-500 hover:text-red-800" />
                   </button>
                   <Link to={`${row.id}`}>
-                    <button className="px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
+                    <button className="px-3 ml-2 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
                       Detail
                     </button>
                   </Link>
