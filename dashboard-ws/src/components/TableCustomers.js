@@ -1,5 +1,4 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
-import { Link } from "react-router-dom";
 
 const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
   const capitalizeEachWord = (sentence) => {
@@ -46,10 +45,9 @@ const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
                 <button onClick={() => deleteRow(row.id)}>
                   <MdDeleteOutline className="ml-2 text-red-500 hover:text-red-800" />
                 </button>
-                <button 
+                <button
                   className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
-                  key={row.id}
-                  onClick={() => detailData(row.id)} 
+                  onClick={() => detailData(row.id)}
                 >
                   See Detail
                 </button>
