@@ -9,11 +9,11 @@ import ModalSelectProductCashier from "../components/ModalSelectProductCashier";
 import CashierRightPanelTop from "../components/CashierRightPanelTop";
 import CashierDataInput from "../components/CashierDataInput";
 import Session from "../Session";
+import ModalCreateCustomerCashier from "../components/ModalCreateCustomerCashier";
+import ModalAlert from "../components/ModalAlert";
+import ModalEditProductCashier from "../components/ModalEditProductCashier";
 
 const getLocalStorageData = JSON.parse(localStorage.getItem("cart") || "[]");
-const getDetailLocalStorageData = JSON.parse(
-  localStorage.getItem("detailCart") || "[]"
-);
 
 const Cashier = () => {
   TabTitle("Cashier - Kato Haircut");
@@ -21,6 +21,15 @@ const Cashier = () => {
   const [openSelectProduct, setOpenSelectProduct] = useState(false);
   const closeSelectProductModal = () => setOpenSelectProduct(false);
   const openSelectProductModal = () => setOpenSelectProduct(true);
+  const [openEditProduct, setOpenEditProduct] = useState(false);
+  const closeEditProductModal = () => setOpenEditProduct(false);
+  const openEditProductModal = () => setOpenEditProduct(true);
+  const [openAddCustomer, setOpenAddCustomer] = useState(false);
+  const closeAddCustomerModal = () => setOpenAddCustomer(false);
+  const openAddCustomerModal = () => setOpenAddCustomer(true);
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => setOpenAlert(false);
+  const openAlertModal = () => setOpenAlert(true);
   // Search
   const [dataCategory, setDataCategory] = useState([]);
   const [dataEmployee, setDataEmployee] = useState([]);
@@ -29,11 +38,20 @@ const Cashier = () => {
   // select
   const [selectProduct, setSelectProduct] = useState();
   const [stylist, setStylist] = useState("");
-  const [discountType, setDiscountType] = useState();
+  const [discountType, setDiscountType] = useState("none");
   const [discountValue, setDiscountValue] = useState();
   const [cart, setCart] = useState(getLocalStorageData);
-  const [detailCart, setDetailCart] = useState(getDetailLocalStorageData);
-  const [customer, setCustomer] = useState();
+  // edit
+  const [productIndex, setProductIndex] = useState();
+  const [editProduct, setEditProduct] = useState();
+  const [stylistEdit, setStylistEdit] = useState("");
+  const [discountTypeEdit, setDiscountTypeEdit] = useState();
+  const [discountValueEdit, setDiscountValueEdit] = useState();
+  // customer
+  const [categoryCustomer, setCategoryCustomer] = useState("new");
+  const [dataCustomer, setDataCustomer] = useState([]);
+  const [customerId, setCustomerId] = useState("");
+  const [activeCustomerData, setActiveCustomerData] = useState();
 
   const [message, setMessage] = useState("");
 
@@ -73,15 +91,48 @@ const Cashier = () => {
     }
   };
 
+  const fetchDataCustomer = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/customers`,
+        Session()
+      );
+      setDataCustomer(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchOneDataCustomer = async (val) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/customers/${val}`,
+        Session()
+      );
+      setActiveCustomerData(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchDataEmployee = async () => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/employees`,
+        `https://api.kattohair.com/api/employees?paginate=false`,
         Session()
       );
       setDataEmployee(data.data);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleAddCustomer = (val) => {
+    val.preventDefault();
+    if (categoryCustomer === "new") {
+      console.log("new");
+    } else if (categoryCustomer === "old") {
+      fetchOneDataCustomer(customerId);
     }
   };
 
@@ -104,28 +155,38 @@ const Cashier = () => {
   };
 
   const handleSelectProduct = (id) => {
-    getDetailProduct(id);
-    openSelectProductModal();
+    if (!customerId) {
+      setMessage("Please add Customer first!");
+      openAlertModal();
+    } else {
+      getDetailProduct(id);
+      openSelectProductModal();
+    }
   };
 
-  const addToCart = (e) => {
+  const prepareAddToCart = async (e) => {
     e.preventDefault();
+    try {
+      const {data} = await axios.get(
+        "https://api.kattohair.com/api/employees/" + stylist,
+        Session()
+      );
+      addToCart(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const addToCart = (stylistName) => {
     try {
       setCart((data) => [
         ...data,
         {
           stylist_id: parseInt(stylist),
+          stylist_name: stylistName,
           product_id: selectProduct.id,
-          service_discount_type: discountType,
-          service_discount_amount: discountValue,
-        },
-      ]);
-      setDetailCart((data) => [
-        {
-          stylist_id: parseInt(stylist),
           product_name: selectProduct.name,
-          price: selectProduct.price,
-          product_id: selectProduct.id,
+          product_price: selectProduct.price,
           service_discount_type: discountType,
           service_discount_amount: discountValue,
         },
@@ -136,32 +197,104 @@ const Cashier = () => {
     }
   };
 
+  const prepareEditData = (val) => {
+    setProductIndex(val);
+    setEditProduct(cart[val]);
+    setDiscountTypeEdit(cart[val].service_discount_type);
+    if (!isNaN(parseInt(cart[val].service_discount_amount))) {
+      setDiscountValueEdit(parseInt(cart[val].service_discount_amount));
+    } else {
+      setDiscountValueEdit();
+    }
+    setStylistEdit(cart[val].stylist_id);
+    openEditProductModal();
+  };
+
+  const handleEditCart = async (e) => {
+    e.preventDefault();
+    try {
+      const {data} = await axios.get(
+        "https://api.kattohair.com/api/employees/" + stylistEdit,
+        Session()
+      );
+      setToCartEdit(data.data.name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const setToCartEdit = (stylistName) => {
+    let data = JSON.parse(localStorage.getItem("cart"));
+    data[productIndex] = {
+      stylist_name: stylistName,
+      stylist_id: parseInt(stylistEdit),
+      product_id: data[productIndex].product_id,
+      product_name: data[productIndex].product_name,
+      product_price: data[productIndex].product_price,
+      service_discount_type: discountTypeEdit,
+      service_discount_amount: discountValueEdit,
+    };
+    localStorage.setItem("cart", JSON.stringify(data));
+    setCart(data);
+  };
+
+  const prepareDeleteData = (val) => {
+    console.log(val);
+  };
+
+  const clearCart = () => {
+    setCart("");
+    localStorage.removeItem("cart");
+  };
+
   useEffect(() => {
     fetchCategoryData();
     fetchAllCategoryProduct();
     fetchDataEmployee();
+    fetchDataCustomer();
   }, []);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  useEffect(() => {
-    localStorage.setItem("detail-cart", JSON.stringify(detailCart));
-  }, [detailCart]);
-
   return (
     <div className="flex flex-col h-full font-nunito-sans">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={message} />
       <ModalSelectProductCashier
         show={openSelectProduct}
         close={closeSelectProductModal}
         dataProduct={selectProduct}
         dataEmployee={dataEmployee}
         stylistValue={stylist}
+        discountType={discountType}
         setStlylistValue={setStylist}
         setDiscountType={setDiscountType}
         setDiscountValue={setDiscountValue}
-        submit={addToCart}
+        submit={prepareAddToCart}
+      />
+      <ModalEditProductCashier
+        show={openEditProduct}
+        close={closeEditProductModal}
+        dataProduct={editProduct}
+        dataEmployee={dataEmployee}
+        stylistValue={stylistEdit}
+        discountType={discountTypeEdit}
+        discountValue={discountValueEdit}
+        setStlylistValue={setStylistEdit}
+        setDiscountType={setDiscountTypeEdit}
+        setDiscountValue={setDiscountValueEdit}
+        submit={handleEditCart}
+      />
+      <ModalCreateCustomerCashier
+        show={openAddCustomer}
+        close={closeAddCustomerModal}
+        dataCustomer={dataCustomer}
+        categoryCustomer={categoryCustomer}
+        customerId={customerId}
+        setCustomerId={setCustomerId}
+        setCategoryCustomer={setCategoryCustomer}
+        submit={handleAddCustomer}
       />
       <div className="h-10">
         <Search
@@ -170,7 +303,7 @@ const Cashier = () => {
           placeholder={"Search by product name..."}
         />
       </div>
-      <div className="relative flex flex-col md:flex-row grow overflow-auto scrollbar-shown">
+      <div className="relative flex flex-col md:flex-row grow overflow-auto md:overflow-hidden scrollbar-shown">
         <div className="flex flex-col mb-2 md:mb-0 basis-full md:relative md:overflow-x-auto md:basis-1/2 lg:basis-4/6">
           <CashierCategoryList
             dataCategory={dataCategory}
@@ -184,9 +317,23 @@ const Cashier = () => {
           />
         </div>
         <div className="flex flex-col basis-full xl:ml-2 md:basis-1/2 lg:basis-2/6">
-          <div className="bg-white flex flex-col rounded-tl-lg rounded-tr-lg md:rounded-tr-none h-full">
-            <CashierRightPanelTop />
-            <CashierDataInput dataCashier={detailCart} />
+          <div className="bg-white flex flex-col rounded-tl-lg rounded-tr-lg md:rounded-tr-none h-full relative">
+            <CashierRightPanelTop
+              addCustomer={openAddCustomerModal}
+              activeCustomerData={activeCustomerData}
+              clearCustomer={() => {
+                setCustomerId("");
+                setActiveCustomerData("");
+                clearCart();
+              }}
+              clear={clearCart}
+            />
+            <CashierDataInput
+              dataCashier={cart}
+              activeCustomerData={activeCustomerData}
+              deleteData={prepareDeleteData}
+              editData={prepareEditData}
+            />
           </div>
         </div>
       </div>

@@ -43,7 +43,7 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
         </div>
       </div>
       {!dataProduct[0] && (
-        <div className="w-full h-full flex flex-col justify-center items-center">
+        <div className="w-full h-full flex flex-col justify-center items-center opacity-25">
           <MdOutlineScreenSearchDesktop className="text-gray-100 text-8xl" />
           <p className="text-gray-100">No result</p>
         </div>

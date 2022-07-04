@@ -47,7 +47,8 @@ const SettingAdmin = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -57,11 +58,11 @@ const SettingAdmin = () => {
 
   const getTotalCount = async (page = currentTablePage, search = "") => {
     try {
-      console.log(Session());
       const AllData = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
@@ -75,7 +76,8 @@ const SettingAdmin = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/admin${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -105,19 +107,25 @@ const SettingAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("https://api.kattohair.com/api/admin/create", {
-        username: username,
-        phone: phone,
-        password: password,
-        password_confirmation: passwordConfirmation,
-      }, Session());
+      await axios.post(
+        "https://api.kattohair.com/api/admin/create",
+        {
+          username: username,
+          phone: phone,
+          password: password,
+          password_confirmation: passwordConfirmation,
+        },
+        Session()
+      );
       fetchData();
       getTotalCount();
       getItemsPerPage();
-      alert("Succesfully add admin, if admin data didn't show you must refresh your browser")
+      alert(
+        "Succesfully add admin, if admin data didn't show you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Add admin failed")
+      alert("Add admin failed");
     }
   };
 
@@ -145,17 +153,23 @@ const SettingAdmin = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`https://api.kattohair.com/api/admin/update/${idEdit}`, {
-        username: usernameEdit,
-        phone: phoneEdit,
-        password: passwordEdit,
-        password_confirmation: passwordConfirmationEdit,
-      }, Session());
+      await axios.put(
+        `https://api.kattohair.com/api/admin/update/${idEdit}`,
+        {
+          username: usernameEdit,
+          phone: phoneEdit,
+          password: passwordEdit,
+          password_confirmation: passwordConfirmationEdit,
+        },
+        Session()
+      );
       fetchData();
-      alert("Succesfully update admin, if admin data didn't update you must refresh your browser")
+      alert(
+        "Succesfully update admin, if admin data didn't update you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Update admin failed")
+      alert("Update admin failed");
     }
   };
 
@@ -185,10 +199,10 @@ const SettingAdmin = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully delete admin")
+      alert("Succesfully delete admin");
     } catch (err) {
       console.log(err);
-      alert("Delete admin failed")
+      alert("Delete admin failed");
     }
   };
 
