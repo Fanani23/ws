@@ -20,10 +20,10 @@ class PresenceController extends Controller
     public function show(Employee $employee)
     {
         if (request()->has('from') && request()->has('to')) {
-            return PresenceResource::collection($employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->whereNotNull(['coming_time', 'return_time'])->paginate(9));
+            return PresenceResource::collection($employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->whereNotNull(['coming_time', 'return_time'])->paginate(9))->additional(compact('employee'));
         }
 
-        return PresenceResource::collection($employee->presences()->whereNotNull(['coming_time', 'return_time'])->paginate(2));
+        return PresenceResource::collection($employee->presences()->whereNotNull(['coming_time', 'return_time'])->paginate(9))->additional(compact('employee'));
 
     }
 
@@ -56,7 +56,7 @@ class PresenceController extends Controller
         if ($status == 'datang' && ($now >= $timeFrom) && ($now < $timeTo)) {
             if ($employee->presenced->count() > 0) {
                 return response()->json([
-                    'message' => 'You have made a presence.'
+                    'message' => 'Kamu sudah melakukan presensi datang'
                 ], 400);
             }
             $employee->presences()->create([
@@ -65,7 +65,7 @@ class PresenceController extends Controller
                 'status' => $status
             ]);
             return response()->json([
-                'message' => 'Berhasil datang'
+                'message' => 'Presensi datang berhasil'
             ], 200);
 
         } elseif ($status == 'pulang' && $now >= $timeTo) {
@@ -78,17 +78,17 @@ class PresenceController extends Controller
                 ]);
                 
                 return response()->json([
-                    'message' => 'Berhasil pulang'
+                    'message' => 'Presensi pulang berhasil'
                 ], 200);
             }
             
             return response()->json([
-                'message' => 'You have made a presence.'
+                'message' => 'Kamu sudah melakukan presensi pulang'
             ], 400);
 
         } else {
             return response()->json([
-                'message' => 'Gagal'
+                'message' => 'Presensi gagal karena di luar waktu'
             ], 400);
         }
     }

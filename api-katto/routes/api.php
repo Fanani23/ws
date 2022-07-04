@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, TransactionController, UserController};
-use App\Http\Controllers\Auth\{LoginController, LogoutController, MeController, RegisterController, LoginActivityController};
+use App\Http\Controllers\Auth\{LoginActivityController, LoginController, LogoutController, MeController, RegisterController};
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -67,9 +67,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/create', [UserController::class, 'create']);
         Route::put('/update/{user:id}', [UserController::class, 'update']);
         Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
+        Route::get('login-activities', LoginActivityController::class);
+        
         Route::get('/{user:id}', [UserController::class, 'show']);
 
-        Route::get('login-activities', LoginActivityController::class);
     });
 
     Route::prefix('cashier')->group(function () {
@@ -81,9 +82,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('orders')->group(function () {
         Route::get('', [OrderController::class, 'index']);
-        Route::get('{transaction:id}', [OrderController::class, 'show']);
         Route::get('customer/{id}', [OrderController::class, 'orderHistoryCustomer']);
         Route::get('employee/{employee:id}', [OrderController::class, 'orderHistoryEmployee']);
+        Route::get('{transaction:id}', [OrderController::class, 'show']);
     });
 
     Route::get('transactions', [TransactionController::class, 'index']);

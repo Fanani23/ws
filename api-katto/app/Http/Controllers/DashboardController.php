@@ -14,10 +14,10 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $transactionItemsToday = TransactionItem::whereDate('datetime', now())->get();
+        $transactionItemsToday = TransactionItem::whereDate('datetime', date('Y-m-d'))->get();
         $transactionItemsYesterday = TransactionItem::whereDate('datetime', date('Y-m-d', strtotime("-1 days")))->get();
 
-        $totalTransactionsToday = Transaction::whereDate('datetime', now())->count();
+        $totalTransactionsToday = Transaction::whereDate('datetime', date('Y-m-d'))->count();
         $totalTransactionsYesterday = Transaction::whereDate('datetime', date('Y-m-d', strtotime("-1 days")))->count();
         $transactionsGrowth = growth($totalTransactionsToday, $totalTransactionsYesterday);
 
@@ -41,13 +41,13 @@ class DashboardController extends Controller
                     "type" => $transactionsGrowth > 0 ? 'up' : 'down'
                 ],
                 'total_revenue' => [
-                    "total" => $totalRevenueToday,
+                    "total" => formatPrice($totalRevenueToday),
                     "growth" => $revenueGrowth . '%',
                     "type" => $transactionsGrowth > 0 ? 'up' : 'down'
 
                 ],
                 'total_profit' => [
-                    "total" => $totalProfitToday,
+                    "total" => formatPrice($totalProfitToday),
                     "growth" => $profitGrowth . '%',
                     "type" => $transactionsGrowth > 0 ? 'up' : 'down'
 

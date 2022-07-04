@@ -37,7 +37,7 @@ class CustomerController extends Controller
     public function update(CustomerRequest $request, Customer $customer)
     {
         $customer->update([
-            'code' => $request->code,
+            'code' => 'C'.$request->phone,
             'name' => $request->name,
             'phone' => $request->phone,
             'birthday' => $request->birthday,

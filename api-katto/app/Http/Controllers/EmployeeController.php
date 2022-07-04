@@ -27,6 +27,10 @@ class EmployeeController extends Controller
             $employees->where('job_id', $job_id);
         }
 
+        if (request()->paginate == 'false') {
+            return EmployeeResource::collection($employees->orderBy('name')->get());
+        }
+
         return EmployeeResource::collection($employees->orderBy('name')->paginate(9));
     }
 
