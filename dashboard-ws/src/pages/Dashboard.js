@@ -115,7 +115,7 @@ const Dashboard = () => {
   const fetchDataComparisonMembership = async (parameter = "") => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/dashboard/comparison-revenue${parameter}`,
+        `https://api.kattohair.com/api/dashboard/comparison-membership${parameter}`,
         Session()
       );
       setDataComparison(data.data);
@@ -359,7 +359,7 @@ const Dashboard = () => {
                 defaultValue={selectComparison}
                 onChange={(e) => setSelectComparison(e.target.value)}
               >
-                <option selected value="transaction" className="text-black">
+                <option value="transaction" className="text-black">
                   Transaction
                 </option>
                 <option value="revenue" className="text-black">

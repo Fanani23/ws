@@ -1,21 +1,20 @@
-import {Dialog, Transition, Combobox} from "@headlessui/react";
-import React, {Fragment, useState} from "react";
+import {Dialog, Transition} from "@headlessui/react";
+import {Fragment} from "react";
 import {MdClose} from "react-icons/md";
 
-const ModalSelectProductCashier = ({
+const ModalEditProductCashier = ({
   show,
   close,
-  dataProduct,
-  dataEmployee,
-  stylistValue,
-  discountType,
-  setStlylistValue,
-  setDiscountType,
-  setDiscountValue,
   submit,
+  dataProduct,
+  stylistValue,
+  setStlylistValue,
+  dataEmployee,
+  discountType,
+  setDiscountType,
+  discountValue,
+  setDiscountValue,
 }) => {
-  // const [query, setQuery] = useState("");
-
   const handleDiscountType = (event) => {
     setDiscountType(event.target.value);
   };
@@ -50,9 +49,9 @@ const ModalSelectProductCashier = ({
                   as="div"
                   className="flex justify-between text-lg font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>{dataProduct?.name}</h3>
+                  <h3>{dataProduct?.product_name}</h3>
                   <div className="flex">
-                    <h1>Rp{dataProduct?.price}</h1>
+                    <h1>Rp{dataProduct?.product_price}</h1>
                   </div>
                   <div
                     onClick={close}
@@ -155,6 +154,7 @@ const ModalSelectProductCashier = ({
                           name="service_discount_amount"
                           id="discount-amount"
                           disabled={discountType === "none"}
+                          value={discountValue}
                           className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
                           onChange={(e) => setDiscountValue(e.target.value)}
                         />
@@ -187,4 +187,4 @@ const ModalSelectProductCashier = ({
   );
 };
 
-export default ModalSelectProductCashier;
+export default ModalEditProductCashier;

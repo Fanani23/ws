@@ -8,14 +8,14 @@ const Search = ({
   placeholder,
 }) => {
   return (
-    <div className={`flex grow ${textColor} relative`}>
+    <div className={`flex flex-row ${textColor} relative`}>
       <label htmlFor="search" className="absolute top-3 left-0">
         <MdSearch className={textColor} />
       </label>
       <input
         className={`border-b-2 ${
           bgColor === "bg-black" ? `border-white` : `border-gray-300`
-        } bg-transparent w-full md:w-1/2 lg:w-1/3 ${textColor} h-10 pl-5 text-sm focus:outline-none`}
+        } bg-transparent w-full md:w-72 ${textColor} h-10 pl-5 text-sm focus:outline-none`}
         type="search"
         name="search"
         id="search"
@@ -25,7 +25,7 @@ const Search = ({
       />
       <button
         type="submit"
-        className={`ml-2 mb-2 px-3 py-2 ${
+        className={`ml-2 h-10 px-3 py-2 ${
           bgColor === "bg-black" ? `bg-white` : `bg-black`
         } rounded-lg`}
       >

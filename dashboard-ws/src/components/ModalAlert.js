@@ -1,14 +1,8 @@
 import {Dialog, Transition} from "@headlessui/react";
-import {MdClose} from "react-icons/md";
 import React, {Fragment} from "react";
+import {MdClose} from "react-icons/md";
 
-const ModalCreateCategories = ({
-  show,
-  close,
-  submit,
-  nameValue,
-  setNameValue,
-}) => {
+const ModalAlert = ({show, close, message}) => {
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={close}>
@@ -38,9 +32,9 @@ const ModalCreateCategories = ({
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="div"
-                  className="text-lg text-center font-medium leading-6 text-gray-900 p-8 pb-1"
+                  className="flex justify-between text-lg font-medium leading-6 text-gray-900 p-8 pb-1"
                 >
-                  <h3>Add Data Category</h3>
+                  <h3>{message}</h3>
                   <div
                     onClick={close}
                     className="rounded-full p-0.5 top-2 right-2 bg-gray-200 absolute"
@@ -49,42 +43,17 @@ const ModalCreateCategories = ({
                     <MdClose className="relative" />
                   </div>
                 </Dialog.Title>
-                <form autoComplete="off" noValidate onSubmit={submit}>
-                  <div className="mt-2 border-t-2">
-                    <div className="text-sm p-6 text-gray-500">
-                      <div className="flex flex-row items-center">
-                        <label htmlFor="name" className="font-semibold w-28">
-                          Category Name
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          id="name"
-                          className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                          value={nameValue}
-                          onChange={(e) => setNameValue(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
+                <div className="mt-2 border-t-2">
                   <div className="mt-4 px-6 pb-6 flex justify-center">
-                    <button
-                      type="submit"
-                      className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 mr-4"
-                      onClick={close}
-                    >
-                      Save
-                    </button>
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                       onClick={close}
                     >
-                      Cancel
+                      Close
                     </button>
                   </div>
-                </form>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -94,4 +63,4 @@ const ModalCreateCategories = ({
   );
 };
 
-export default ModalCreateCategories;
+export default ModalAlert;

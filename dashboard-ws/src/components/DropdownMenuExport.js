@@ -1,5 +1,6 @@
 import {Menu} from "@headlessui/react";
 import {
+  MdClose,
   MdDeleteOutline,
   MdMoreVert,
   MdOutlineInsertDriveFile,
@@ -8,7 +9,7 @@ import {
 
 const DropdownMenuExport = (props) => {
   return (
-    <Menu as="div" className="relative ml-3 z-40">
+    <Menu as="div" className="relative ml-3 sm:ml-auto z-40">
       <Menu.Button className="active:bg-gray-200 hover:bg-gray-200 rounded-lg px-2 py-3">
         <MdMoreVert className="text-black" />
       </Menu.Button>
@@ -48,7 +49,7 @@ const DropdownMenuExport = (props) => {
                 } flex items-center group text-gray-400 text-sm px-4 py-2 w-full`}
                 onClick={props.close}
               >
-                <MdDeleteOutline className="mr-4 text-lg" />
+                <MdClose className="mr-4 text-lg" />
                 <span className="font-semibold">Close</span>
               </button>
             )}

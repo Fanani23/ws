@@ -95,10 +95,12 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully added category, if data didn't show you must refresh your browser")
+      alert(
+        "Succesfully added category, if data didn't show you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Add category failed")
+      alert("Add category failed");
     }
   };
 
@@ -132,10 +134,12 @@ const ProductCategory = () => {
         Session()
       );
       fetchData();
-      alert("Succesfully update category, if category didn't update you must refresh your browser")
+      alert(
+        "Succesfully update category, if category didn't update you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Update data failed")
+      alert("Update data failed");
     }
   };
 
@@ -165,10 +169,10 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully delete category")
+      alert("Succesfully delete category");
     } catch (err) {
       console.log(err);
-      alert("Delete category failed")
+      alert("Delete category failed");
     }
   };
 
@@ -195,7 +199,7 @@ const ProductCategory = () => {
         submit={handleDelete}
       />
       <div className="bg-white w-full p-5 rounded-lg overflow-hidden flex h-full flex-col">
-        <div className="flex justify-between">
+        <div className="flex flex-row justify-between sm:justify-start font-nunito-sans">
           <Search
             textColor={"text-black"}
             bgColor={"bg-white"}
@@ -205,11 +209,13 @@ const ProductCategory = () => {
           />
           <button
             type="submit"
-            className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
+            className="flex flex-row ml-2 items-center sm:ml-auto h-10 px-3 py-2 bg-black rounded-lg"
             onClick={openAddCategoryModal}
           >
-            <MdAdd className="text-white mr-2" />
-            <span>Add Category</span>
+            <MdAdd className="text-white mr-0 sm:mr-2" />
+            <span className="w-full text-sm sm:text-normal whitespace-pre sm:whitespace-normal">
+              Add Category
+            </span>
           </button>
         </div>
         {tableCount ? (

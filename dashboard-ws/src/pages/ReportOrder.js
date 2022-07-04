@@ -9,6 +9,7 @@ import axios from "axios";
 import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
+import FilterByDate from "../components/FilterByDate";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
@@ -29,7 +30,8 @@ const ReportOrder = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/orders${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -42,7 +44,8 @@ const ReportOrder = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/products/categories${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
@@ -54,7 +57,8 @@ const ReportOrder = () => {
   const fetchDetailData = async (id) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/orders/${id}`, Session()
+        `https://api.kattohair.com/api/orders/${id}`,
+        Session()
       );
       setDetailOrder(data.data);
     } catch (err) {
@@ -112,14 +116,17 @@ const ReportOrder = () => {
           } basis-full`}
         >
           <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
-            <div className="flex mt-2 relative">
-              <Search
-                textColor={"text-black"}
-                bgColor={"bg-white"}
-                placeholder={"Search by name..."}
-                searchValue={searchValue}
-                setSearchValue={showSearchedTablePage}
-              />
+            <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
+              <div className="flex flex-col md:flex-row">
+                <Search
+                  textColor={"text-black"}
+                  bgColor={"bg-white"}
+                  placeholder={"Search by name..."}
+                  searchValue={searchValue}
+                  setSearchValue={showSearchedTablePage}
+                />
+                <FilterByDate />
+              </div>
               <DropdownMenuExport
                 export={exportAll}
                 print={printAll}
