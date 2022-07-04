@@ -10,7 +10,7 @@ import Session from "../Session";
 import TableReportCommission from "../components/TableReportCommission";
 
 const ReportCommission = () => {
-  TabTitle("Transaction - Kato Haircut");
+  TabTitle("Commission - Kato Haircut");
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);

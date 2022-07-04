@@ -30,7 +30,7 @@ const ChartLine = ({dataChart, label}) => {
     datasets: [
       {
         label: label,
-        data: data?.map((data) => data.count),
+        data: data?.map((data) => parseInt(data.count)),
         borderColor: "#147AD6",
       },
     ],
