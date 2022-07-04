@@ -250,7 +250,7 @@ const Cashier = () => {
   };
 
   const clearCart = () => {
-    setCart("");
+    setCart([]);
     localStorage.removeItem("cart");
   };
 

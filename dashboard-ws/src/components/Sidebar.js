@@ -27,7 +27,7 @@ const Sidebar = ({show}) => {
   return (
     <>
       {show && (
-        <div className="bg-primary-100 text-white fixed top-20 left-0 bottom-0 md:relative md:top-0 min-w-[270px] z-[5] p-3 overflow-y-scroll scrollbar-auto-hide">
+        <div className="bg-primary-100 text-white fixed top-20 left-0 bottom-0 md:relative md:top-0 min-w-[270px] z-20 p-3 overflow-y-scroll scrollbar-auto-hide">
           <ul className="relative w-full min-h-full">
             <li className="rounded-lg mb-3 last:mb-0" role="button">
               <NavLink
