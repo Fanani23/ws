@@ -25,7 +25,7 @@ const TablePresensi = ({tableData, detailData, deleteRow}) => {
                 <button
                   className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
                   key={row.id}
-                  onClick={() => detailData(row.id)}
+                  onClick={() => detailData(row.employee_id)}
                 >
                   See Detail
                 </button>

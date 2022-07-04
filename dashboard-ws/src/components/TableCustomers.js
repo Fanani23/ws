@@ -50,7 +50,7 @@ const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
                   <MdDeleteOutline className="ml-2 text-red-500 hover:text-red-800" />
                 </button>
                 <button onClick={() => detailData(row.id)} className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
-                  Detail
+                  See Detail
                 </button>
               </td>
             </tr>
