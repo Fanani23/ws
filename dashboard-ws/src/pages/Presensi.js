@@ -35,6 +35,7 @@ const Presensi = () => {
   const [detailShow, setDetailShow] = useState();
   const [detailPresensi, setDetailPresensi] = useState();
   const [activeId, setActiveId] = useState();
+  const [activeEmployee, setActiveEmployee] = useState("");
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -91,9 +92,6 @@ const Presensi = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log({code: code,
-    //   shift: shift,
-    //   status: status});
     try {
       await axios.post(
         "https://api.kattohair.com/api/presences/create",
@@ -153,7 +151,7 @@ const Presensi = () => {
         `https://api.kattohair.com/api/presences/${id}`,
         Session()
       );
-      setDetailPresensi(data.data);
+      setDetailPresensi(data);
     } catch (err) {
       console.log(err);
     }
@@ -209,6 +207,7 @@ const Presensi = () => {
                   idTable={idTable}
                   deleteRow={prepareDelete}
                   detailData={detailData}
+                  setActiveEmployeeName={setActiveEmployee}
                 />
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
@@ -223,7 +222,10 @@ const Presensi = () => {
         </div>
         {detailPresensi && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <PresensiDetail detailPresensi={detailPresensi} />
+            <PresensiDetail
+              detailPresensi={detailPresensi}
+              employeeName={activeEmployee}
+            />
           </div>
         )}
       </div>

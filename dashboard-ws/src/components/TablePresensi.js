@@ -1,6 +1,11 @@
 import {MdDeleteOutline} from "react-icons/md";
 
-const TablePresensi = ({tableData, detailData, deleteRow}) => {
+const TablePresensi = ({
+  tableData,
+  detailData,
+  deleteRow,
+  setActiveEmployeeName,
+}) => {
   return (
     <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
       <thead className="sticky top-0">
@@ -25,7 +30,10 @@ const TablePresensi = ({tableData, detailData, deleteRow}) => {
                 <button
                   className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
                   key={row.id}
-                  onClick={() => detailData(row.employee_id)}
+                  onClick={() => {
+                    detailData(row.employee_id);
+                    setActiveEmployeeName(row.employee_name);
+                  }}
                 >
                   See Detail
                 </button>
