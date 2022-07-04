@@ -239,7 +239,14 @@ const Cashier = () => {
   };
 
   const prepareDeleteData = (val) => {
-    console.log(val);
+    let data = JSON.parse(localStorage.getItem("cart"));
+    data.splice(val, 1);
+    localStorage.setItem("cart", JSON.stringify(data));
+    setCart(data);
+  };
+
+  const prepareConfirmPayment = () => {
+    console.log(cart);
   };
 
   const clearCart = () => {
@@ -333,6 +340,7 @@ const Cashier = () => {
               activeCustomerData={activeCustomerData}
               deleteData={prepareDeleteData}
               editData={prepareEditData}
+              prepareConfirmPayment={prepareConfirmPayment}
             />
           </div>
         </div>
