@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import TableEmployee from "./TableEmployee";
 
 const PresensiDetail = ({detailPresensi}) => {
+    console.log(detailPresensi);
 	
 	return (
 		<div className="flex flex-col h-full font-noto-sans">
@@ -19,7 +20,7 @@ const PresensiDetail = ({detailPresensi}) => {
                         <div className="flex flex-row">
                             <div className="flex flex-col">
                                 <h1 style={{fontWeight: 'bold'}} className="text-black font-bold text-lg mt-1 mb-2 mr-20" >
-                                    {detailPresensi.employee_name}
+                                    {detailPresensi.id}
                                 </h1>
                                 <h5 style={{fontWeight: 'normal'}} className="text-black text-lg mt-6">
                                     Total Presensi

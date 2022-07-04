@@ -50,6 +50,7 @@ const Customers = () => {
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
+      console.log(Session())
       const pageData = await axios.get(
         `https://api.kattohair.com/api/customers${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
