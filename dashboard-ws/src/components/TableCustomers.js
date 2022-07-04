@@ -1,5 +1,4 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
-import { Link } from "react-router-dom";
 
 const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
   const capitalizeEachWord = (sentence) => {
@@ -25,10 +24,7 @@ const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
       <tbody>
         {tableData.length > 0 &&
           tableData.map((row) => (
-            <tr
-              key={row.id}
-              className="even:bg-[#F9F9FC] text-black"
-            >
+            <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
               <td className="py-2">{row.code}</td>
               <td className="py-2">{row.birthday}</td>
               <td className="py-2">{row.name}</td>
@@ -49,8 +45,17 @@ const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
                 <button onClick={() => deleteRow(row.id)}>
                   <MdDeleteOutline className="ml-2 text-red-500 hover:text-red-800" />
                 </button>
-                <button onClick={() => detailData(row.id)} className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
+                <button
+                  onClick={() => detailData(row.id)}
+                  className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
+                >
                   Detail
+                </button>
+                <button
+                  className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
+                  onClick={() => detailData(row.id)}
+                >
+                  See Detail
                 </button>
               </td>
             </tr>
