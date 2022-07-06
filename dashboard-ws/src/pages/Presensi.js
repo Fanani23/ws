@@ -8,16 +8,28 @@ import ModalCreatePresensi from "../components/ModalCreatePresensi";
 import ModalDeletePresensi from "../components/ModalDeletePresensi";
 import PresensiDetail from "../components/PresensiDetail";
 import Session from "../Session";
+<<<<<<< HEAD
 import ModalResponsePresensi from "../components/ModalResponsePresensi";
+=======
+import ModalAlert from "../components/ModalAlert";
+>>>>>>> b3a855fd1f0b76387ea2d486b9d800c45f931fcf
 
 const Presensi = () => {
   TabTitle("Presensi - Kato Haircut");
+  // Message
+  const [msgPresensi, setMsgPresensi] = useState("");
   // Modal
   const [openAddPresensi, setOpenAddPresensi] = useState(false);
   const closeAddPresensiModal = () => setOpenAddPresensi(false);
   const openAddPresensiModal = () => setOpenAddPresensi(true);
   const [openDeletePresensi, setOpenDeletePresensi] = useState(false);
   const closeDeletePresensiModal = () => setOpenDeletePresensi(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setMsgPresensi("");
+  };
+  const openAlertModal = () => setOpenAlert(true);
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -103,13 +115,15 @@ const Presensi = () => {
         },
         Session()
       );
+      // .then((response) => setMsgPresensi(response.message));
       fetchData();
       getTotalCount();
       getItemsPerPage();
       <ModalResponsePresensi/>
     } catch (err) {
-      console.log(err);
-      <ModalResponsePresensi/>
+      // console.log(err);
+      // alert("Presensi gagal");
+      setMsgPresensi(err.response.data.message);
     }
   };
 
@@ -168,8 +182,21 @@ const Presensi = () => {
     }
   };
 
+  useEffect(() => {
+    if (msgPresensi !== "") {
+      openAlertModal();
+    }
+  }, [msgPresensi]);
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      {msgPresensi && (
+        <ModalAlert
+          show={openAlert}
+          close={closeAlertModal}
+          message={msgPresensi}
+        />
+      )}
       <ModalCreatePresensi
         show={openAddPresensi}
         close={closeAddPresensiModal}
