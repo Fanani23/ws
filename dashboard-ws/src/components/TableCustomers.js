@@ -51,12 +51,6 @@ const TableCustomers = ({tableData, detailData, editRow, deleteRow}) => {
                 >
                   Detail
                 </button>
-                <button
-                  className="ml-2 px-3 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
-                  onClick={() => detailData(row.id)}
-                >
-                  See Detail
-                </button>
               </td>
             </tr>
           ))}

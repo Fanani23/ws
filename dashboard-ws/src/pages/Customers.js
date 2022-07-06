@@ -10,6 +10,7 @@ import ModalEditCustomer from "../components/ModalEditCustomer";
 import ModalDeleteCustomer from "../components/ModalDeleteCustomer";
 import CustomerDetail from "../components/CustomerDetail";
 import Session from "../Session";
+import ModalShowDetailOrder from "../components/ModalShowDetailOrder";
 
 const Customers = () => {
   TabTitle("Customers - Kato Haircut");
@@ -21,6 +22,8 @@ const Customers = () => {
   const closeEditCustomerModal = () => setOpenEditCustomer(false);
   const [openDeleteCustomer, setOpenDeleteCustomer] = useState(false);
   const closeDeleteCustomerModal = () => setOpenDeleteCustomer(false);
+  const [openDetailOrder, setOpenDetailOrder] = useState(false);
+  const closeDetailOrderModal = () => setOpenDetailOrder(false);
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -46,7 +49,10 @@ const Customers = () => {
   // Detail
   const [detailShow, setDetailShow] = useState(false);
   const [detailCustomer, setDetailCustomer] = useState();
+  const [historyCustomer, setHistoryCustomer] = useState([]);
   const [activeId, setActiveId] = useState();
+  // ModalDetail
+  const [modalDetailData, setModalDetailData] = useState({});
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -131,10 +137,12 @@ const Customers = () => {
       fetchData();
       getTotalCount();
       getItemsPerPage();
-      alert("Succesfully add customer, if customer didn't added you must refresh your browser")
+      alert(
+        "Succesfully add customer, if customer didn't added you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Add customer failed")
+      alert("Add customer failed");
     }
   };
 
@@ -176,10 +184,12 @@ const Customers = () => {
         Session()
       );
       fetchData();
-      alert("Succesfully update customer data, if data didn't update you must refresh your browser")
+      alert(
+        "Succesfully update customer data, if data didn't update you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Update data failed")
+      alert("Update data failed");
     }
   };
 
@@ -209,10 +219,10 @@ const Customers = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully delete customer")
+      alert("Succesfully delete customer");
     } catch (err) {
       console.log(err);
-      alert("Delete customer failed")
+      alert("Delete customer failed");
     }
   };
 
@@ -228,14 +238,46 @@ const Customers = () => {
     }
   };
 
+  const fetchDetailHistoryCust = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/orders/customer/${id}`,
+        Session()
+      );
+      setHistoryCustomer(data.data);
+      console.log(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const detailData = (id) => {
     if (activeId === id) {
       setDetailShow(!detailShow);
+      setHistoryCustomer([]);
     } else {
       fetchDetailData(id);
+      fetchDetailHistoryCust(id);
       setActiveId(id);
       setDetailShow(true);
     }
+  };
+
+  const getDetailDataModal = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/orders/${id}`,
+        Session()
+      );
+      setModalDetailData(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const detailModal = (id) => {
+    getDetailDataModal(id);
+    setOpenDetailOrder(true);
   };
 
   return (
@@ -271,6 +313,11 @@ const Customers = () => {
         close={closeDeleteCustomerModal}
         nameDeleteValue={nameDelete}
         submit={handleDelete}
+      />
+      <ModalShowDetailOrder
+        show={openDetailOrder}
+        close={closeDetailOrderModal}
+        dataDetail={modalDetailData}
       />
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
@@ -316,7 +363,11 @@ const Customers = () => {
         </div>
         {detailCustomer && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <CustomerDetail detailCustomer={detailCustomer} />
+            <CustomerDetail
+              detailCustomer={detailCustomer}
+              tabelDetailCustomer={historyCustomer}
+              modalDetail={detailModal}
+            />
           </div>
         )}
       </div>
