@@ -31,13 +31,13 @@ const SettingAdmin = () => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [role, setRole] = useState("");
   //Handle Edit
   const [idEdit, setIdEdit] = useState("");
   const [phoneEdit, setPhoneEdit] = useState("");
   const [usernameEdit, setUsernameEdit] = useState("");
   const [passwordEdit, setPasswordEdit] = useState("");
-  const [passwordConfirmationEdit, setPasswordConfirmationEdit] = useState("");
+  const [roleEdit, setRoleEdit] = useState("");
   // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
@@ -113,7 +113,7 @@ const SettingAdmin = () => {
           username: username,
           phone: phone,
           password: password,
-          password_confirmation: passwordConfirmation,
+          role: role,
         },
         Session()
       );
@@ -144,7 +144,7 @@ const SettingAdmin = () => {
       setPhoneEdit(data.data.phone);
       setUsernameEdit(data.data.username);
       setPasswordEdit(data.data.password);
-      setPasswordConfirmationEdit(data.data.password_confirmation);
+      setRoleEdit(data.data.role);
     } catch (err) {
       console.log(err);
     }
@@ -153,13 +153,19 @@ const SettingAdmin = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
     try {
+      console.log({
+        username: usernameEdit,
+        phone: phoneEdit,
+        password: passwordEdit,
+        role: roleEdit,
+      });
       await axios.put(
         `https://api.kattohair.com/api/admin/update/${idEdit}`,
         {
           username: usernameEdit,
           phone: phoneEdit,
           password: passwordEdit,
-          password_confirmation: passwordConfirmationEdit,
+          role: roleEdit,
         },
         Session()
       );
@@ -217,8 +223,8 @@ const SettingAdmin = () => {
         setUsernameValue={setUsername}
         password={password}
         setPasswordValue={setPassword}
-        passwordConfirmation={passwordConfirmation}
-        setPasswordConfirmationValue={setPasswordConfirmation}
+        role={role}
+        setRoleValue={setRole}
         submit={handleSubmit}
       />
       <ModalEditAdmin
@@ -228,10 +234,10 @@ const SettingAdmin = () => {
         setPhoneEditValue={setPhoneEdit}
         usernameEditValue={usernameEdit}
         setUsernameEditValue={setUsernameEdit}
-        passwordEdit={passwordEdit}
+        passwordEditValue={passwordEdit}
         setPasswordEditValue={setPasswordEdit}
-        passwordConfirmationEdit={passwordConfirmationEdit}
-        setPasswordConfirmationEditValue={setPasswordConfirmationEdit}
+        roleEditValue={roleEdit}
+        setRoleEditValue={setRoleEdit}
         submit={handleEdit}
       />
       <ModalDeleteAdmin

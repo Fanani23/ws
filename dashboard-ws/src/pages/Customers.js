@@ -10,6 +10,7 @@ import ModalEditCustomer from "../components/ModalEditCustomer";
 import ModalDeleteCustomer from "../components/ModalDeleteCustomer";
 import CustomerDetail from "../components/CustomerDetail";
 import Session from "../Session";
+import ModalHistoryCustomer from "../components/ModalHistoryCustomer";
 
 const Customers = () => {
   TabTitle("Customers - Kato Haircut");
@@ -46,6 +47,7 @@ const Customers = () => {
   // Detail
   const [detailShow, setDetailShow] = useState(false);
   const [detailCustomer, setDetailCustomer] = useState();
+  const [historyCustomer, setHistoryCustomer] = useState([]);
   const [activeId, setActiveId] = useState();
 
   const fetchData = async (page = currentTablePage, search = "") => {
@@ -229,12 +231,28 @@ const Customers = () => {
     }
   };
 
+  const fetchDetailHistory = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/orders/${id}`,
+        Session()
+      );
+      // console.log({data});
+      setHistoryCustomer(data.data);
+      // console.log(setHistoryCustomer(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const detailData = (id) => {
     if (activeId === id) {
       setDetailShow(!detailShow);
+      setHistoryCustomer([]);
     } else {
       fetchDetailData(id);
       setActiveId(id);
+      fetchDetailHistory(id);
       setDetailShow(true);
     }
   };
@@ -317,7 +335,10 @@ const Customers = () => {
         </div>
         {detailCustomer && detailShow && (
           <div className="basis-full md:mt-0 md:ml-2 md:basis-1/2 lg:basis-2/6 mt-2">
-            <CustomerDetail detailCustomer={detailCustomer} />
+            <CustomerDetail
+              detailCustomer={detailCustomer}
+              historyCustomer={historyCustomer}
+            />
           </div>
         )}
       </div>

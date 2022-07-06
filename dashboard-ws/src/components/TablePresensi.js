@@ -11,6 +11,8 @@ const TablePresensi = ({
       <thead className="sticky top-0">
         <tr className="bg-[#F9F9FC] text-black text-left">
           <th className="py-2">Employee Name</th>
+          <th className="py-2">Shift</th>
+          <th className="py-2">Status</th>
           <th className="py-2">Coming Time</th>
           <th className="py-2">Return Time</th>
           <th className="py-2">Action</th>
@@ -21,6 +23,8 @@ const TablePresensi = ({
           tableData.map((row) => (
             <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
               <td className="py-2">{row.employee_name}</td>
+              <td className="py-2">{row.shift}</td>
+              <td className="py-2">{row.status}</td>
               <td className="py-2">{row.coming_time}</td>
               <td className="py-2">{row.return_time}</td>
               <td className="py-2">

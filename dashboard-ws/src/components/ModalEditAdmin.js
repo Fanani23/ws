@@ -12,9 +12,14 @@ const ModalEditAdmin = ({
     setUsernameEditValue,
     passwordEditValue,
     setPasswordEditValue,
-    passwordConfirmationEditValue,
-    setPasswordConfirmationEditValue
+    roleEditValue,
+    setRoleEditValue
   }) => {
+
+    const handleRoleEdit = (e) => {
+        setRoleEditValue(e.target.value);
+    };
+
     return (
         <Transition appear show={show} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={close}>
@@ -100,17 +105,27 @@ const ModalEditAdmin = ({
                                                 />
                                             </div>
                                             <div className="flex flex-row items-center mb-6">
-                                                <label htmlFor="password_confirmation" className="font-semibold w-28">
-                                                    Password Confirmation
+                                                <label htmlFor="role" className="font-semibold w-28">
+                                                    Role
                                                 </label>
-                                                <input
-                                                    type="text"
-                                                    name="password_confirmation"
-                                                    id="password_confirmation"
-                                                    className="border-2 grow border-gray-200 rounded-lg px-3 py-2"
-                                                    defaultValue={passwordConfirmationEditValue}
-                                                    onChange={(e) => setPasswordConfirmationEditValue(e.target.value)}
-                                                />
+                                                <div className="ml-10" onChange={handleRoleEdit}>
+                                                    <input
+                                                        type="radio"
+                                                        name="role"
+                                                        value="Master"
+                                                        id="master"
+                                                        className="mr-2"
+                                                    />
+                                                    <label htmlFor="role-master">Master</label>
+                                                    <input
+                                                        type="radio"
+                                                        name="role"
+                                                        value="Admin"
+                                                        id="admin"
+                                                        className="ml-5 mr-2"
+                                                    />
+                                                    <label htmlFor="role-admin">Admin</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -5,6 +5,7 @@ import TableListProducts from "../components/TableListProducts";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
+import ProductCategoryList from "../components/ProductCategoryList";
 import ModalCreateProduct from "../components/ModalCreateProduct";
 import ModalDeleteProduct from "../components/ModalDeleteProduct";
 import ModalEditProduct from "../components/ModalEditProduct";
@@ -27,9 +28,11 @@ const ProductList = () => {
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // Search
   const [searchValue, setSearchValue] = useState();
+  const [currentCategory, setCurrentCategory] = useState("All");
+  const [dataProduct, setDataProduct] = useState([]);
   // Handle Create
   const [code, setCode] = useState("");
-  const [dataCategory, setDataCategory] = useState("");
+  const [dataCategory, setDataCategory] = useState([]);
   const [category, setCategory] = useState();
   const [name, setName] = useState("");
   const [price, setPrice] = useState();
@@ -91,6 +94,36 @@ const ProductList = () => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
     fetchData(currentTablePage, searchValue);
+  };
+
+  const fetchSpecificCategoryProduct = async (id) => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products/categories/products-by-category/${id}`,
+        Session()
+      );
+      setDataProduct(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchAllCategoryProduct = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/products`,
+        Session()
+      );
+      setDataProduct(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChangeCategory = (val) => {
+    val !== "All"
+    ? fetchSpecificCategoryProduct(val)
+    : fetchAllCategoryProduct();
   };
 
   const handleSubmit = (e) => {
@@ -286,6 +319,14 @@ const ProductList = () => {
             <MdAdd className="text-white mr-2" />
             <span>Add Service</span>
           </button>
+        </div>
+        <div >
+          <ProductCategoryList
+              dataCategory={dataCategory}
+              currentCategory={currentCategory}
+              setCurrentCategory={setCurrentCategory}
+              handleChangeCategory={handleChangeCategory}
+            />
         </div>
         {tableCount ? (
           <>

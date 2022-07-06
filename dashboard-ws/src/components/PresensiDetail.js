@@ -1,4 +1,5 @@
 import DropdownMenuExport from "../components/DropdownMenuExport";
+import FilterByDate from "./FilterByDate";
 
 const PresensiDetail = ({detailPresensi, employeeName}) => {
   return (
@@ -13,6 +14,7 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
               <h5 className="text-black text-lg">
                 Total Presensi: {detailPresensi.count}
               </h5>
+              <FilterByDate />
             </div>
             <div className="flex flex-row">
               <DropdownMenuExport />
@@ -22,6 +24,8 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
             <thead className="sticky top-0">
               <tr className="bg-[#F9F9FC] text-black text-left">
                 <th className="py-2">Employee Name</th>
+                <th className="py-2">Shift</th>
+                <th className="py-2">Status</th>
                 <th className="py-2">Coming Time</th>
                 <th className="py-2">Return Time</th>
               </tr>
@@ -31,6 +35,8 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
                 detailPresensi.data.map((row) => (
                   <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
                     <td className="py-2">{row.employee_name}</td>
+                    <td className="py-2">{row.shift}</td>
+                    <td className="py-2">{row.status}</td>
                     <td className="py-2">{row.coming_time}</td>
                     <td className="py-2">{row.return_time}</td>
                   </tr>
