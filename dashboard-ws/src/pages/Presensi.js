@@ -8,6 +8,7 @@ import ModalCreatePresensi from "../components/ModalCreatePresensi";
 import ModalDeletePresensi from "../components/ModalDeletePresensi";
 import PresensiDetail from "../components/PresensiDetail";
 import Session from "../Session";
+import ModalResponsePresensi from "../components/ModalResponsePresensi";
 
 const Presensi = () => {
   TabTitle("Presensi - Kato Haircut");
@@ -105,10 +106,10 @@ const Presensi = () => {
       fetchData();
       getTotalCount();
       getItemsPerPage();
-      alert("Presensi berhasil");
+      <ModalResponsePresensi/>
     } catch (err) {
       console.log(err);
-      alert("Presensi gagal");
+      <ModalResponsePresensi/>
     }
   };
 
