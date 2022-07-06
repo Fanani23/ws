@@ -10,23 +10,27 @@ use App\Models\Transaction;
 
 class OrderController extends Controller
 {
-    public function index()
+    public function index(Transaction $transaction)
     {
-        $transactions = Transaction::latest()->paginate(9);
+        $transaction = $transaction->newQuery();
 
-        if (request()->has('from') && request()->has('to')) {
-            $transactions = Transaction::whereBetween('datetime', [request()->from, request()->to." 23:59:59"])->latest()->paginate(9);
+        if (request()->has('searchCode')) {
+            $transaction->where('code', request()->code);
         }
 
-        return new TransactionCollection($transactions);
+        if (request()->has('from') && request()->has('to')) {
+            $transaction->whereBetween('datetime', [request()->from, request()->to . " 23:59:59"]);
+        }
+
+        return new TransactionCollection($transaction->latest()->paginate(9));
     }
 
     public function orderHistoryCustomer($id)
     {
         $transactions = Transaction::where('customer_id', $id)->with('customer');
-        
+
         if (request()->has('from') && request()->has('to')) {
-            $transactions = $transactions->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
+            $transactions = $transactions->whereBetween('datetime', [request()->from, request()->to . " 23:59:59"]);
         }
 
         return new TransactionCollection($transactions->latest()->paginate(9));
@@ -40,9 +44,9 @@ class OrderController extends Controller
     public function orderHistoryEmployee(Employee $employee)
     {
         $transactionItems = $employee->transactionItems()->with('transaction');
-        
+
         if (request()->has('from') && request()->has('to')) {
-            $transactionItems = $transactionItems->whereBetween('datetime', [request()->from, request()->to." 23:59:59"]);
+            $transactionItems = $transactionItems->whereBetween('datetime', [request()->from, request()->to . " 23:59:59"]);
         }
 
         $salary = $transactionItems->sum('fee');

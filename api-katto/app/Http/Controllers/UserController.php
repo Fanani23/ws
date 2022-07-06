@@ -25,7 +25,8 @@ class UserController extends Controller
         User::create([
             'username' => $request->username,
             'phone' => $request->phone,
-            'password' => bcrypt($request->password)
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
         ]);
 
         return response()->json([
@@ -43,6 +44,8 @@ class UserController extends Controller
         $user->update([
             'username' => $request->username,
             'phone' => $request->phone,
+            'password' => $request->password != '' ? bcrypt($request->password) : $user->password,
+            'role' => $request->role,
         ]);
 
         return response()->json([

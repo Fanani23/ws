@@ -62,15 +62,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('{employee:id}', [PresenceController::class, 'show']);
     });
 
-    Route::prefix('admin')->group(function () {
-        Route::get('', [UserController::class, 'index']);
-        Route::post('/create', [UserController::class, 'create']);
-        Route::put('/update/{user:id}', [UserController::class, 'update']);
-        Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
-        Route::get('login-activities', LoginActivityController::class);
-        
-        Route::get('/{user:id}', [UserController::class, 'show']);
+    Route::middleware('MasterRole')->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::get('', [UserController::class, 'index']);
+            Route::post('/create', [UserController::class, 'create']);
+            Route::put('/update/{user:id}', [UserController::class, 'update']);
+            Route::delete('/delete/{user:id}', [UserController::class, 'destroy']);
+            Route::get('login-activities', LoginActivityController::class);
 
+            Route::get('/{user:id}', [UserController::class, 'show']);
+        });
     });
 
     Route::prefix('cashier')->group(function () {
