@@ -6,6 +6,16 @@ const TablePresensi = ({
   deleteRow,
   setActiveEmployeeName,
 }) => {
+
+  const capitalizeEachWord = (sentence) => {
+    const words = sentence.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      words[i] = words[i][0].toUpperCase() + words[i].substr(1);
+    }
+
+    return words.join(" ");
+  };
+
   return (
     <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
       <thead className="sticky top-0">
@@ -23,8 +33,8 @@ const TablePresensi = ({
           tableData.map((row) => (
             <tr key={row.id} className="even:bg-[#F9F9FC] text-black">
               <td className="py-2">{row.employee_name}</td>
-              <td className="py-2">{row.shift}</td>
-              <td className="py-2">{row.status}</td>
+              <td className="py-2">{capitalizeEachWord(row.shift)}</td>
+              <td className="py-2">{capitalizeEachWord(row.status)}</td>
               <td className="py-2">{row.coming_time}</td>
               <td className="py-2">{row.return_time}</td>
               <td className="py-2">
@@ -39,7 +49,7 @@ const TablePresensi = ({
                     setActiveEmployeeName(row.employee_name);
                   }}
                 >
-                  See Detail
+                  Detail
                 </button>
               </td>
             </tr>

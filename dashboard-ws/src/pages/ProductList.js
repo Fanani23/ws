@@ -102,7 +102,7 @@ const ProductList = () => {
         `https://api.kattohair.com/api/products/categories/products-by-category/${id}`,
         Session()
       );
-      setDataProduct(data.data);
+      setTableData(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -114,7 +114,7 @@ const ProductList = () => {
         `https://api.kattohair.com/api/products`,
         Session()
       );
-      setDataProduct(data.data);
+      setTableData(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -199,7 +199,7 @@ const ProductList = () => {
       let i;
       let category_id = 0;
       for (i in dataCategory) {
-        if (dataCategory[i].name == categoryEdit) {
+        if (dataCategory[i].name === categoryEdit) {
           category_id = dataCategory[i].id;
         }
       }
