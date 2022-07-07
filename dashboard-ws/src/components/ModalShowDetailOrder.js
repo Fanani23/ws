@@ -77,7 +77,7 @@ const ModalShowDetailOrder = ({show, close, dataDetail}) => {
                       Discount: {dataDetail?.discount_total}
                     </li>
                     <li className="flex justify-end mr-4 mb-2">
-                      Total Payment: blm ada data
+                      Total Payment: {dataDetail.grand_total}
                     </li>
                   </ul>
                   <div className="flex justify-end mt-2">

@@ -100,11 +100,10 @@ const EmployeeSingle = () => {
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
               <TableEmployeeSingle tableData={tableData} />
-              {/* <Pagination
+              <Pagination
                 maxPage={Math.ceil(tableCount / itemsPerPage)}
                 currentPage={currentTablePage}
-                showTablePage={showTablePage}
-              /> */}
+              />
             </div>
           </div>
         </div>
