@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, NotificationController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginActivityController, LoginController, LogoutController, MeController, RegisterController};
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +80,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('delete/{cart:id}', [CartController::class, 'destroy']);
         Route::post('confirm/{cart:id}', [CartController::class, 'confirm']);
     });
+
+    Route::get('notifications', [NotificationController::class, 'index']);
 
     Route::prefix('orders')->group(function () {
         Route::get('', [OrderController::class, 'index']);

@@ -34,4 +34,9 @@ class Transaction extends Model
     {
         return $this->hasMany(TransactionItem::class);
     }
+
+    public function notification()
+    {
+        return $this->hasOne(Notification::class);
+    }
 }

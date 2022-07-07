@@ -197,6 +197,11 @@ class CartController extends Controller
             ]);
         }
 
+        $transaction->notification()->create([
+            'message' => 'New transaction has been confirmed.',
+            'datetime' => now(),
+        ]);
+
         $cart->cartItems()->delete();
         $cart->delete();
 
