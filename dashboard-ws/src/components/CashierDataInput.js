@@ -6,6 +6,7 @@ const CashierDataInput = ({
   deleteData,
   editData,
   prepareConfirmPayment,
+  totalPrice,
 }) => {
   return (
     <div className="w-full h-full flex flex-col md:overflow-y-auto scrollbar-shown relative">
@@ -64,6 +65,10 @@ const CashierDataInput = ({
             <button className="bg-black text-white px-3 py-2 rounded-lg ml-1">
               Coupon
             </button>
+          </div>
+          <div className="px-3 mt-3 flex justify-between">
+            <h1>Total</h1>
+            <h2>Rp {totalPrice}</h2>
           </div>
           <div className="px-3 mt-3 flex justify-between">
             <h1>Total</h1>

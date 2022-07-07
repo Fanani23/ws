@@ -41,6 +41,7 @@ const Cashier = () => {
   const [discountType, setDiscountType] = useState("none");
   const [discountValue, setDiscountValue] = useState();
   const [cart, setCart] = useState(getLocalStorageData);
+  const [totalPriceCart, setTotalPriceCart] = useState(0);
   // edit
   const [productIndex, setProductIndex] = useState();
   const [editProduct, setEditProduct] = useState();
@@ -187,8 +188,9 @@ const Cashier = () => {
           product_id: selectProduct.id,
           product_name: selectProduct.name,
           product_price: selectProduct.price,
+          product_price_unformat: selectProduct.price_unformat,
           service_discount_type: discountType,
-          service_discount_amount: discountValue,
+          service_discount_amount: parseInt(discountValue),
         },
       ]);
       setStylist("");
@@ -231,6 +233,7 @@ const Cashier = () => {
       product_id: data[productIndex].product_id,
       product_name: data[productIndex].product_name,
       product_price: data[productIndex].product_price,
+      product_price_unformat: data[productIndex].product_price_unformat,
       service_discount_type: discountTypeEdit,
       service_discount_amount: discountValueEdit,
     };
@@ -245,8 +248,25 @@ const Cashier = () => {
     setCart(data);
   };
 
-  const prepareConfirmPayment = () => {
-    console.log(cart);
+  const prepareConfirmPayment = async () => {
+    try {
+      let data = {
+        user_id: 10,
+        customer_id: parseInt(customerId),
+        discount_type: "percent",
+        discount_amount: "",
+        coupon_type: "nominal",
+        coupon_amount: "",
+        service_items: JSON.parse(localStorage.getItem("cart")),
+      };
+      await axios.post(
+        "https://api.kattohair.com/api/cashier/create",
+        data,
+        Session()
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const clearCart = () => {
@@ -263,6 +283,15 @@ const Cashier = () => {
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("cart"));
+    let totalPrice = 0;
+    data.forEach((val) => {
+      totalPrice += val.product_price_unformat;
+    });
+    setTotalPriceCart(totalPrice);
   }, [cart]);
 
   return (
@@ -341,6 +370,7 @@ const Cashier = () => {
               deleteData={prepareDeleteData}
               editData={prepareEditData}
               prepareConfirmPayment={prepareConfirmPayment}
+              totalPrice={totalPriceCart}
             />
           </div>
         </div>

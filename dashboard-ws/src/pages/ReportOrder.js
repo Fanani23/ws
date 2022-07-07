@@ -24,6 +24,7 @@ const ReportOrder = () => {
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
   const [activeId, setActiveId] = useState();
+  const [dateEnd, setDateEnd] = useState();
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -125,7 +126,7 @@ const ReportOrder = () => {
                   searchValue={searchValue}
                   setSearchValue={showSearchedTablePage}
                 />
-                <FilterByDate />
+                <FilterByDate dateEnd={dateEnd} setDateEnd={setDateEnd} />
               </div>
               <DropdownMenuExport
                 export={exportAll}
