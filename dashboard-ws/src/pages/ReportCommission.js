@@ -8,6 +8,7 @@ import Search from "../components/Search";
 import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
 import TableReportCommission from "../components/TableReportCommission";
+import FilterByDate from "../components/FilterByDate";
 
 const ReportCommission = () => {
   TabTitle("Commission - Kato Haircut");
@@ -76,6 +77,7 @@ const ReportCommission = () => {
                 bgColor={"bg-white"}
                 placeholder={"Search by product name..."}
               />
+              <FilterByDate />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
               <TableReportCommission tableData={tableData} />

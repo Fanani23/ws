@@ -7,6 +7,7 @@ import Search from "../components/Search";
 import TableReportTransaction from "../components/TableReportTransaction";
 import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
+import FilterByDate from "../components/FilterByDate";
 
 const ReportTransaction = () => {
   TabTitle("Transaction - Kato Haircut");
@@ -74,6 +75,7 @@ const ReportTransaction = () => {
                 bgColor={"bg-white"}
                 placeholder={"Search by product name..."}
               />
+              <FilterByDate />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
               <TableReportTransaction tableData={tableData} />

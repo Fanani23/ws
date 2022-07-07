@@ -46,22 +46,20 @@ const ModalShowDetailOrder = ({show, close, dataDetail}) => {
                   <h1>Order ID {dataDetail?.code}</h1>
                   <h1>Date: {dataDetail?.datetime}</h1>
                   {dataDetail.transactionItems ? (
-                    <table>
+                    <table className="mt-2 mb-2">
                       <thead>
                         <tr>
                           <th>ID Product</th>
                           <th>Product Name</th>
-                          <th>Category</th>
                           <th>Stylist</th>
                           <th>Price</th>
                         </tr>
                       </thead>
                       <tbody>
                         {dataDetail.transactionItems.map((data) => (
-                          <tr key={data.id}>
+                          <tr key={data.id} className="mb-2">
                             <td>code tdk ada</td>
                             <td>{data.product_name}</td>
-                            <td>tidak ada</td>
                             <td>{data.employee_name}</td>
                             <td>{data.price_after_discount}</td>
                           </tr>
@@ -72,17 +70,17 @@ const ModalShowDetailOrder = ({show, close, dataDetail}) => {
                     <span>No transaction is recorded!</span>
                   )}
                   <ul className="flex flex-col">
-                    <li className="flex justify-end">
+                    <li className="flex justify-end mr-4">
                       Sub Total: {dataDetail?.subtotal}
                     </li>
-                    <li className="flex justify-end">
+                    <li className="flex justify-end mr-4">
                       Discount: {dataDetail?.discount_total}
                     </li>
-                    <li className="flex justify-end">
+                    <li className="flex justify-end mr-4 mb-2">
                       Total Payment: blm ada data
                     </li>
                   </ul>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-2">
                     <button
                       className="bg-red-500 px-3 py-2 rounded-lg"
                       onClick={close}

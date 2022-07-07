@@ -61,7 +61,7 @@ const ModalCreatePresensi = ({
                     <div className="text-sm pt-6 pl-6 pr-6 text-gray-500">
                       <div className="flex flex-row items-center mb-5">
                         <label htmlFor="code" className="font-semibold w-28">
-                          Employee Name
+                          Employee ID
                         </label>
                         <input
                           type="text"

@@ -7,6 +7,8 @@ import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
+import FilterByDate from "../components/FilterByDate";
+import TableEmployeeSingle from "../components/TableEmployeeSingle";
 
 const EmployeeSingle = () => {
   const {employeeId} = useParams();
@@ -14,6 +16,11 @@ const EmployeeSingle = () => {
 
   const [profileEmployee, setProfileEmployee] = useState();
   const [salaryEmployee, setSalaryEmployee] = useState();
+
+  const [tableData, setTableData] = useState([]);
+  const [tableCount, setTableCount] = useState(null);
+  const [currentTablePage, setCurrentTablePage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(1);
 
   const capitalizeEachWord = (sentence) => {
     const words = sentence.split(" ");
@@ -41,6 +48,7 @@ const EmployeeSingle = () => {
         `https://api.kattohair.com/api/orders/employee/${employeeId}`, Session()
       );
       setSalaryEmployee(data);
+      setTableData(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -82,6 +90,22 @@ const EmployeeSingle = () => {
                 </div>
               </div>
             )}
+            <div className="flex flex-row border-t p-3">
+              <Search
+                textColor={"text-black"}
+                bgColor={"bg-white"}
+                placeholder={"Search by product name..."}
+              />
+              <FilterByDate />
+            </div>
+            <div className="p-3 flex flex-col justify-center px-3 py-1">
+              <TableEmployeeSingle tableData={tableData} />
+              {/* <Pagination
+                maxPage={Math.ceil(tableCount / itemsPerPage)}
+                currentPage={currentTablePage}
+                showTablePage={showTablePage}
+              /> */}
+            </div>
           </div>
         </div>
       </div>

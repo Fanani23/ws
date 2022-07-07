@@ -24,25 +24,27 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
             </div>
           </div>
           <h5 className="text-black text-lg mt-6">Order History</h5>
-          <table className="text-black">
-            <thead>
-              <tr>
+          <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
+            <thead className="sticky top-0">
+              <tr className="bg-[#F9F9FC] text-black text-left">
                 <th>Id</th>
                 <th>Datetime</th>
+                <th>Total</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
               {tabelDetailCustomer?.map((data) => (
-                <tr className="text-black" key={data.id}>
+                <tr className="even:bg-[#F9F9FC] text-black" key={data.id}>
                   <td>{data.id}</td>
                   <td>{data.datetime}</td>
+                  <td>{data.grand_total}</td>
                   <td>
                     <button
                       className="bg-blue-200 px-3 py-2 rounded-lg"
                       onClick={() => modalDetail(data.id)}
                     >
-                      See Detail
+                      Detail
                     </button>
                   </td>
                 </tr>
