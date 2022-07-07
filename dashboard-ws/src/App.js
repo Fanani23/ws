@@ -52,7 +52,7 @@ function App() {
                   <Route index element={<Dashboard />} />
                   <Route path="cashier">
                     <Route index element={<Cashier />} />
-                    <Route path=":transactionId" element={<CashierSingle />} />
+                    {/* <Route path=":transactionId" element={<CashierSingle />} /> */}
                   </Route>
                   <Route path="product">
                     <Route
@@ -73,7 +73,7 @@ function App() {
                   </Route>
                   <Route path="customers">
                     <Route index element={<Customers />} />
-                    <Route path=":customerId" element={<CustomerSingle />} />
+                    {/* <Route path=":customerId" element={<CustomerSingle />} /> */}
                   </Route>
                   <Route path="presensi" element={<Presensi />} />
                   <Route path="employee">
@@ -84,7 +84,7 @@ function App() {
                     <Route path="jobs" element={<Jobs />} />
                     <Route path="list">
                       <Route index element={<Employee />} />
-                      <Route path=":employeeId" element={<EmployeeSingle />} />
+                      {/* <Route path=":employeeId" element={<EmployeeSingle />} /> */}
                     </Route>
                   </Route>
                   <Route path="setting">
@@ -97,6 +97,7 @@ function App() {
                   </Route>
                   <Route path="/login" element={<Navigate to="/" replace />} />
                 </Route>
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </div>
           </div>

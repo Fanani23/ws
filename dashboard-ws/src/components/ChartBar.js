@@ -31,6 +31,11 @@ const ChartBar = ({dataChart, labelA, labelB}) => {
         position: "bottom",
       },
     },
+    scale: {
+      ticks: {
+        precision: 0,
+      },
+    },
   };
 
   useEffect(() => {

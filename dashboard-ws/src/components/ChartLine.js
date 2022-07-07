@@ -46,6 +46,11 @@ const ChartLine = ({dataChart, label}) => {
         position: "bottom",
       },
     },
+    scale: {
+      ticks: {
+        precision: 0,
+      },
+    },
   };
 
   useEffect(() => {

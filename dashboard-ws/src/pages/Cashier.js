@@ -8,7 +8,7 @@ import {useEffect} from "react";
 import ModalSelectProductCashier from "../components/ModalSelectProductCashier";
 import CashierRightPanelTop from "../components/CashierRightPanelTop";
 import CashierDataInput from "../components/CashierDataInput";
-import Session from "../Session";
+import {Session, getId} from "../Session";
 import ModalCreateCustomerCashier from "../components/ModalCreateCustomerCashier";
 import ModalAlert from "../components/ModalAlert";
 import ModalEditProductCashier from "../components/ModalEditProductCashier";
@@ -42,6 +42,7 @@ const Cashier = () => {
   const [discountValue, setDiscountValue] = useState();
   const [cart, setCart] = useState(getLocalStorageData);
   const [totalPriceCart, setTotalPriceCart] = useState(0);
+  const [totalDiscountCart, setTotalDiscountCart] = useState(0);
   // edit
   const [productIndex, setProductIndex] = useState();
   const [editProduct, setEditProduct] = useState();
@@ -251,7 +252,7 @@ const Cashier = () => {
   const prepareConfirmPayment = async () => {
     try {
       let data = {
-        user_id: 10,
+        user_id: getId(),
         customer_id: parseInt(customerId),
         discount_type: "percent",
         discount_amount: "",
