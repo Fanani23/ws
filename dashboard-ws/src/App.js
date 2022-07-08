@@ -1,7 +1,6 @@
-import {BrowserRouter, Routes, Route, Navigate} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Cashier from "./pages/Cashier";
 import ProductCategory from "./pages/ProductCategory";
 import ProductList from "./pages/ProductList";
 import ReportOrder from "./pages/ReportOrder";
@@ -19,6 +18,7 @@ import {useEffect, useState} from "react";
 import CashierSingle from "./pages/CashierSingle";
 import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
+import CashierInput from "./pages/CashierInput";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -51,8 +51,12 @@ function App() {
                 <Route path="/">
                   <Route index element={<Dashboard />} />
                   <Route path="cashier">
-                    <Route index element={<Cashier />} />
-                    {/* <Route path=":transactionId" element={<CashierSingle />} /> */}
+                    <Route
+                      path="/cashier"
+                      element={<Navigate to="/cashier/input" replace />}
+                    />
+                    <Route path="input" element={<CashierInput />} />
+                    <Route path="confirmation" element={<CashierSingle />} />
                   </Route>
                   <Route path="product">
                     <Route

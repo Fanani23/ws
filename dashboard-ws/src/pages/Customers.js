@@ -118,12 +118,6 @@ const Customers = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      name: name,
-      phone: phone,
-      birthday: birthday,
-      membership: membership,
-    });
     try {
       await axios.post(
         "https://api.kattohair.com/api/customers/create",

@@ -2,12 +2,13 @@ import {NavLink, useLocation} from "react-router-dom";
 import {MdMenu, MdNotificationsNone, MdExpandMore} from "react-icons/md";
 import logo from "../img/kato-logo.png";
 import {useEffect, useState} from "react";
-import {getName, getRole} from "../Session";
+import Session, {getName, getRole} from "../Session";
+import DropdownNavbar from "./DropdownNavbar";
+import axios from "axios";
 
 const Navbar = ({toggleSidebar}) => {
   const location = useLocation().pathname;
-  const [profileOpen, setProfileOpen] = useState(false);
-  const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notification, setNotification] = useState([]);
   const capitalize = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -17,6 +18,22 @@ const Navbar = ({toggleSidebar}) => {
     localStorage.removeItem("token");
     window.location = "/login";
   };
+
+  const getNotificationData = async () => {
+    try {
+      const {data} = await axios.get(
+        `https://api.kattohair.com/api/notifications`,
+        Session()
+      );
+      setNotification(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getNotificationData();
+  }, [notification]);
 
   return (
     <>
@@ -29,13 +46,12 @@ const Navbar = ({toggleSidebar}) => {
               className="hidden ml-11 md:block"
             />
           </NavLink>
-          <div
-            role="button"
+          <button
             className="hover:bg-primary-500 px-3 py-3.5 rounded-lg"
             onClick={toggleSidebar}
           >
             <MdMenu className="text-2xl" />
-          </div>
+          </button>
         </div>
         <div className="flex flex-row justify-end sm:justify-between items-center p-3 w-full">
           <h1 className="font-noto-sans text-lg font-semibold hidden sm:block">
@@ -44,56 +60,63 @@ const Navbar = ({toggleSidebar}) => {
               : capitalize(location.replace("/", ""))}
           </h1>
           <div className="flex flex-row items-center space-x-3">
-            <button
-              className={`${
-                notificationOpen ? "bg-primary-500" : "hover:bg-primary-500"
-              } relative group px-3 py-3.5 rounded-lg`}
-              onClick={() => setNotificationOpen(!notificationOpen)}
+            <DropdownNavbar
+              label={<MdNotificationsNone className="text-2xl" />}
             >
-              <MdNotificationsNone className="text-2xl" />
-              <div
-                className={`${
-                  notificationOpen ? "" : "hidden"
-                } absolute top-16 right-0 w-48`}
-              >
-                <div className="bg-white p-3 rounded-lg shadow-lg">
-                  <h1 className="text-red-500">Hello World</h1>
+              {notification ? (
+                notification?.map((val) => (
+                  <div
+                    className="hover:bg-primary-500 hover:text-white w-full px-3 py-2"
+                    key={val.id}
+                  >
+                    <dd className="text-black font-bold">{val.message}</dd>
+                    <dt className="text-gray-500 font-semibold">
+                      {val.datetime}
+                    </dt>
+                  </div>
+                ))
+              ) : (
+                <div className="hover:bg-primary-500 text-black hover:text-white w-full px-3 py-2">
+                  No notifications
                 </div>
-              </div>
-            </button>
-            <button
-              className={`${
-                profileOpen ? "bg-primary-500" : "hover:bg-primary-500"
-              } relative flex flex-col sm:flex-row items-center group  active:bg-white rounded-lg px-3 py-2`}
-              onClick={() => setProfileOpen(!profileOpen)}
+              )}
+            </DropdownNavbar>
+
+            <DropdownNavbar
+              showCollapse="true"
+              label={
+                <>
+                  <img
+                    src="https://via.placeholder.com/35/ffffff/000000/?text=profile"
+                    alt="profile"
+                    className="rounded-full mr-0 sm:mr-5 relative z-20 group-active:shadow-md"
+                  />
+                  <div className="hidden sm:flex flex-col mr-0 sm:mr-5 text-left relative z-20">
+                    <h1 className="font-noto-sans text-sm font-bold group-active:text-black">
+                      {getName()}
+                    </h1>
+                    <h5 className="font-noto-sans text-xs text-[#C4C4C4] group-active:text-black">
+                      {getRole() === "master" ? "Owner" : "Operator"}
+                    </h5>
+                  </div>
+                </>
+              }
             >
-              <img
-                src="https://via.placeholder.com/35/ffffff/000000/?text=profile"
-                alt="profile"
-                className="rounded-full mr-0 sm:mr-5 relative z-20 group-active:shadow-md"
-              />
-              <div className="hidden sm:flex flex-col mr-0 sm:mr-5 text-left relative z-20">
-                <h1 className="font-noto-sans text-sm font-bold group-active:text-black">
+              <div className="flex flex-col sm:hidden p-3 text-right relative z-20">
+                <h1 className="font-noto-sans text-sm font-bold text-black">
                   {getName()}
                 </h1>
                 <h5 className="font-noto-sans text-xs text-[#C4C4C4] group-active:text-black">
                   {getRole() === "master" ? "Owner" : "Operator"}
                 </h5>
               </div>
-              <MdExpandMore className="text-2xl hidden sm:block relative z-20" />
-              <div
-                className={`${
-                  profileOpen ? "" : "hidden"
-                } group-active:flex absolute top-16 left-0 right-0 pt-3 px-3 pb-3 z-10 bg-white shadow-lg rounded-lg`}
+              <button
+                onClick={handleLogout}
+                className="hover:bg-primary-500 hover:text-white w-full text-black text-center px-3 py-2"
               >
-                <div
-                  onClick={handleLogout}
-                  className="hover:bg-primary-500 hover:text-white rounded-lg w-full text-black text-center px-3 py-2"
-                >
-                  Log Out
-                </div>
-              </div>
-            </button>
+                Log Out
+              </button>
+            </DropdownNavbar>
           </div>
         </div>
       </nav>
