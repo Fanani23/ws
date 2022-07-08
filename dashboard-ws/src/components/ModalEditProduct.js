@@ -22,7 +22,7 @@ const ModalEditProduct = ({
   imageEditValue,
   setImageEditValue,
 }) => {
-  const [inputImage, setInputImage] = useState();
+  const [inputImage, setInputImage] = useState(imageEditValue);
 
   const getDataImage = (event) => {
     if (event.target.files[0]) {
@@ -225,7 +225,7 @@ const ModalEditProduct = ({
                               </div>
                             ) : (
                               <img
-                                src={inputImage}
+                                src={inputImage ? inputImage : imageEditValue}
                                 alt="Images"
                                 className="object-cover w-full h-full"
                               />
