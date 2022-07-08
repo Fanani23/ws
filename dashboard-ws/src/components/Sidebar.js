@@ -17,6 +17,7 @@ import {
 import {ReactComponent as ProductDownload} from "../img/product-downloadable.svg";
 import {NavLink} from "react-router-dom";
 import {useState} from "react";
+import {getRole} from "../Session";
 
 const Sidebar = ({show}) => {
   const [menuProductOpen, setMenuProductOpen] = useState(false);
@@ -186,98 +187,102 @@ const Sidebar = ({show}) => {
                 <span>Presensi</span>
               </NavLink>
             </li>
-            <li className="rounded-lg mb-3 last:mb-0" role="button">
-              <div
-                className={`${
-                  menuEmployeeOpen
-                    ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
-                    : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                }`}
-                onClick={() => setMenuEmployeeOpen(!menuEmployeeOpen)}
-              >
-                <MdOutlineHowToReg className="text-2xl lg:mr-3" />
-                <span>Employee</span>
-                {menuEmployeeOpen ? (
-                  <MdOutlineExpandLess className="ml-auto text-2xl -mr-2" />
-                ) : (
-                  <MdOutlineExpandMore className="ml-auto text-2xl -mr-2" />
-                )}
-              </div>
-              <ul className={`${menuEmployeeOpen ? "" : "hidden"} ml-4`}>
-                <li className="rounded-lg mt-3">
-                  <NavLink
-                    to="/employee/list"
-                    className={({isActive}) =>
-                      isActive
+            {getRole() === "master" && (
+              <>
+                <li className="rounded-lg mb-3 last:mb-0" role="button">
+                  <div
+                    className={`${
+                      menuEmployeeOpen
                         ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
                         : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                    }
+                    }`}
+                    onClick={() => setMenuEmployeeOpen(!menuEmployeeOpen)}
                   >
-                    <MdOutlineShoppingBag className="text-2xl lg:mr-3" />
-                    <span>Employee Lists</span>
-                  </NavLink>
+                    <MdOutlineHowToReg className="text-2xl lg:mr-3" />
+                    <span>Employee</span>
+                    {menuEmployeeOpen ? (
+                      <MdOutlineExpandLess className="ml-auto text-2xl -mr-2" />
+                    ) : (
+                      <MdOutlineExpandMore className="ml-auto text-2xl -mr-2" />
+                    )}
+                  </div>
+                  <ul className={`${menuEmployeeOpen ? "" : "hidden"} ml-4`}>
+                    <li className="rounded-lg mt-3">
+                      <NavLink
+                        to="/employee/list"
+                        className={({isActive}) =>
+                          isActive
+                            ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+                            : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+                        }
+                      >
+                        <MdOutlineShoppingBag className="text-2xl lg:mr-3" />
+                        <span>Employee Lists</span>
+                      </NavLink>
+                    </li>
+                    <li className="rounded-lg mt-3">
+                      <NavLink
+                        to="/employee/jobs"
+                        className={({isActive}) =>
+                          isActive
+                            ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+                            : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+                        }
+                      >
+                        <MdOutlineLocalOffer className="text-2xl lg:mr-3" />
+                        <span>Jobs Category</span>
+                      </NavLink>
+                    </li>
+                  </ul>
                 </li>
-                <li className="rounded-lg mt-3">
-                  <NavLink
-                    to="/employee/jobs"
-                    className={({isActive}) =>
-                      isActive
+                <li className="rounded-lg mb-3 last:mb-0" role="button">
+                  <div
+                    className={`${
+                      menuSettingOpen
                         ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
                         : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                    }
+                    }`}
+                    onClick={() => setMenuSettingOpen(!menuSettingOpen)}
                   >
-                    <MdOutlineLocalOffer className="text-2xl lg:mr-3" />
-                    <span>Jobs Category</span>
-                  </NavLink>
+                    <MdOutlineSettings className="text-2xl lg:mr-3" />
+                    <span>Settings</span>
+                    {menuSettingOpen ? (
+                      <MdOutlineExpandLess className="ml-auto text-2xl -mr-2" />
+                    ) : (
+                      <MdOutlineExpandMore className="ml-auto text-2xl -mr-2" />
+                    )}
+                  </div>
+                  <ul className={`${menuSettingOpen ? "" : "hidden"} ml-4`}>
+                    <li className="rounded-lg mt-3">
+                      <NavLink
+                        to="/setting/admin"
+                        className={({isActive}) =>
+                          isActive
+                            ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+                            : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+                        }
+                      >
+                        <MdOutlineHeadsetMic className="text-2xl lg:mr-3" />
+                        <span>Admin</span>
+                      </NavLink>
+                    </li>
+                    <li className="rounded-lg mt-3">
+                      <NavLink
+                        to="/setting/log"
+                        className={({isActive}) =>
+                          isActive
+                            ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
+                            : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
+                        }
+                      >
+                        <MdHistory className="text-2xl lg:mr-3" />
+                        <span>Log Login</span>
+                      </NavLink>
+                    </li>
+                  </ul>
                 </li>
-              </ul>
-            </li>
-            <li className="rounded-lg mb-3 last:mb-0" role="button">
-              <div
-                className={`${
-                  menuSettingOpen
-                    ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
-                    : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                }`}
-                onClick={() => setMenuSettingOpen(!menuSettingOpen)}
-              >
-                <MdOutlineSettings className="text-2xl lg:mr-3" />
-                <span>Settings</span>
-                {menuSettingOpen ? (
-                  <MdOutlineExpandLess className="ml-auto text-2xl -mr-2" />
-                ) : (
-                  <MdOutlineExpandMore className="ml-auto text-2xl -mr-2" />
-                )}
-              </div>
-              <ul className={`${menuSettingOpen ? "" : "hidden"} ml-4`}>
-                <li className="rounded-lg mt-3">
-                  <NavLink
-                    to="/setting/admin"
-                    className={({isActive}) =>
-                      isActive
-                        ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
-                        : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                    }
-                  >
-                    <MdOutlineHeadsetMic className="text-2xl lg:mr-3" />
-                    <span>Admin</span>
-                  </NavLink>
-                </li>
-                <li className="rounded-lg mt-3">
-                  <NavLink
-                    to="/setting/log"
-                    className={({isActive}) =>
-                      isActive
-                        ? "flex items-center bg-white text-black hover:bg-slate-100 font-semibold px-5 py-4 rounded-lg"
-                        : "flex items-center bg-primary-100 text-white hover:bg-primary-500 font-semibold px-5 py-4 rounded-lg"
-                    }
-                  >
-                    <MdHistory className="text-2xl lg:mr-3" />
-                    <span>Log Login</span>
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
+              </>
+            )}
           </ul>
         </div>
       )}

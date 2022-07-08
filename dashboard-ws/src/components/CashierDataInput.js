@@ -6,7 +6,20 @@ const CashierDataInput = ({
   deleteData,
   editData,
   prepareConfirmPayment,
+  totalPrice,
 }) => {
+  const addDots = (nStr) => {
+    nStr += "";
+    let x = nStr.split(".");
+    let x1 = x[0];
+    let x2 = x.length > 1 ? "." + x[1] : "";
+    let rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, "$1" + "." + "$2");
+    }
+    return x1 + x2;
+  };
+
   return (
     <div className="w-full h-full flex flex-col md:overflow-y-auto scrollbar-shown relative">
       <div className="p-2 flex flex-col flex-wrap grow">
@@ -54,12 +67,10 @@ const CashierDataInput = ({
       {dataCashier[0] && (
         <div className="sticky bottom-0 flex flex-col py-3 bg-white text-black">
           <div className="px-3 flex justify-end">
-            {activeCustomerData?.membership !== "vip" ? (
+            {activeCustomerData?.membership !== "vip" && (
               <button className="bg-black text-white px-3 py-2 rounded-lg mr-1">
                 Discount
               </button>
-            ) : (
-              ""
             )}
             <button className="bg-black text-white px-3 py-2 rounded-lg ml-1">
               Coupon
@@ -67,7 +78,11 @@ const CashierDataInput = ({
           </div>
           <div className="px-3 mt-3 flex justify-between">
             <h1>Total</h1>
-            <h2>Rp</h2>
+            <h2>Rp {addDots(totalPrice)}</h2>
+          </div>
+          <div className="px-3 mt-3 flex justify-between">
+            <h1>Total</h1>
+            <h2>Rp {addDots()}</h2>
           </div>
           <div className="px-3">
             <button

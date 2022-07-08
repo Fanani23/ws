@@ -17,9 +17,11 @@ const ModalCreateCustomerCashier = ({
   setNameValue,
   phoneValue,
   setPhoneValue,
+  membershipValue,
+  setMembershipValue,
 }) => {
   const handleRadioSelect = (val) => {
-    console.log(val);
+    setMembershipValue(val.target.value);
   };
 
   return (
@@ -142,18 +144,18 @@ const ModalCreateCustomerCashier = ({
                               type="radio"
                               name="membership"
                               value="Reguler"
-                              id="membership"
+                              id="membershipRegular"
                               className="mr-2"
                             />
-                            <span>Reguler</span>
+                            <label htmlFor="membershipRegular">Reguler</label>
                             <input
                               type="radio"
                               name="membership"
                               value="VIP"
-                              id="membership"
+                              id="membershipVIP"
                               className="ml-5 mr-2"
                             />
-                            <span>VIP</span>
+                            <label htmlFor="membershipVIP">VIP</label>
                           </div>
                         </div>
                       </div>
