@@ -1,7 +1,7 @@
 import {Menu} from "@headlessui/react";
 import {MdExpandLess, MdExpandMore} from "react-icons/md";
 
-const DropdownNavbar = ({label, showCollapse, ...props}) => {
+const DropdownNavbar = ({label, showCollapse, size, ...props}) => {
   return (
     <Menu as="div" className="relative">
       {({open}) => (
@@ -26,7 +26,11 @@ const DropdownNavbar = ({label, showCollapse, ...props}) => {
               ""
             )}
           </Menu.Button>
-          <Menu.Items className="absolute w-[100px] origin-top-right right-0 mt-1 bg-white rounded-lg py-1 shadow-lg">
+          <Menu.Items
+            className={`${
+              size === "sm" ? "w-[100px] " : size === "md" ? "w-[200px] " : ""
+            } absolute origin-top-right right-0 mt-1 bg-white rounded-lg py-1 shadow-lg`}
+          >
             {props.children}
           </Menu.Items>
         </>

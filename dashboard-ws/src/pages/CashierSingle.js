@@ -10,27 +10,43 @@ import axios from "axios";
 
 const CashierSingle = () => {
   // const {state} = useLocation();
-  const id = 19;
   // const [inputNumber, setInputNumber] = useState();
 
-  const [openConfirmation, setOpenConfirmation] = useState(false);
-  const closeConfirmationModal = () => {
-    setOpenConfirmation(false);
-  };
-  const openConfirmationModal = () => {
-    setOpenConfirmation(true);
-  };
+  // const [openConfirmation, setOpenConfirmation] = useState(false);
+  // const closeConfirmationModal = () => {
+  //   setOpenConfirmation(false);
+  // };
+  // const openConfirmationModal = () => {
+  //   setOpenConfirmation(true);
+  // };
 
-  const [cart, setCart] = useState({});
+  // const [cart, setCart] = useState({});
+  // const [userId, setUserId] = useState();
+  // let userId = 20;
+
+  // const getUserAdmin = async () => {
+  //   try {
+  //     const {data} = await axios.get(
+  //       `https://api.kattohair.com/api/me`,
+  //       Session()
+  //     );
+  //     setUserId(data.data.id);
+  //     console.log(data.data.id);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
   const getCartData = async () => {
     try {
-      const {data} = await axios.get(
-        "https://api.kattohair.com/api/cashier/create",
-        id,
-        Session()
+      let ch = new XMLHttpRequest();
+      ch.open("GET", "https://api.kattohair.com/api/cashier/show");
+      ch.setRequestHeader(
+        "Authorization",
+        "Bearer " + localStorage.getItem("token")
       );
-      setCart(data.data);
+      ch.send(JSON.stringify({user_id: 20}));
+      console.log(ch);
     } catch (err) {
       console.log(err);
     }
@@ -39,8 +55,10 @@ const CashierSingle = () => {
   // const [paid, setPaid] = useState();
 
   useEffect(() => {
+    // getUserAdmin();
     getCartData();
-  }, []);
+    // console.log(cart);
+  });
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
@@ -53,7 +71,7 @@ const CashierSingle = () => {
             <div className="p-5 flex sticky top-0 justify-between items-center bg-gray-200">
               <div className="flex flex-col">
                 <h1 className="text-gray-500 text-sm">Order ID</h1>
-                <h2 className="text-black font-bold text-lg">{cart.code}</h2>
+                <h2 className="text-black font-bold text-lg">code</h2>
               </div>
               <div className="flex flex-row items-center">
                 <div className="flex flex-col mr-0 sm:mr-5">
@@ -110,7 +128,7 @@ const CashierSingle = () => {
                 </div>
                 <button
                   className="w-full bg-[#48C134] rounded-lg py-2"
-                  onClick={openConfirmationModal}
+                  // onClick={openConfirmationModal}
                 >
                   Confirm Payment
                 </button>

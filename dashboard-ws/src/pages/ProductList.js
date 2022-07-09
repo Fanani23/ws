@@ -18,7 +18,10 @@ const ProductList = () => {
   const closeAddProductModal = () => setOpenAddProduct(false);
   const openAddProductModal = () => setOpenAddProduct(true);
   const [openEditProduct, setOpenEditProduct] = useState(false);
-  const closeEditProductModal = () => setOpenEditProduct(false);
+  const closeEditProductModal = () => {
+    setOpenEditProduct(false);
+    setImageEdit();
+  };
   const [openDeleteProduct, setOpenDeleteProduct] = useState(false);
   const closeDeleteProductModal = () => setOpenDeleteProduct(false);
   // Table & Pagination
@@ -122,13 +125,12 @@ const ProductList = () => {
 
   const handleChangeCategory = (val) => {
     val !== "All"
-    ? fetchSpecificCategoryProduct(val)
-    : fetchAllCategoryProduct();
+      ? fetchSpecificCategoryProduct(val)
+      : fetchAllCategoryProduct();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(category);
     const formData = new FormData();
     formData.append("image", image);
     formData.append("category_id", category);
@@ -137,15 +139,21 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create",   formData, Session() );
+      axios.post(
+        "https://api.kattohair.com/api/products/create",
+        formData,
+        Session()
+      );
       setImage("");
       setName("");
       setCategory("");
       fetchData();
-      alert("Succesfully added, if data didn't show you must refresh your browser");
+      alert(
+        "Succesfully added, if data didn't show you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Adding data unsuccesfull, you must check your input data")
+      alert("Adding data unsuccesfull, you must check your input data");
     }
   };
 
@@ -214,13 +222,18 @@ const ProductList = () => {
       formData.append("image", imageEdit);
       formData.append("_method", "PUT");
 
-      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
-      formData , Session()) ;
+      await axios.post(
+        `https://api.kattohair.com/api/products/update/${idEdit}`,
+        formData,
+        Session()
+      );
       fetchData();
-      alert("Succesfully edit data, if data didn't show updated you must refresh your browser")
+      alert(
+        "Succesfully edit data, if data didn't show updated you must refresh your browser"
+      );
     } catch (err) {
       console.log(err);
-      alert("Updating data failed")
+      alert("Updating data failed");
     }
   };
 
@@ -249,10 +262,10 @@ const ProductList = () => {
         Session()
       );
       fetchData();
-      alert("Sucessfully delete data")
+      alert("Sucessfully delete data");
     } catch (err) {
       console.log(err);
-      alert("Delete data failed")
+      alert("Delete data failed");
     }
   };
 
@@ -320,13 +333,13 @@ const ProductList = () => {
             <span>Add Service</span>
           </button>
         </div>
-        <div >
+        <div>
           <ProductCategoryList
-              dataCategory={dataCategory}
-              currentCategory={currentCategory}
-              setCurrentCategory={setCurrentCategory}
-              handleChangeCategory={handleChangeCategory}
-            />
+            dataCategory={dataCategory}
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            handleChangeCategory={handleChangeCategory}
+          />
         </div>
         {tableCount ? (
           <>

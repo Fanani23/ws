@@ -19,6 +19,7 @@ import CashierSingle from "./pages/CashierSingle";
 import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
 import CashierInput from "./pages/CashierInput";
+import {getRole} from "./Session";
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
@@ -80,25 +81,29 @@ function App() {
                     {/* <Route path=":customerId" element={<CustomerSingle />} /> */}
                   </Route>
                   <Route path="presensi" element={<Presensi />} />
-                  <Route path="employee">
-                    <Route
-                      path="/employee"
-                      element={<Navigate to="/employee/list" replace />}
-                    />
-                    <Route path="jobs" element={<Jobs />} />
-                    <Route path="list">
-                      <Route index element={<Employee />} />
-                      {/* <Route path=":employeeId" element={<EmployeeSingle />} /> */}
-                    </Route>
-                  </Route>
-                  <Route path="setting">
-                    <Route
-                      path="/setting"
-                      element={<Navigate to="/setting/admin" replace />}
-                    />
-                    <Route path="admin" element={<SettingAdmin />} />
-                    <Route path="log" element={<SettingLogLogin />} />
-                  </Route>
+                  {getRole() === "master" && (
+                    <>
+                      <Route path="employee">
+                        <Route
+                          path="/employee"
+                          element={<Navigate to="/employee/list" replace />}
+                        />
+                        <Route path="jobs" element={<Jobs />} />
+                        <Route path="list">
+                          <Route index element={<Employee />} />
+                          {/* <Route path=":employeeId" element={<EmployeeSingle />} /> */}
+                        </Route>
+                      </Route>
+                      <Route path="setting">
+                        <Route
+                          path="/setting"
+                          element={<Navigate to="/setting/admin" replace />}
+                        />
+                        <Route path="admin" element={<SettingAdmin />} />
+                        <Route path="log" element={<SettingLogLogin />} />
+                      </Route>
+                    </>
+                  )}
                   <Route path="/login" element={<Navigate to="/" replace />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />
