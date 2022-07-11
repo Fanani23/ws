@@ -40,7 +40,7 @@ const TableListProducts = ({tableData, editRow, deleteRow}) => {
                   {row.image !== null ? (
                     <img
                       src={row.image}
-                      alt="Products"
+                      alt={row.name}
                       className="h-[50px] w-[50px] object-cover"
                     />
                   ) : (

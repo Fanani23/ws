@@ -16,24 +16,25 @@ const Navbar = ({toggleSidebar}) => {
   let handleLogout = function () {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
     window.location = "/login";
   };
 
-  const getNotificationData = async () => {
-    try {
-      const {data} = await axios.get(
-        `https://api.kattohair.com/api/notifications`,
-        Session()
-      );
-      setNotification(data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getNotificationData = async () => {
+  //   try {
+  //     const {data} = await axios.get(
+  //       `https://api.kattohair.com/api/notifications`,
+  //       Session()
+  //     );
+  //     setNotification(data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getNotificationData();
-  }, [notification]);
+  // useEffect(() => {
+  //   getNotificationData();
+  // }, [notification]);
 
   return (
     <>

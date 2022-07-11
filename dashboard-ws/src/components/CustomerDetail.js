@@ -1,5 +1,4 @@
 import DropdownMenuExport from "../components/DropdownMenuExport";
-import Pagination from "./Pagination";
 
 const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
   return (

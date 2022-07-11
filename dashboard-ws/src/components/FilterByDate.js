@@ -7,9 +7,7 @@ const FilterByDate = ({dateStart, setDateStart, dateEnd, setDateEnd}) => {
           name="from"
           id="dateStart"
           value={dateStart}
-          className={`${
-            dateStart ? "text-black " : "text-transparent "
-          }h-10 border border-gray-300 text-sm bg-white rounded-lg px-2 outline-none focus:ring-black focus:ring-2`}
+          className="h-10 border border-gray-300 text-sm bg-white rounded-lg px-2 outline-none focus:ring-black focus:ring-2 text-black"
           onChange={setDateStart}
         />
       </div>

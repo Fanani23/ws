@@ -24,13 +24,16 @@ const ReportOrder = () => {
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
   const [activeId, setActiveId] = useState();
+  const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/orders${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+          search !== ""
+            ? `?from=${dateStart}&?to=${dateEnd}&?name=${search}&?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
@@ -126,7 +129,12 @@ const ReportOrder = () => {
                   searchValue={searchValue}
                   setSearchValue={showSearchedTablePage}
                 />
-                <FilterByDate dateEnd={dateEnd} setDateEnd={setDateEnd} />
+                <FilterByDate
+                  dateStart={dateStart}
+                  setDateStart={setDateStart}
+                  dateEnd={dateEnd}
+                  setDateEnd={setDateEnd}
+                />
               </div>
               <DropdownMenuExport
                 export={exportAll}

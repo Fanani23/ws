@@ -276,35 +276,31 @@ const CashierInput = () => {
     setCart(data);
   };
 
-  const postCart = async (e) => {
-    e.preventDefault();
+  const postCart = async () => {
     try {
-      let data = {
-        user_id: getId(),
-        customer_id: parseInt(customerId),
-        discount_type: "percent",
-        discount_amount: "",
-        coupon_type: "nominal",
-        coupon_amount: "",
-        service_items: JSON.parse(localStorage.getItem("cart")),
-      };
       await axios.post(
         "https://api.kattohair.com/api/cashier/create",
-        data,
+        {
+          user_id: getId(),
+          customer_id: parseInt(customerId),
+          discount_type: "percent",
+          discount_amount: "",
+          coupon_type: "nominal",
+          coupon_amount: "",
+          service_items: JSON.parse(localStorage.getItem("cart")),
+        },
         Session()
       );
+      console.log("here");
     } catch (err) {
       console.log(err);
     }
   };
 
   const prepareConfirmPayment = () => {
+    // console.log(parseInt(customerId));
     postCart();
-    navigate(
-      "/cashier/confirmation",
-      {replace: true},
-      {state: {id: userOperator.id}}
-    );
+    navigate("/cashier/confirmation");
   };
 
   const clearCart = () => {
