@@ -91,7 +91,7 @@ function App() {
                         <Route path="jobs" element={<Jobs />} />
                         <Route path="list">
                           <Route index element={<Employee />} />
-                          {/* <Route path=":employeeId" element={<EmployeeSingle />} /> */}
+                          <Route path=":employeeId" element={<EmployeeSingle />} />
                         </Route>
                       </Route>
                       <Route path="setting">
