@@ -10,6 +10,7 @@ import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
+import { utils, writeFileXLSX } from "xlsx";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
@@ -74,7 +75,28 @@ const ReportOrder = () => {
     console.log("you click export");
   };
   const printAll = () => {
-    console.log("you click print");
+    // console.log("you click print");
+    const headings = [[
+      "ID",
+      "Name Member",
+      "No Transaction",
+      "Discount Type",
+      "Discount Ammount",
+      "Coupon Type",
+      "Coupon Ammount",
+      "Sub Total",
+      "Discount Total",
+      "Total",
+      "Method",
+      "Status",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tableData);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Report Data");
+    writeFileXLSX(wb, "Report Order Data.xlsx");
   };
   const closeAll = () => {
     console.log("you click close");
