@@ -21,6 +21,7 @@ class CommissionTransactionItemCollection extends ResourceCollection
                     'code' => $transactionItems->transaction->code,
                     'employee_name' => $transactionItems->employee->name,
                     'product_name' => $transactionItems->product->name,
+                    'product_id' => $transactionItems->product->id,
                     'category_name' => $transactionItems->product->category->name,
                     'qty' => 1,
                     'price' => formatPrice($transactionItems->price),

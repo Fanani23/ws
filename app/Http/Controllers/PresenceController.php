@@ -11,22 +11,33 @@ use Illuminate\Http\Request;
 
 class PresenceController extends Controller
 {
-    public function index()
+    public function index(Presence $presences)
     {
-        $presences = Presence::with('employee')->whereDate('coming_time', date('Y-m-d'))->orderBy('updated_at', 'desc')->paginate(9);
-        return PresenceResource::collection($presences);
+        $presences = $presences->newQuery();
+
+        if (request()->has('from') && request()->has('to')) {
+            $presences->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"]);
+        } else {
+            $presences->whereDate('coming_time', date('Y-m-d'));
+        }
+
+        $count = $presences->count();
+
+        return PresenceResource::collection($presences->orderBy('updated_at', 'desc')->paginate(9))->additional(compact('count'));
     }
 
     public function show(Employee $employee)
     {
-        $presences = $employee->presences()->whereNotNull(['coming_time', 'return_time']);
-        $count = $presences->count();
 
         if (request()->has('from') && request()->has('to')) {
-            return PresenceResource::collection($employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->whereNotNull(['coming_time', 'return_time'])->paginate(9))->additional(compact('employee', 'count'));
+            $presences = $employee->presences()->whereBetween('coming_time', [request()->from, request()->to . " 23:59:59"])->whereNotNull(['coming_time', 'return_time']);
+        } else {
+            $presences = $employee->presences()->whereNotNull(['coming_time', 'return_time']);
         }
 
-        return PresenceResource::collection($presences->paginate(1))->additional(compact('employee', 'count'));
+        $count = $presences->count();
+
+        return PresenceResource::collection($presences->paginate(9))->additional(compact('employee', 'count'));
     }
 
     public function presence()
@@ -78,12 +89,12 @@ class PresenceController extends Controller
                     'return_time' => date('Y-m-d H:i:s'),
                     'status' => $status
                 ]);
-                
+
                 return response()->json([
                     'message' => 'Presensi pulang berhasil'
                 ], 200);
             }
-            
+
             return response()->json([
                 'message' => 'Kamu sudah melakukan presensi pulang'
             ], 400);
