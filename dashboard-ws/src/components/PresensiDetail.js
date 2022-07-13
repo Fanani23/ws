@@ -34,14 +34,26 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
 
   const printAll = () => {
     // console.log("you click print");
-    
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
+  
   const closeAll = () => {
     console.log("you click close");
   };
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <div className="flex flex-row justify-end">
+        <DropdownMenuExport
+          export={exportAll}
+          print={printAll}
+          close={closeAll}
+        />
+      </div>
       <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
@@ -55,13 +67,6 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
               <h3 className="mt-2">
                 <FilterByDate />
               </h3>
-            </div>
-            <div className="flex flex-row">
-              <DropdownMenuExport
-                export={exportAll}
-                print={printAll}
-                close={closeAll}
-              />
             </div>
           </div>
           <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">

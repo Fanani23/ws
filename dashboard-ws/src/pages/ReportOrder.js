@@ -98,8 +98,13 @@ const ReportOrder = () => {
 
   const printAll = () => {
     // console.log("you click print");
-    
+    let printContents = document.getElementById("printTableArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
+  
   const closeAll = () => {
     console.log("you click close");
   };
@@ -125,8 +130,13 @@ const ReportOrder = () => {
     }
   };
 
-  const printDetailOrder = (id) => {
-    console.log("You want to print from", id);
+  const printDetailOrder = () => {
+    // console.log("You want to print from", id);
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
 
   useEffect(() => {
@@ -136,14 +146,22 @@ const ReportOrder = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <div className="flex flex-col md:flex-row">
       <ReportNavLink />
+      <DropdownMenuExport
+        export={exportAll}
+        print={printAll}
+        close={closeAll}
+      />
+      </div>
+      
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
           className={`${
             detailShow ? "md:basis-1/2 lg:basis-4/6" : ""
           } basis-full`}
         >
-          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+          <div id="printTableArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
             <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
               <div className="flex flex-col md:flex-row">
                 <Search
@@ -160,11 +178,7 @@ const ReportOrder = () => {
                   setDateEnd={setDateEnd}
                 />
               </div>
-              <DropdownMenuExport
-                export={exportAll}
-                print={printAll}
-                close={closeAll}
-              />
+              
             </div>
             {tableCount ? (
               <>

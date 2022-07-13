@@ -30,15 +30,27 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
 
   const printAll = () => {
     // console.log("you click print");
-    
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
+  
   const closeAll = () => {
     console.log("you click close");
   };
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
+      <div className="flex flex-col justify-end">
+        <DropdownMenuExport 
+          export={exportAll}
+          print={printAll}
+          close={closeAll}
+        />
+      </div>
+      <div id="printArea" className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
@@ -54,11 +66,6 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
                 <h1 className="text-black font-bold text-lg mr-2">
                   {detailCustomer.membership.toUpperCase()}
                 </h1>
-                <DropdownMenuExport 
-                  export={exportAll}
-                  print={printAll}
-                  close={closeAll}
-                />
               </div>
             </div>
           </div>
