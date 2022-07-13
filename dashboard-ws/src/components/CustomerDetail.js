@@ -1,6 +1,41 @@
 import DropdownMenuExport from "../components/DropdownMenuExport";
+import { utils, writeFileXLSX } from "xlsx";
 
 const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
+
+  const exportAll = () => {
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Customer Name",
+      "Transaction ID",
+      "Discount Type",
+      "Discount",
+      "Coupon Type",
+      "Coupon",
+      "Sub Total",
+      "Discount Total",
+      "Total",
+      "Method",
+      "Status",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tabelDetailCustomer);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tabelDetailCustomer, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Customer Data");
+    writeFileXLSX(wb, "Customer Detail Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    
+  };
+  const closeAll = () => {
+    console.log("you click close");
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
       <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
@@ -19,7 +54,11 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
                 <h1 className="text-black font-bold text-lg mr-2">
                   {detailCustomer.membership.toUpperCase()}
                 </h1>
-                <DropdownMenuExport />
+                <DropdownMenuExport 
+                  export={exportAll}
+                  print={printAll}
+                  close={closeAll}
+                />
               </div>
             </div>
           </div>

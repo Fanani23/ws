@@ -72,10 +72,7 @@ const ReportOrder = () => {
   };
 
   const exportAll = () => {
-    console.log("you click export");
-  };
-  const printAll = () => {
-    // console.log("you click print");
+    // console.log("you click export");
     const headings = [[
       "ID",
       "Name Member",
@@ -97,6 +94,11 @@ const ReportOrder = () => {
     utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
     utils.book_append_sheet(wb, ws, "Report Data");
     writeFileXLSX(wb, "Report Order Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    
   };
   const closeAll = () => {
     console.log("you click close");

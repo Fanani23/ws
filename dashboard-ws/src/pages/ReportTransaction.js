@@ -8,6 +8,7 @@ import TableReportTransaction from "../components/TableReportTransaction";
 import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
+import { utils, writeFileXLSX } from "xlsx";
 
 const ReportTransaction = () => {
   TabTitle("Transaction - Kato Haircut");
@@ -44,6 +45,39 @@ const ReportTransaction = () => {
     fetchData();
   }, []);
 
+  const exportAll = () => {
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Transaction ID",
+      "Employee Name",
+      "Product Name",
+      "Category Name",
+      "Quantity",
+      "Sub Total",
+      "Total",
+      "Commission Type",
+      "Commission",
+      "Fee",
+      "Profit",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tableData);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Report Data");
+    writeFileXLSX(wb, "Report Transaction Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    
+  };
+  const closeAll = () => {
+    console.log("you click close");
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
       <ReportNavLink />
@@ -66,7 +100,11 @@ const ReportTransaction = () => {
                 </div>
               </div>
               <div className="ml-auto">
-                <DropdownMenuExport />
+                <DropdownMenuExport 
+                  export={exportAll}
+                  print={printAll}
+                  close={closeAll}
+                />
               </div>
             </div>
             <div className="flex flex-row border-t p-3">
