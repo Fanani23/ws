@@ -98,7 +98,7 @@ const ReportOrder = () => {
 
   const printAll = () => {
     // console.log("you click print");
-    let printContents = document.getElementById("printTableArea").innerHTML;
+    let printContents = document.getElementById("printArea").innerHTML;
     let originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
     window.print();
@@ -161,7 +161,7 @@ const ReportOrder = () => {
             detailShow ? "md:basis-1/2 lg:basis-4/6" : ""
           } basis-full`}
         >
-          <div id="printTableArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
             <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
               <div className="flex flex-col md:flex-row">
                 <Search
@@ -182,7 +182,9 @@ const ReportOrder = () => {
             </div>
             {tableCount ? (
               <>
+              <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
                 <TableOrder tableData={tableData} detailData={detailData} />
+              </div>
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
                   currentPage={currentTablePage}

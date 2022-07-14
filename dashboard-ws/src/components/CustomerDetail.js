@@ -1,4 +1,4 @@
-import DropdownMenuExport from "../components/DropdownMenuExport";
+import DropdownMenuExport2 from "../components/DropdownMenuExport2";
 import { utils, writeFileXLSX } from "xlsx";
 
 const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
@@ -43,14 +43,8 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <div className="flex flex-col justify-end">
-        <DropdownMenuExport 
-          export={exportAll}
-          print={printAll}
-          close={closeAll}
-        />
-      </div>
-      <div id="printArea" className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
+      
+      <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
             <div className="flex flex-col">
@@ -66,10 +60,16 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
                 <h1 className="text-black font-bold text-lg mr-2">
                   {detailCustomer.membership.toUpperCase()}
                 </h1>
+                <DropdownMenuExport2 
+                  export={exportAll}
+                  print={printAll}
+                  close={closeAll}
+                />
               </div>
             </div>
           </div>
           <h5 className="text-black text-lg mt-6">Order History</h5>
+          <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
           <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
             <thead className="sticky top-0">
               <tr className="bg-[#F9F9FC] text-black text-left">
@@ -97,6 +97,7 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

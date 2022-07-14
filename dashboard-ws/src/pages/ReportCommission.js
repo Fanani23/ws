@@ -97,7 +97,7 @@ const ReportCommission = () => {
       </div>
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div className="basis-full md:basis-2/2 lg:basis-6/6">
-          <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col">
+          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col">
             <div className="flex flex-row p-3">
               <div className="flex flex-row">
                 <div className="flex flex-col">
@@ -123,7 +123,9 @@ const ReportCommission = () => {
               <FilterByDate />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
-              <TableReportCommission tableData={tableData} />
+              <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
+                <TableReportCommission tableData={tableData} />
+              </div>
               <Pagination
                 maxPage={Math.ceil(tableCount / itemsPerPage)}
                 currentPage={currentTablePage}

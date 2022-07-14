@@ -1,4 +1,4 @@
-import DropdownMenuExport from "../components/DropdownMenuExport";
+import DropdownMenuExport2 from "../components/DropdownMenuExport2";
 import FilterByDate from "./FilterByDate";
 import { utils, writeFileXLSX } from "xlsx";
 
@@ -47,13 +47,6 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <div className="flex flex-row justify-end">
-        <DropdownMenuExport
-          export={exportAll}
-          print={printAll}
-          close={closeAll}
-        />
-      </div>
       <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
@@ -68,7 +61,15 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
                 <FilterByDate />
               </h3>
             </div>
+            <div>
+              <DropdownMenuExport2
+                export={exportAll}
+                print={printAll}
+                close={closeAll}
+              />
+            </div>
           </div>
+          <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
           <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
             <thead className="sticky top-0">
               <tr className="bg-[#F9F9FC] text-black text-left">
@@ -92,6 +93,7 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
                 ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
