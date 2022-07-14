@@ -28,17 +28,20 @@ const ReportOrder = () => {
   const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
 
-  const fetchData = async (page = currentTablePage, search = "") => {
+  const fetchData = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    dateEnd
+  ) => {
     try {
-      const pageData = await axios.get(
+      const {data} = await axios.get(
         `https://api.kattohair.com/api/orders${
-          search !== ""
-            ? `?from=${dateStart}&?to=${dateEnd}&?name=${search}&?page=${page}`
-            : `?page=${page}`
+          search === "" ? `?from=${dateStart}&to=${dateEnd}` : `?page=${page}`
         }`,
         Session()
       );
-      setTableData(pageData.data.data);
+      setTableData(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -117,7 +120,7 @@ const ReportOrder = () => {
   const showSearchedTablePage = (searchValue) => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
-    fetchData(currentTablePage, searchValue);
+    fetchData(currentTablePage, searchValue, dateStart, dateEnd);
   };
 
   const detailData = (id) => {
@@ -137,6 +140,18 @@ const ReportOrder = () => {
     document.body.innerHTML = printContents;
     window.print();
     document.body.innerHTML = originalContents;
+  };
+
+  const prepareEnterDateStart = (val) => {
+    console.log(val);
+    setDateStart(val);
+    fetchData(currentTablePage, searchValue, val, dateEnd);
+  };
+
+  const prepareEnterDateEnd = (val) => {
+    console.log(val);
+    setDateEnd(val);
+    fetchData(currentTablePage, searchValue, dateStart, val);
   };
 
   useEffect(() => {
@@ -167,15 +182,15 @@ const ReportOrder = () => {
                 <Search
                   textColor={"text-black"}
                   bgColor={"bg-white"}
-                  placeholder={"Search by name..."}
+                  placeholder={"Search by no transaction..."}
                   searchValue={searchValue}
                   setSearchValue={showSearchedTablePage}
                 />
                 <FilterByDate
                   dateStart={dateStart}
-                  setDateStart={setDateStart}
+                  setDateStart={prepareEnterDateStart}
                   dateEnd={dateEnd}
-                  setDateEnd={setDateEnd}
+                  setDateEnd={prepareEnterDateEnd}
                 />
               </div>
               

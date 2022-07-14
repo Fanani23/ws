@@ -5,12 +5,12 @@ import {Fragment, useEffect, useState} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import BackButton from "../components/BackButton";
 import Session from "../Session";
-import {useLocation} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import ModalAlert from "../components/ModalAlert";
 
 const CashierSingle = () => {
-  const navigate = useLocation();
+  const navigate = useNavigate();
   const [inputNumber, setInputNumber] = useState(150000);
   const [methodPayment, setMethodPayment] = useState("Cash");
 
@@ -100,6 +100,25 @@ const CashierSingle = () => {
     return x1 + x2;
   };
 
+  const prepareDelete = async () => {
+    try {
+      await axios.delete(
+        "https://api.kattohair.com/api/cashier/delete/" + cart.id,
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+          params: {
+            user_id: userId,
+          },
+        }
+      );
+      navigate("/cashier/input", {replace: true});
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
       <ModalAlert
@@ -126,7 +145,10 @@ const CashierSingle = () => {
                     </h1>
                     <h2 className="text-gray-500 text-sm">#123</h2>
                   </div>
-                  <button className="p-3 bg-red-500 rounded-lg text-white">
+                  <button
+                    className="p-3 bg-red-500 rounded-lg text-white"
+                    onClick={prepareDelete}
+                  >
                     <MdDeleteOutline />
                   </button>
                 </div>
@@ -215,7 +237,7 @@ const CashierSingle = () => {
           </div>
         </div>
       ) : (
-        navigate("/cashier/input")
+        navigate(-1, {replace: true})
       )}
     </div>
   );
