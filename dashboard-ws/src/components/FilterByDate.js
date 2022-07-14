@@ -8,7 +8,7 @@ const FilterByDate = ({dateStart, setDateStart, dateEnd, setDateEnd}) => {
           id="dateStart"
           value={dateStart}
           className="h-10 border border-gray-300 text-sm bg-white rounded-lg px-2 outline-none focus:ring-black focus:ring-2 text-black"
-          onChange={setDateStart}
+          onChange={(e) => setDateStart(e.target.value)}
         />
       </div>
       <span className="text-black mx-2 mt-2">to</span>
@@ -19,7 +19,7 @@ const FilterByDate = ({dateStart, setDateStart, dateEnd, setDateEnd}) => {
           id="dateEnd"
           value={dateEnd}
           className="h-10 border border-gray-300 text-sm bg-white rounded-lg px-2 outline-none focus:ring-black focus:ring-2 text-black"
-          onChange={setDateEnd}
+          onChange={(e) => setDateEnd(e.target.value)}
         />
       </div>
     </div>
