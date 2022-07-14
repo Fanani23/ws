@@ -2,7 +2,7 @@ import React from "react";
 
 const ReportOrderDetail = ({detailOrder, print}) => {
   return (
-    <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
+    <div id="printArea" className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
       <div className="px-5 py-3 flex justify-between">
         <div className="flex flex-col">
           <h1 className="text-black font-bold text-lg">
@@ -43,18 +43,18 @@ const ReportOrderDetail = ({detailOrder, print}) => {
           <h1>Discount</h1>
           <h1>{detailOrder.discount_total}</h1>
         </div>
-        <div className="px-5 mt-5 flex justify-between">
+        <div className="px-5 mt-5 mb-5 flex justify-between">
           <h1>Total Payment</h1>
           <h1>{detailOrder.grand_total}</h1>
         </div>
-        <div className="p-5">
-          <button
-            className="text-white font-bold w-full py-3 bg-green-500 rounded-lg"
-            onClick={() => print(detailOrder.id)}
-          >
-            Print Invoice
-          </button>
-        </div>
+      </div>
+      <div className="p-5">
+        <button
+          className="text-white font-bold w-full py-3 bg-green-500 rounded-lg"
+          onClick={() => print(detailOrder.id)}
+        >
+          Print Invoice
+        </button>
       </div>
     </div>
   );

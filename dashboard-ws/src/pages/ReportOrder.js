@@ -10,6 +10,7 @@ import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
+import { utils, writeFileXLSX } from "xlsx";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
@@ -74,11 +75,39 @@ const ReportOrder = () => {
   };
 
   const exportAll = () => {
-    console.log("you click export");
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Name Member",
+      "No Transaction",
+      "Discount Type",
+      "Discount Ammount",
+      "Coupon Type",
+      "Coupon Ammount",
+      "Sub Total",
+      "Discount Total",
+      "Total",
+      "Method",
+      "Status",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tableData);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Report Data");
+    writeFileXLSX(wb, "Report Order Data.xlsx");
   };
+
   const printAll = () => {
-    console.log("you click print");
+    // console.log("you click print");
+    let printContents = document.getElementById("printTableArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
+  
   const closeAll = () => {
     console.log("you click close");
   };
@@ -104,8 +133,13 @@ const ReportOrder = () => {
     }
   };
 
-  const printDetailOrder = (id) => {
-    console.log("You want to print from", id);
+  const printDetailOrder = () => {
+    // console.log("You want to print from", id);
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
 
   const prepareEnterDateStart = (val) => {
@@ -127,14 +161,22 @@ const ReportOrder = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <div className="flex flex-col md:flex-row">
       <ReportNavLink />
+      <DropdownMenuExport
+        export={exportAll}
+        print={printAll}
+        close={closeAll}
+      />
+      </div>
+      
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
           className={`${
             detailShow ? "md:basis-1/2 lg:basis-4/6" : ""
           } basis-full`}
         >
-          <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
+          <div id="printTableArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
             <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
               <div className="flex flex-col md:flex-row">
                 <Search
@@ -151,11 +193,7 @@ const ReportOrder = () => {
                   setDateEnd={prepareEnterDateEnd}
                 />
               </div>
-              <DropdownMenuExport
-                export={exportAll}
-                print={printAll}
-                close={closeAll}
-              />
+              
             </div>
             {tableCount ? (
               <>

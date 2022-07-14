@@ -1,5 +1,6 @@
 import DropdownMenuExport from "../components/DropdownMenuExport";
 import FilterByDate from "./FilterByDate";
+import { utils, writeFileXLSX } from "xlsx";
 
 const PresensiDetail = ({detailPresensi, employeeName}) => {
 
@@ -12,8 +13,47 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
     return words.join(" ");
   };
 
+  const exportAll = () => {
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Employee Name",
+      "Employee ID",
+      "Coming Time",
+      "Return Time",
+      "Shift",
+      "Status"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(detailPresensi.data);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, detailPresensi.data, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Presensi Data");
+    writeFileXLSX(wb, "Presensi Detail Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
+  
+  const closeAll = () => {
+    console.log("you click close");
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <div className="flex flex-row justify-end">
+        <DropdownMenuExport
+          export={exportAll}
+          print={printAll}
+          close={closeAll}
+        />
+      </div>
       <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
@@ -27,9 +67,6 @@ const PresensiDetail = ({detailPresensi, employeeName}) => {
               <h3 className="mt-2">
                 <FilterByDate />
               </h3>
-            </div>
-            <div className="flex flex-row">
-              <DropdownMenuExport />
             </div>
           </div>
           <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
