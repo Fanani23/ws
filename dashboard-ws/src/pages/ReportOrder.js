@@ -10,7 +10,7 @@ import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
-import { utils, writeFileXLSX } from "xlsx";
+import {utils, writeFileXLSX} from "xlsx";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
@@ -37,7 +37,11 @@ const ReportOrder = () => {
     try {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/orders${
-          search === "" ? `?from=${dateStart}&to=${dateEnd}` : `?page=${page}`
+          dateStart !== "" && dateStart !== undefined
+            ? dateEnd !== "" && dateEnd !== undefined
+              ? `?from=${dateStart}&to=${dateEnd}`
+              : ``
+            : ``
         }`,
         Session()
       );
@@ -76,21 +80,23 @@ const ReportOrder = () => {
 
   const exportAll = () => {
     // console.log("you click export");
-    const headings = [[
-      "ID",
-      "Name Member",
-      "No Transaction",
-      "Discount Type",
-      "Discount Ammount",
-      "Coupon Type",
-      "Coupon Ammount",
-      "Sub Total",
-      "Discount Total",
-      "Total",
-      "Method",
-      "Status",
-      "Date & Time"
-    ]];
+    const headings = [
+      [
+        "ID",
+        "Name Member",
+        "No Transaction",
+        "Discount Type",
+        "Discount Ammount",
+        "Coupon Type",
+        "Coupon Ammount",
+        "Sub Total",
+        "Discount Total",
+        "Total",
+        "Method",
+        "Status",
+        "Date & Time",
+      ],
+    ];
     const wb = utils.book_new();
     const ws = utils.json_to_sheet(tableData);
     utils.sheet_add_aoa(ws, headings);
@@ -107,7 +113,7 @@ const ReportOrder = () => {
     window.print();
     document.body.innerHTML = originalContents;
   };
-  
+
   const closeAll = () => {
     console.log("you click close");
   };
@@ -162,14 +168,14 @@ const ReportOrder = () => {
   return (
     <div className="flex flex-col h-full font-noto-sans">
       <div className="flex flex-col md:flex-row">
-      <ReportNavLink />
-      <DropdownMenuExport
-        export={exportAll}
-        print={printAll}
-        close={closeAll}
-      />
+        <ReportNavLink />
+        <DropdownMenuExport
+          export={exportAll}
+          print={printAll}
+          close={closeAll}
+        />
       </div>
-      
+
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
           className={`${
@@ -193,13 +199,15 @@ const ReportOrder = () => {
                   setDateEnd={prepareEnterDateEnd}
                 />
               </div>
-              
             </div>
             {tableCount ? (
               <>
-              <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
-                <TableOrder tableData={tableData} detailData={detailData} />
-              </div>
+                <div
+                  id="printArea"
+                  className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8"
+                >
+                  <TableOrder tableData={tableData} detailData={detailData} />
+                </div>
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
                   currentPage={currentTablePage}
