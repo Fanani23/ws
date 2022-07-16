@@ -46,12 +46,26 @@ const Presensi = () => {
   const [detailPresensi, setDetailPresensi] = useState();
   const [activeId, setActiveId] = useState();
   const [activeEmployee, setActiveEmployee] = useState("");
+  const [dateStart, setDateStart] = useState();
+  const [dateEnd, setDateEnd] = useState();
 
-  const fetchData = async (page = currentTablePage, search = "") => {
+  const fetchData = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    sateEnd
+  ) => {
     try {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/presences${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        //   search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        // }`,
+        // Session()
+        dateStart !== "" && dateStart !== undefined
+          ? dateEnd !== "" && dateEnd !== undefined
+            ? `?from=${dateStart}&to=${dateEnd}`
+            : ``
+          : ``
         }`,
         Session()
       );

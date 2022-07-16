@@ -19,12 +19,33 @@ const ReportTransaction = () => {
   const [revenue, setRevenue] = useState();
   const [profit, setProfit] = useState();
   const [itemsPerPage, setItemsPerPage] = useState(1);
-  const fetchData = async (page = currentTablePage, search = "") => {
+  // Search
+  const [searchValue, setSearchValue] = useState();
+  // Detail
+  const [detailShow, setDetailShow] = useState(false);
+  const [detailOrder, setDetailOrder] = useState();
+  const [activeId, setActiveId] = useState();
+  const [dateStart, setDateStart] = useState();
+  const [dateEnd, setDateEnd] = useState();
+
+  const fetchData = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    dateEnd
+  ) => {
     try {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/transactions${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        //   search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        // }`, Session()
+        dateStart !== "" && dateStart !== undefined
+          ? dateEnd !== "" && dateEnd !== undefined
+            ? `?from=${dateStart}&to=${dateEnd}`
+            : ``
+          : ``
+        }`,
+        Session()
       );
       setTableData(data.data);
       setTableCount(data.meta.total);
@@ -40,6 +61,25 @@ const ReportTransaction = () => {
     setCurrentTablePage(page);
     fetchData(page);
   };
+
+  const showSearchedTablePage = (searchValue) => {
+    setSearchValue(searchValue);
+    setCurrentTablePage(1);
+    fetchData(currentTablePage, searchValue, dateStart, dateEnd);
+  };
+
+  const prepareEnterDateStart = (val) => {
+    console.log(val);
+    setDateStart(val);
+    fetchData(currentTablePage, searchValue, val, dateEnd);
+  };
+
+  const prepareEnterDateEnd = (val) => {
+    console.log(val);
+    setDateEnd(val);
+    fetchData(currentTablePage, searchValue, dateStart, val);
+  };
+
 
   useEffect(() => {
     fetchData();
@@ -117,8 +157,15 @@ const ReportTransaction = () => {
                 textColor={"text-black"}
                 bgColor={"bg-white"}
                 placeholder={"Search by product name..."}
+                searchValue={searchValue}
+                setSearchValue={showSearchedTablePage}
               />
-              <FilterByDate />
+              <FilterByDate
+                  dateStart={dateStart}
+                  setDateStart={prepareEnterDateStart}
+                  dateEnd={dateEnd}
+                  setDateEnd={prepareEnterDateEnd}
+                />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
               <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
