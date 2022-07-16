@@ -6,6 +6,7 @@ const ModalCreatePresensi = ({
   show,
   close,
   submit,
+  dataEmployee,
   codeValue,
   setCodeValue,
   setShiftValue,
@@ -61,16 +62,28 @@ const ModalCreatePresensi = ({
                     <div className="text-sm pt-6 pl-6 pr-6 text-gray-500">
                       <div className="flex flex-row items-center mb-5">
                         <label htmlFor="code" className="font-semibold w-28">
-                          Employee ID
+                          Employee
                         </label>
-                        <input
-                          type="text"
-                          name="code"
+                        <select
                           id="code"
-                          className="border-2 grow ml-3 border-gray-200 rounded-lg px-3 py-2"
-                          value={codeValue}
+                          className="bg-transparent border-2 ml-5 grow border-gray-200 rounded-lg px-3 py-2"
+                          defaultValue={codeValue}
                           onChange={(e) => setCodeValue(e.target.value)}
-                        />
+                        >
+                          <option value="" disabled>
+                            Select Employee
+                          </option>
+                          {dataEmployee &&
+                            dataEmployee.map((val) => (
+                              <option
+                                value={val.code}
+                                key={val.id}
+                                className="text-black"
+                              >
+                                {val.name}
+                              </option>
+                            ))}
+                        </select>
                       </div>
                       <div className="flex flex-row items-center mb-5">
                         <label htmlFor="shift" className="font-semibold w-28">
