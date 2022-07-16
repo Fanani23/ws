@@ -183,15 +183,6 @@ const Presensi = () => {
   };
 
   const fetchDetailData = async (id, detailDateStart, detailDateEnd) => {
-    console.log(
-      `https://api.kattohair.com/api/presences/${id}${
-        detailDateStart !== "" && detailDateStart !== undefined
-          ? detailDateEnd !== "" && detailDateEnd !== undefined
-            ? `?from=${detailDateStart}&to=${detailDateEnd}`
-            : ``
-          : ``
-      }`
-    );
     try {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/presences/${id}${
