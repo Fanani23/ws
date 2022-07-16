@@ -33,6 +33,7 @@ const Presensi = () => {
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // Handle Create
+  const [dataEmployee, setDataEmployee] = useState([]);
   const [code, setCode] = useState("");
   const [shift, setShift] = useState("");
   const [status, setStatus] = useState("");
@@ -43,18 +44,28 @@ const Presensi = () => {
   const idTable = "tablePresensi";
   // Detail
   const [detailShow, setDetailShow] = useState();
+  const [detailDateStart, setDetailDateStart] = useState();
+  const [detailDateEnd, setDetailDateEnd] = useState();
   const [detailPresensi, setDetailPresensi] = useState();
   const [activeId, setActiveId] = useState();
   const [activeEmployee, setActiveEmployee] = useState("");
   const [dateStart, setDateStart] = useState();
   const [dateEnd, setDateEnd] = useState();
 
-  const fetchData = async (
-    page = currentTablePage,
-    search = "",
-    dateStart,
-    sateEnd
-  ) => {
+
+  const getEmployeeData = async () => {
+    try {
+      const {data} = await axios.get(
+        "https://api.kattohair.com/api/employees?paginate=false",
+        Session()
+      );
+      setDataEmployee(data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchData = async (page = currentTablePage, search = "") => {
     try {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/presences${
@@ -71,7 +82,7 @@ const Presensi = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -85,7 +96,7 @@ const Presensi = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
@@ -99,11 +110,12 @@ const Presensi = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      console.log(err);
     }
   };
 
   useEffect(() => {
+    getEmployeeData();
     fetchData();
     getTotalCount();
     getItemsPerPage();
@@ -170,10 +182,26 @@ const Presensi = () => {
     }
   };
 
-  const fetchDetailData = async (id) => {
+  const prepareEnterDetailDateStart = (val) => {
+    setDetailDateStart(val);
+    fetchDetailData(activeId, val, detailDateEnd);
+  };
+
+  const prepareEnterDetailDateEnd = (val) => {
+    setDetailDateEnd(val);
+    fetchDetailData(activeId, detailDateStart, val);
+  };
+
+  const fetchDetailData = async (id, detailDateStart, detailDateEnd) => {
     try {
       const {data} = await axios.get(
-        `https://api.kattohair.com/api/presences/${id}`,
+        `https://api.kattohair.com/api/presences/${id}${
+          detailDateStart !== "" && detailDateStart !== undefined
+            ? detailDateEnd !== "" && detailDateEnd !== undefined
+              ? `?from=${detailDateStart}&to=${detailDateEnd}`
+              : ``
+            : ``
+        }`,
         Session()
       );
       setDetailPresensi(data);
@@ -210,6 +238,7 @@ const Presensi = () => {
       <ModalCreatePresensi
         show={openAddPresensi}
         close={closeAddPresensiModal}
+        dataEmployee={dataEmployee}
         codeValue={code}
         setCodeValue={setCode}
         setShiftValue={setShift}
@@ -263,6 +292,10 @@ const Presensi = () => {
             <PresensiDetail
               detailPresensi={detailPresensi}
               employeeName={activeEmployee}
+              dateStart={detailDateStart}
+              setDateStart={prepareEnterDetailDateStart}
+              dateEnd={detailDateEnd}
+              setDateEnd={prepareEnterDetailDateEnd}
             />
           </div>
         )}
