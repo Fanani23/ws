@@ -20,10 +20,10 @@ class ProductResource extends JsonResource
             'name' => $this->name,
             'category' => $this->category->name,
             'price' => formatPrice($this->price),
-            'price_unformat' => $this->price,
+            'price_unformat' => intval($this->price),
             'commission_type' => $this->commission_type,
             'commission_value' => $this->commission_type == 'nominal' ? formatPrice($this->commission_value) : $this->commission_value,
-            'commission_value_unformat' => $this->commission_value,
+            'commission_value_unformat' => intval($this->commission_value),
             'image' =>  $this->image ? env('APP_URL').'storage/'.$this->image : null,
         ];
     }
