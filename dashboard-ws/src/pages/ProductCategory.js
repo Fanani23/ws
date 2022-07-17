@@ -33,7 +33,7 @@ const ProductCategory = () => {
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // Search
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState("");
   // Handle Create
   const [name, setName] = useState("");
   // Handle Edit

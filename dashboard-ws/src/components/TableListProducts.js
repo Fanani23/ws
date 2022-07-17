@@ -3,7 +3,7 @@ import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
 const TableListProducts = ({tableData, editRow, deleteRow}) => {
   return (
     <>
-      <table className="mt-5 font-nunito-sans text-xs overflow-y-scroll relative">
+      <table className="my-5 font-nunito-sans text-xs overflow-y-scroll relative">
         <thead className="sticky top-0">
           <tr className="bg-[#F9F9FC] text-black text-left">
             <th className="py-2">ID</th>
