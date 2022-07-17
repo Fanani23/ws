@@ -25,8 +25,8 @@ const ReportOrder = () => {
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
   const [activeId, setActiveId] = useState();
-  const [dateStart, setDateStart] = useState();
-  const [dateEnd, setDateEnd] = useState();
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
 
   const fetchData = async (
     page = currentTablePage,
@@ -106,7 +106,6 @@ const ReportOrder = () => {
   };
 
   const printAll = () => {
-    // console.log("you click print");
     let printContents = document.getElementById("printArea").innerHTML;
     let originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
@@ -126,6 +125,8 @@ const ReportOrder = () => {
   const showSearchedTablePage = (searchValue) => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
+    setDateStart("");
+    setDateEnd("");
     fetchData(currentTablePage, searchValue, dateStart, dateEnd);
   };
 
@@ -149,13 +150,11 @@ const ReportOrder = () => {
   };
 
   const prepareEnterDateStart = (val) => {
-    console.log(val);
     setDateStart(val);
     fetchData(currentTablePage, searchValue, val, dateEnd);
   };
 
   const prepareEnterDateEnd = (val) => {
-    console.log(val);
     setDateEnd(val);
     fetchData(currentTablePage, searchValue, dateStart, val);
   };
@@ -167,13 +166,8 @@ const ReportOrder = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <div className="flex flex-col md:flex-row">
+      <div className="flex flex-col md:flex-row overflow-y-hidden overflow-x-auto scrollbar-hide min-h-[3rem]">
         <ReportNavLink />
-        <DropdownMenuExport
-          export={exportAll}
-          print={printAll}
-          close={closeAll}
-        />
       </div>
 
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
@@ -183,8 +177,8 @@ const ReportOrder = () => {
           } basis-full`}
         >
           <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
-            <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
-              <div className="flex flex-col md:flex-row">
+            <div className="flex flex-row justify-between sm:justify-start font-nunito-sans my-2 w-full">
+              <div className="flex flex-col md:flex-row md:gap-2">
                 <Search
                   textColor={"text-black"}
                   bgColor={"bg-white"}
@@ -199,12 +193,17 @@ const ReportOrder = () => {
                   setDateEnd={prepareEnterDateEnd}
                 />
               </div>
+              <DropdownMenuExport
+                export={exportAll}
+                print={printAll}
+                close={closeAll}
+              />
             </div>
             {tableCount ? (
               <>
                 <div
                   id="printArea"
-                  className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8"
+                  className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col mb-8"
                 >
                   <TableOrder tableData={tableData} detailData={detailData} />
                 </div>
