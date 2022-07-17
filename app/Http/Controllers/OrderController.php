@@ -15,7 +15,7 @@ class OrderController extends Controller
         $transaction = $transaction->newQuery();
 
         if (request()->has('searchCode')) {
-            $transaction->where('code', request()->code);
+            $transaction->where('code', request()->searchCode);
         }
 
         if (request()->has('from') && request()->has('to')) {
