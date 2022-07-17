@@ -10,8 +10,8 @@ import {
 const DropdownMenuExport = (props) => {
   return (
     <Menu as="div" className="relative ml-3 sm:ml-auto z-40">
-      <Menu.Button className="active:bg-gray-600 hover:bg-gray-600 rounded-lg px-2 py-3">
-        <MdMoreVert className="text-white" />
+      <Menu.Button className="active:bg-gray-200 hover:bg-gray-200 rounded-lg px-2 py-3">
+        <MdMoreVert className="text-black" />
       </Menu.Button>
       <Menu.Items className="absolute origin-top-right right-0 mt-1 min-w-[180px] rounded-lg shadow-lg bg-white border">
         <div className="py-1">
