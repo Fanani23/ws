@@ -11,16 +11,24 @@ import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
 import {utils, writeFileXLSX} from "xlsx";
+import ModalAlert from "../components/ModalAlert";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
+  // Modal
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
+  const [errorMsg, setErrorMsg] = useState("");
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // Search
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState("");
   // Detail
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
@@ -37,31 +45,59 @@ const ReportOrder = () => {
     try {
       const {data} = await axios.get(
         `https://api.kattohair.com/api/orders${
-          dateStart !== "" && dateStart !== undefined
+          search !== "" && search !== undefined
+            ? `?searchCode=${search}`
+            : dateStart !== "" && dateStart !== undefined
             ? dateEnd !== "" && dateEnd !== undefined
               ? `?from=${dateStart}&to=${dateEnd}`
-              : ``
-            : ``
+              : `?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
       setTableData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
-  const getTotalCount = async (page = currentTablePage, search = "") => {
+  const getTotalCount = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    dateEnd
+  ) => {
     try {
       const AllData = await axios.get(
-        `https://api.kattohair.com/api/products/categories${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        `https://api.kattohair.com/api/orders${
+          search !== "" && search !== undefined
+            ? `?searchCode=${search}`
+            : dateStart !== "" && dateStart !== undefined
+            ? dateEnd !== "" && dateEnd !== undefined
+              ? `?from=${dateStart}&to=${dateEnd}`
+              : `?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
     } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
       console.log(err);
     }
   };
@@ -74,7 +110,14 @@ const ReportOrder = () => {
       );
       setDetailOrder(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -166,6 +209,7 @@ const ReportOrder = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <div className="flex flex-col md:flex-row overflow-y-hidden overflow-x-auto scrollbar-hide min-h-[3rem]">
         <ReportNavLink />
       </div>
@@ -199,7 +243,7 @@ const ReportOrder = () => {
                 close={closeAll}
               />
             </div>
-            {tableCount ? (
+            {tableData[0] ? (
               <>
                 <div
                   id="printArea"
