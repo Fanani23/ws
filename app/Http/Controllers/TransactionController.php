@@ -18,8 +18,13 @@ class TransactionController extends Controller
         }
 
         if (request()->has('searchCode')) {
-            $transactionId = Transaction::where('code', request()->searchCode)->first()->id;
-            $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->where('transaction_id', $transactionId)->latest()->paginate(9);
+            $transaction = Transaction::where('code', request()->searchCode)->get();
+
+            if ($transaction->count() == 0) {
+                $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->where('transaction_id', 'HJDSJKSDJK')->latest()->paginate(9);
+            } else {
+                $transactionItems = TransactionItem::with(['transaction', 'employee','product', 'product.category'])->where('transaction_id', $transaction->first()->id)->latest()->paginate(9);
+            }
         }
 
         $total_revenue = formatPrice($transactionItems->sum('price'));
