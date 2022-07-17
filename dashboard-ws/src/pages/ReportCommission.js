@@ -57,6 +57,24 @@ const ReportCommission = () => {
     fetchData(page);
   };
 
+  const showSearchedTablePage = (searchValue) => {
+    setSearchValue(searchValue);
+    setCurrentTablePage(1);
+    fetchData(currentTablePage, searchValue, dateStart, dateEnd);
+  };
+
+  const prepareEnterDateStart = (val) => {
+    console.log(val);
+    setDateStart(val);
+    fetchData(currentTablePage, searchValue, val, dateEnd);
+  };
+
+  const prepareEnterDateEnd = (val) => {
+    console.log(val);
+    setDateEnd(val);
+    fetchData(currentTablePage, searchValue, dateStart, val);
+  };
+
   useEffect(() => {
     fetchData();
   }, []);

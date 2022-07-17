@@ -100,7 +100,7 @@ const ReportOrder = () => {
     const wb = utils.book_new();
     const ws = utils.json_to_sheet(tableData);
     utils.sheet_add_aoa(ws, headings);
-    utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
+    utils.sheet_add_json(ws, tableData, {origin: "A4", skipHeader: true});
     utils.book_append_sheet(wb, ws, "Report Data");
     writeFileXLSX(wb, "Report Order Data.xlsx");
   };
