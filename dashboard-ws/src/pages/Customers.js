@@ -11,6 +11,7 @@ import ModalDeleteCustomer from "../components/ModalDeleteCustomer";
 import CustomerDetail from "../components/CustomerDetail";
 import Session from "../Session";
 import ModalShowDetailOrder from "../components/ModalShowDetailOrder";
+import ModalAlert from "../components/ModalAlert";
 
 const Customers = () => {
   TabTitle("Customers - Kato Haircut");
@@ -24,6 +25,11 @@ const Customers = () => {
   const closeDeleteCustomerModal = () => setOpenDeleteCustomer(false);
   const [openDetailOrder, setOpenDetailOrder] = useState(false);
   const closeDetailOrderModal = () => setOpenDetailOrder(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -53,6 +59,8 @@ const Customers = () => {
   const [activeId, setActiveId] = useState();
   // ModalDetail
   const [modalDetailData, setModalDetailData] = useState({});
+  // Modal Alert
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -65,7 +73,14 @@ const Customers = () => {
       );
       setTableData(pageData.data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -79,7 +94,14 @@ const Customers = () => {
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -93,7 +115,14 @@ const Customers = () => {
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -136,8 +165,14 @@ const Customers = () => {
         "Succesfully add customer, if customer didn't added you must refresh your browser"
       );
     } catch (err) {
-      console.log(err);
-      alert("Add customer failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed Add Customer");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -159,7 +194,14 @@ const Customers = () => {
       setNameEdit(data.data.name);
       setMembershipEdit(data.data.membership);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -183,8 +225,14 @@ const Customers = () => {
         "Succesfully update customer data, if data didn't update you must refresh your browser"
       );
     } catch (err) {
-      console.log(err);
-      alert("Update data failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed Update Data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -202,7 +250,14 @@ const Customers = () => {
       );
       setNameDelete(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("There is an error, please refresh or login again");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -216,8 +271,14 @@ const Customers = () => {
       getTotalCount();
       alert("Succesfully delete customer");
     } catch (err) {
-      console.log(err);
-      alert("Delete customer failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed Delete Data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -229,7 +290,14 @@ const Customers = () => {
       );
       setDetailCustomer(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -241,7 +309,14 @@ const Customers = () => {
       );
       setHistoryCustomer(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -265,7 +340,14 @@ const Customers = () => {
       );
       setModalDetailData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -276,6 +358,7 @@ const Customers = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <ModalCreateCustomer
         show={openAddCustomer}
         close={closeAddCustomerModal}

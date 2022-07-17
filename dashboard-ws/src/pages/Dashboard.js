@@ -10,12 +10,18 @@ import InfoStatsRevenue from "../components/InfoStatsRevenue";
 import ChartPieMember from "../components/ChartPieMember";
 import axios from "axios";
 import Session from "../Session";
+import ModalAlert from "../components/ModalAlert";
 
 const Dashboard = () => {
   TabTitle("Dashboard - Kato Haircut");
 
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
   const [selectComparison, setSelectComparison] = useState("transaction");
-  const [errorMsg, setErrorMsg] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
   const [dataTotal, setDataTotal] = useState();
   const [dataRevenue, setDataRevenue] = useState([]);
   const [dataMembership, setDataMembership] = useState();
@@ -35,8 +41,15 @@ const Dashboard = () => {
         Session()
       );
       setDataTotal(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -47,8 +60,15 @@ const Dashboard = () => {
         Session()
       );
       setDataRevenue(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -59,8 +79,15 @@ const Dashboard = () => {
         Session()
       );
       setDataMembership(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -71,8 +98,15 @@ const Dashboard = () => {
         Session()
       );
       setDataCategoriesPopular(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -83,8 +117,15 @@ const Dashboard = () => {
         Session()
       );
       setDataTransaction(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -95,8 +136,15 @@ const Dashboard = () => {
         Session()
       );
       setDataComparison(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -107,8 +155,15 @@ const Dashboard = () => {
         Session()
       );
       setDataComparison(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -119,8 +174,15 @@ const Dashboard = () => {
         Session()
       );
       setDataComparison(data.data);
-    } catch ({response}) {
-      setErrorMsg(response.message);
+    } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -135,6 +197,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <div className="flex flex-wrap overflow-hidden mr-2">
         <div className="p-1 flex flex-col basis-full md:basis-1/2 lg:basis-1/4">
           <div className="h-full p-5 bg-primary-500 rounded-lg">

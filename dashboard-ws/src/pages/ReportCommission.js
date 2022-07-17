@@ -10,9 +10,17 @@ import Session from "../Session";
 import TableReportCommission from "../components/TableReportCommission";
 import FilterByDate from "../components/FilterByDate";
 import {utils, writeFileXLSX} from "xlsx";
+import ModalAlert from "../components/ModalAlert";
 
 const ReportCommission = () => {
   TabTitle("Commission - Kato Haircut");
+  // Modal
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
+  const [errorMsg, setErrorMsg] = useState("");
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -48,31 +56,20 @@ const ReportCommission = () => {
       setCommission(data.total_comission);
       setItemsPerPage(data.meta.per_page);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
   const showTablePage = (page) => {
     setCurrentTablePage(page);
     fetchData(page);
-  };
-
-  const showSearchedTablePage = (searchValue) => {
-    setSearchValue(searchValue);
-    setCurrentTablePage(1);
-    fetchData(currentTablePage, searchValue, dateStart, dateEnd);
-  };
-
-  const prepareEnterDateStart = (val) => {
-    console.log(val);
-    setDateStart(val);
-    fetchData(currentTablePage, searchValue, val, dateEnd);
-  };
-
-  const prepareEnterDateEnd = (val) => {
-    console.log(val);
-    setDateEnd(val);
-    fetchData(currentTablePage, searchValue, dateStart, val);
   };
 
   useEffect(() => {
@@ -138,6 +135,7 @@ const ReportCommission = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <div className="flex flex-col md:flex-row overflow-y-hidden overflow-x-auto scrollbar-hide min-h-[3rem]">
         <ReportNavLink />
       </div>
@@ -180,17 +178,23 @@ const ReportCommission = () => {
                 setDateEnd={handleFilterDateEnd}
               />
             </div>
-            <div
-              id="printArea"
-              className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col my-2"
-            >
-              <TableReportCommission tableData={tableData} />
-            </div>
-            <Pagination
-              maxPage={Math.ceil(tableCount / itemsPerPage)}
-              currentPage={currentTablePage}
-              showTablePage={showTablePage}
-            />
+            {tableData[0] ? (
+              <>
+                <div
+                  id="printArea"
+                  className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col my-2"
+                >
+                  <TableReportCommission tableData={tableData} />
+                </div>
+                <Pagination
+                  maxPage={Math.ceil(tableCount / itemsPerPage)}
+                  currentPage={currentTablePage}
+                  showTablePage={showTablePage}
+                />
+              </>
+            ) : (
+              <p className="w-full text-black">No result</p>
+            )}
           </div>
         </div>
       </div>

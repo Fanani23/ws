@@ -3,6 +3,7 @@ import logo from "../img/kato-fullsize.png";
 import {MdPerson, MdOutlineLock} from "react-icons/md";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import ModalAlert from "../components/ModalAlert";
 
 function saveLoginCredentials(data) {
   let lc = localStorage;
@@ -16,6 +17,12 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrMsg("");
+  };
 
   const handleLogin = async function (e) {
     e.preventDefault();
@@ -26,21 +33,32 @@ const Login = () => {
       });
       saveLoginCredentials(x);
       window.location = "/";
-    } catch (e) {
-      console.log(e);
-      alert("Wrong username or password");
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No Server Response");
+      } else if (err.response?.status === 422) {
+        setErrMsg("Wrong username or password");
+      } else if (err.response?.status === 0) {
+        setErrMsg("No connection");
+      } else {
+        setErrMsg("Login Failed");
+      }
+      setOpenAlert(true);
     }
   };
 
   return (
     <div className="h-screen flex justify-center items-center bg-primary-100 py-5 overflow-y-auto">
+      {errMsg !== "" && (
+        <ModalAlert show={openAlert} close={closeAlertModal} message={errMsg} />
+      )}
       <div className="max-w-sm flex flex-col mx-2">
         <img src={logo} alt="Kato Hair Design" />
         <div className="bg-white rounded-lg flex flex-col mt-5 items-center py-10">
           <h1 className="text-primary-100 font-semibold text-2xl mb-10 font-noto-sans">
             LOGIN
           </h1>
-          <form onSubmit={handleLogin} action="" className="flex flex-col">
+          <form onSubmit={handleLogin} className="flex flex-col">
             <div className="relative w-full mb-2">
               <input
                 className="border border-primary-100 outline-none focus:ring-1 focus:ring-primary-100 text-primary-100 text-sm font-nunito-sans rounded-lg pl-10 pr-4 py-3"
