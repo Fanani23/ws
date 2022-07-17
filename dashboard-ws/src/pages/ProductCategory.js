@@ -9,6 +9,7 @@ import ModalCreateCategories from "../components/ModalCreateCategories";
 import ModalEditCategories from "../components/ModalEditCategories";
 import ModalDeleteCategories from "../components/ModalDeleteCategories";
 import Session from "../Session";
+import ModalAlert from "../components/ModalAlert";
 
 const ProductCategory = () => {
   TabTitle("Category - Kato Haircut");
@@ -20,6 +21,12 @@ const ProductCategory = () => {
   const closeEditCategoryModal = () => setOpenEditCategory(false);
   const [openDeleteCategory, setOpenDeleteCategory] = useState(false);
   const closeDeleteCategoryModal = () => setOpenDeleteCategory(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
+  const [errorMsg, setErrorMsg] = useState("");
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -49,7 +56,14 @@ const ProductCategory = () => {
       setTableCount(pageData.data.meta.total);
       setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -64,7 +78,14 @@ const ProductCategory = () => {
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
     } catch (err) {
-      console.log("error in fetching table data", err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -95,12 +116,19 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      alert(
+      setErrorMsg(
         "Succesfully added category, if data didn't show you must refresh your browser"
       );
+      setOpenAlert(true);
     } catch (err) {
-      console.log(err);
-      alert("Add category failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't add data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -121,7 +149,14 @@ const ProductCategory = () => {
       setCodeEdit(data.data.code);
       setNameEdit(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -134,12 +169,19 @@ const ProductCategory = () => {
         Session()
       );
       fetchData();
-      alert(
+      setErrorMsg(
         "Succesfully update category, if category didn't update you must refresh your browser"
       );
+      setOpenAlert(true);
     } catch (err) {
-      console.log(err);
-      alert("Update data failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed update data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -157,7 +199,14 @@ const ProductCategory = () => {
       );
       setNameDelete(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -169,15 +218,23 @@ const ProductCategory = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully delete category");
+      setErrorMsg("Succesfully delete category");
+      setOpenAlert(true);
     } catch (err) {
-      console.log(err);
-      alert("Delete category failed");
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed delete data");
+      }
+      setOpenAlert(true);
     }
   };
 
   return (
     <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <ModalCreateCategories
         show={openAddCategory}
         close={closeAddCategoryModal}

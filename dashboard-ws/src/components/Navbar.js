@@ -16,24 +16,25 @@ const Navbar = ({toggleSidebar}) => {
   let handleLogout = function () {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("cart");
     window.location = "/login";
   };
 
-  const getNotificationData = async () => {
-    try {
-      const {data} = await axios.get(
-        `https://api.kattohair.com/api/notifications`,
-        Session()
-      );
-      setNotification(data.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const getNotificationData = async () => {
+  //   try {
+  //     const {data} = await axios.get(
+  //       `https://api.kattohair.com/api/notifications`,
+  //       Session()
+  //     );
+  //     setNotification(data.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    getNotificationData();
-  }, [notification]);
+  // useEffect(() => {
+  //   getNotificationData();
+  // }, [notification]);
 
   return (
     <>
@@ -62,15 +63,18 @@ const Navbar = ({toggleSidebar}) => {
           <div className="flex flex-row items-center space-x-3">
             <DropdownNavbar
               label={<MdNotificationsNone className="text-2xl" />}
+              size="md"
             >
               {notification ? (
                 notification?.map((val) => (
                   <div
-                    className="hover:bg-primary-500 hover:text-white w-full px-3 py-2"
+                    className="hover:bg-primary-500 w-full px-3 py-2 group"
                     key={val.id}
                   >
-                    <dd className="text-black font-bold">{val.message}</dd>
-                    <dt className="text-gray-500 font-semibold">
+                    <dd className="text-black font-bold group-hover:text-white">
+                      {val.message}
+                    </dd>
+                    <dt className="text-gray-500 font-semibold group-hover:text-gray-300">
                       {val.datetime}
                     </dt>
                   </div>
@@ -84,6 +88,7 @@ const Navbar = ({toggleSidebar}) => {
 
             <DropdownNavbar
               showCollapse="true"
+              size="sm"
               label={
                 <>
                   <img

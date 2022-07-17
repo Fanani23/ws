@@ -10,6 +10,7 @@ import ModalCreateProduct from "../components/ModalCreateProduct";
 import ModalDeleteProduct from "../components/ModalDeleteProduct";
 import ModalEditProduct from "../components/ModalEditProduct";
 import Session from "../Session";
+import ModalAlert from "../components/ModalAlert";
 
 const ProductList = () => {
   TabTitle("List Product - Kato Haircut");
@@ -18,9 +19,17 @@ const ProductList = () => {
   const closeAddProductModal = () => setOpenAddProduct(false);
   const openAddProductModal = () => setOpenAddProduct(true);
   const [openEditProduct, setOpenEditProduct] = useState(false);
-  const closeEditProductModal = () => setOpenEditProduct(false);
+  const closeEditProductModal = () => {
+    setOpenEditProduct(false);
+    setImageEdit();
+  };
   const [openDeleteProduct, setOpenDeleteProduct] = useState(false);
   const closeDeleteProductModal = () => setOpenDeleteProduct(false);
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
@@ -51,6 +60,7 @@ const ProductList = () => {
   // Handle Delete
   const [idDelete, setIdDelete] = useState("");
   const [nameDelete, setNameDelete] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchData = async (page = currentTablePage, search = "") => {
     try {
@@ -64,7 +74,14 @@ const ProductList = () => {
       setTableCount(pageData.data.meta.total);
       setItemsPerPage(pageData.data.meta.per_page);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -76,7 +93,14 @@ const ProductList = () => {
       );
       setDataCategory(getData.data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -104,7 +128,14 @@ const ProductList = () => {
       );
       setTableData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -116,19 +147,25 @@ const ProductList = () => {
       );
       setTableData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
   const handleChangeCategory = (val) => {
     val !== "All"
-    ? fetchSpecificCategoryProduct(val)
-    : fetchAllCategoryProduct();
+      ? fetchSpecificCategoryProduct(val)
+      : fetchAllCategoryProduct();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(category);
     const formData = new FormData();
     formData.append("image", image);
     formData.append("category_id", category);
@@ -137,15 +174,27 @@ const ProductList = () => {
     formData.append("commission_type", feeCategory);
     formData.append("commission_value", feeValue);
     try {
-      axios.post("https://api.kattohair.com/api/products/create",   formData, Session() );
+      axios.post(
+        "https://api.kattohair.com/api/products/create",
+        formData,
+        Session()
+      );
       setImage("");
       setName("");
       setCategory("");
       fetchData();
-      alert("Succesfully added, if data didn't show you must refresh your browser");
+      alert(
+        "Succesfully added, if data didn't show you must refresh your browser"
+      );
     } catch (err) {
-      console.log(err);
-      alert("Adding data unsuccesfull, you must check your input data")
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed add data, check your input again!");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -189,7 +238,14 @@ const ProductList = () => {
       setFeeEdit(fee_commission);
       setImageEdit(data.data.image);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -214,13 +270,24 @@ const ProductList = () => {
       formData.append("image", imageEdit);
       formData.append("_method", "PUT");
 
-      await axios.post(`https://api.kattohair.com/api/products/update/${idEdit}`,
-      formData , Session()) ;
+      await axios.post(
+        `https://api.kattohair.com/api/products/update/${idEdit}`,
+        formData,
+        Session()
+      );
       fetchData();
-      alert("Succesfully edit data, if data didn't show updated you must refresh your browser")
+      alert(
+        "Succesfully edit data, if data didn't show updated you must refresh your browser"
+      );
     } catch (err) {
-      console.log(err);
-      alert("Updating data failed")
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed update data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -238,7 +305,14 @@ const ProductList = () => {
       );
       setNameDelete(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -249,15 +323,22 @@ const ProductList = () => {
         Session()
       );
       fetchData();
-      alert("Sucessfully delete data")
+      alert("Sucessfully delete data");
     } catch (err) {
-      console.log(err);
-      alert("Delete data failed")
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Failed delete data");
+      }
+      setOpenAlert(true);
     }
   };
 
   return (
     <div className="w-full flex flex-col grow overflow-auto scrollbar-shown">
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
       <ModalCreateProduct
         show={openAddProduct}
         close={closeAddProductModal}
@@ -320,13 +401,13 @@ const ProductList = () => {
             <span>Add Service</span>
           </button>
         </div>
-        <div >
+        <div>
           <ProductCategoryList
-              dataCategory={dataCategory}
-              currentCategory={currentCategory}
-              setCurrentCategory={setCurrentCategory}
-              handleChangeCategory={handleChangeCategory}
-            />
+            dataCategory={dataCategory}
+            currentCategory={currentCategory}
+            setCurrentCategory={setCurrentCategory}
+            handleChangeCategory={handleChangeCategory}
+          />
         </div>
         {tableCount ? (
           <>

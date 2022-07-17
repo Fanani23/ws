@@ -9,6 +9,7 @@ import TabTitle from "../utils/GeneralFunction";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
 import TableEmployeeSingle from "../components/TableEmployeeSingle";
+import { utils, writeFileXLSX } from "xlsx";
 
 const EmployeeSingle = () => {
   const {employeeId} = useParams();
@@ -59,10 +60,49 @@ const EmployeeSingle = () => {
     fetchSalaryEmployee();
   }, []);
 
+  const exportAll = () => {
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Transaction ID",
+      "Product Name",
+      "Sub Total",
+      "Total",
+      "Commission Type",
+      "Commission",
+      "Fee",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tableData);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tableData, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Employee Data");
+    writeFileXLSX(wb, "Employee Detail Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
+
+  const closeAll = () => {
+    console.log("you click close");
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <div className="relative flex flex-none">
+      <div className="relative flex flex-col md:flex-row">
         <BackButton />
+        <DropdownMenuExport 
+          export={exportAll}
+          print={printAll}
+          close={closeAll}
+        />
       </div>
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div className="basis-full md:basis-2/2 lg:basis-6/6">
@@ -85,12 +125,9 @@ const EmployeeSingle = () => {
                     </h1>
                   </div>
                 </div>
-                <div className="ml-auto">
-                  <DropdownMenuExport />
-                </div>
               </div>
             )}
-            <div className="flex flex-row border-t p-3">
+            <div id="noprint" className="flex flex-row border-t p-3">
               <Search
                 textColor={"text-black"}
                 bgColor={"bg-white"}
@@ -99,7 +136,9 @@ const EmployeeSingle = () => {
               <FilterByDate />
             </div>
             <div className="p-3 flex flex-col justify-center px-3 py-1">
-              <TableEmployeeSingle tableData={tableData} />
+              <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
+                <TableEmployeeSingle tableData={tableData} />
+              </div>
               <Pagination
                 maxPage={Math.ceil(tableCount / itemsPerPage)}
                 currentPage={currentTablePage}

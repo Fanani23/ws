@@ -19,24 +19,36 @@ import CashierSingle from "./pages/CashierSingle";
 import Jobs from "./pages/Jobs";
 import ReportCommission from "./pages/ReportCommission";
 import CashierInput from "./pages/CashierInput";
+import {getRole} from "./Session";
 
 function App() {
-  const [sidebar, setSidebar] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [displaySidebar, setDisplaySidebar] = useState(false);
 
-  const handleResize = () => {
-    if (window.innerWidth > 768) {
-      setSidebar(true);
-    } else if (window.innerWidth < 768) {
-      setSidebar(false);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+    if (window.innerWidth < 1024) {
+      if (displaySidebar) {
+        setDisplaySidebar(false);
+      }
+    } else {
+      setDisplaySidebar(true);
     }
   };
 
   useEffect(() => {
-    handleResize();
+    handleWindowSizeChange();
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, [width]);
+
   const toggleSidebar = () => {
-    return setSidebar(!sidebar);
+    return setDisplaySidebar(!displaySidebar);
   };
 
   return (
@@ -45,7 +57,7 @@ function App() {
         <div className="flex flex-col bg-black h-screen">
           <Navbar toggleSidebar={toggleSidebar} />
           <div className="flex flex-row h-full mt-20 overflow-hidden">
-            <Sidebar show={sidebar} />
+            <Sidebar show={displaySidebar} />
             <div className="overflow-y-auto p-2 w-full text-white scrollbar-shown">
               <Routes>
                 <Route path="/">
@@ -80,25 +92,32 @@ function App() {
                     {/* <Route path=":customerId" element={<CustomerSingle />} /> */}
                   </Route>
                   <Route path="presensi" element={<Presensi />} />
-                  <Route path="employee">
-                    <Route
-                      path="/employee"
-                      element={<Navigate to="/employee/list" replace />}
-                    />
-                    <Route path="jobs" element={<Jobs />} />
-                    <Route path="list">
-                      <Route index element={<Employee />} />
-                      {/* <Route path=":employeeId" element={<EmployeeSingle />} /> */}
-                    </Route>
-                  </Route>
-                  <Route path="setting">
-                    <Route
-                      path="/setting"
-                      element={<Navigate to="/setting/admin" replace />}
-                    />
-                    <Route path="admin" element={<SettingAdmin />} />
-                    <Route path="log" element={<SettingLogLogin />} />
-                  </Route>
+                  {getRole() === "master" && (
+                    <>
+                      <Route path="employee">
+                        <Route
+                          path="/employee"
+                          element={<Navigate to="/employee/list" replace />}
+                        />
+                        <Route path="jobs" element={<Jobs />} />
+                        <Route path="list">
+                          <Route index element={<Employee />} />
+                          <Route
+                            path=":employeeId"
+                            element={<EmployeeSingle />}
+                          />
+                        </Route>
+                      </Route>
+                      <Route path="setting">
+                        <Route
+                          path="/setting"
+                          element={<Navigate to="/setting/admin" replace />}
+                        />
+                        <Route path="admin" element={<SettingAdmin />} />
+                        <Route path="log" element={<SettingLogLogin />} />
+                      </Route>
+                    </>
+                  )}
                   <Route path="/login" element={<Navigate to="/" replace />} />
                 </Route>
                 <Route path="*" element={<Navigate to="/" replace />} />

@@ -10,47 +10,94 @@ import Pagination from "../components/Pagination";
 import ReportOrderDetail from "../components/ReportOrderDetail";
 import Session from "../Session";
 import FilterByDate from "../components/FilterByDate";
+import {utils, writeFileXLSX} from "xlsx";
+import ModalAlert from "../components/ModalAlert";
 
 const ReportOrder = () => {
   TabTitle("Order - Kato Haircut");
+  // Modal
+  const [openAlert, setOpenAlert] = useState(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setErrorMsg("");
+  };
+  const [errorMsg, setErrorMsg] = useState("");
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
   // Search
-  const [searchValue, setSearchValue] = useState();
+  const [searchValue, setSearchValue] = useState("");
   // Detail
   const [detailShow, setDetailShow] = useState(false);
   const [detailOrder, setDetailOrder] = useState();
   const [activeId, setActiveId] = useState();
-  const [dateEnd, setDateEnd] = useState();
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
 
-  const fetchData = async (page = currentTablePage, search = "") => {
+  const fetchData = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    dateEnd
+  ) => {
     try {
-      const pageData = await axios.get(
+      const {data} = await axios.get(
         `https://api.kattohair.com/api/orders${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+          search !== "" && search !== undefined
+            ? `?searchCode=${search}`
+            : dateStart !== "" && dateStart !== undefined
+            ? dateEnd !== "" && dateEnd !== undefined
+              ? `?from=${dateStart}&to=${dateEnd}`
+              : `?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
-      setTableData(pageData.data.data);
+      setTableData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
-  const getTotalCount = async (page = currentTablePage, search = "") => {
+  const getTotalCount = async (
+    page = currentTablePage,
+    search = "",
+    dateStart,
+    dateEnd
+  ) => {
     try {
       const AllData = await axios.get(
-        `https://api.kattohair.com/api/products/categories${
-          search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
+        `https://api.kattohair.com/api/orders${
+          search !== "" && search !== undefined
+            ? `?searchCode=${search}`
+            : dateStart !== "" && dateStart !== undefined
+            ? dateEnd !== "" && dateEnd !== undefined
+              ? `?from=${dateStart}&to=${dateEnd}`
+              : `?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
       setTableCount(AllData.data.meta.total);
       setItemsPerPage(AllData.data.meta.per_page);
     } catch (err) {
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
       console.log(err);
     }
   };
@@ -63,16 +110,52 @@ const ReportOrder = () => {
       );
       setDetailOrder(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setErrorMsg("No Server Response");
+      } else if (err.response?.status === 401) {
+        setErrorMsg("Unauthorized, please login again!");
+      } else {
+        setErrorMsg("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
   const exportAll = () => {
-    console.log("you click export");
+    // console.log("you click export");
+    const headings = [
+      [
+        "ID",
+        "Name Member",
+        "No Transaction",
+        "Discount Type",
+        "Discount Ammount",
+        "Coupon Type",
+        "Coupon Ammount",
+        "Sub Total",
+        "Discount Total",
+        "Total",
+        "Method",
+        "Status",
+        "Date & Time",
+      ],
+    ];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tableData);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tableData, {origin: "A4", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Report Data");
+    writeFileXLSX(wb, "Report Order Data.xlsx");
   };
+
   const printAll = () => {
-    console.log("you click print");
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
   };
+
   const closeAll = () => {
     console.log("you click close");
   };
@@ -85,7 +168,9 @@ const ReportOrder = () => {
   const showSearchedTablePage = (searchValue) => {
     setSearchValue(searchValue);
     setCurrentTablePage(1);
-    fetchData(currentTablePage, searchValue);
+    setDateStart("");
+    setDateEnd("");
+    fetchData(currentTablePage, searchValue, dateStart, dateEnd);
   };
 
   const detailData = (id) => {
@@ -98,8 +183,23 @@ const ReportOrder = () => {
     }
   };
 
-  const printDetailOrder = (id) => {
-    console.log("You want to print from", id);
+  const printDetailOrder = () => {
+    // console.log("You want to print from", id);
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
+
+  const prepareEnterDateStart = (val) => {
+    setDateStart(val);
+    fetchData(currentTablePage, searchValue, val, dateEnd);
+  };
+
+  const prepareEnterDateEnd = (val) => {
+    setDateEnd(val);
+    fetchData(currentTablePage, searchValue, dateStart, val);
   };
 
   useEffect(() => {
@@ -109,7 +209,11 @@ const ReportOrder = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      <ReportNavLink />
+      <ModalAlert show={openAlert} close={closeAlertModal} message={errorMsg} />
+      <div className="flex flex-col md:flex-row overflow-y-hidden overflow-x-auto scrollbar-hide min-h-[3rem]">
+        <ReportNavLink />
+      </div>
+
       <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
         <div
           className={`${
@@ -117,16 +221,21 @@ const ReportOrder = () => {
           } basis-full`}
         >
           <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
-            <div className="flex flex-row justify-between sm:justify-start font-nunito-sans mt-2 w-full">
-              <div className="flex flex-col md:flex-row">
+            <div className="flex flex-row justify-between sm:justify-start font-nunito-sans my-2 w-full">
+              <div className="flex flex-col md:flex-row md:gap-2">
                 <Search
                   textColor={"text-black"}
                   bgColor={"bg-white"}
-                  placeholder={"Search by name..."}
+                  placeholder={"Search by no transaction..."}
                   searchValue={searchValue}
                   setSearchValue={showSearchedTablePage}
                 />
-                <FilterByDate dateEnd={dateEnd} setDateEnd={setDateEnd} />
+                <FilterByDate
+                  dateStart={dateStart}
+                  setDateStart={prepareEnterDateStart}
+                  dateEnd={dateEnd}
+                  setDateEnd={prepareEnterDateEnd}
+                />
               </div>
               <DropdownMenuExport
                 export={exportAll}
@@ -134,9 +243,14 @@ const ReportOrder = () => {
                 close={closeAll}
               />
             </div>
-            {tableCount ? (
+            {tableData[0] ? (
               <>
-                <TableOrder tableData={tableData} detailData={detailData} />
+                <div
+                  id="printArea"
+                  className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col mb-8"
+                >
+                  <TableOrder tableData={tableData} detailData={detailData} />
+                </div>
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
                   currentPage={currentTablePage}

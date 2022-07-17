@@ -1,9 +1,49 @@
-import DropdownMenuExport from "../components/DropdownMenuExport";
-import Pagination from "./Pagination";
+import DropdownMenuExport2 from "../components/DropdownMenuExport2";
+import { utils, writeFileXLSX } from "xlsx";
 
 const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
+
+  const exportAll = () => {
+    // console.log("you click export");
+    const headings = [[
+      "ID",
+      "Customer Name",
+      "Transaction ID",
+      "Discount Type",
+      "Discount",
+      "Coupon Type",
+      "Coupon",
+      "Sub Total",
+      "Discount Total",
+      "Total",
+      "Method",
+      "Status",
+      "Date & Time"
+    ]];
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(tabelDetailCustomer);
+    utils.sheet_add_aoa(ws, headings);
+    utils.sheet_add_json(ws, tabelDetailCustomer, {origin: "A2", skipHeader: true});
+    utils.book_append_sheet(wb, ws, "Customer Data");
+    writeFileXLSX(wb, "Customer Detail Data.xlsx");
+  };
+
+  const printAll = () => {
+    // console.log("you click print");
+    let printContents = document.getElementById("printArea").innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    document.body.innerHTML = originalContents;
+  };
+  
+  const closeAll = () => {
+    console.log("you click close");
+  };
+
   return (
     <div className="flex flex-col h-full font-noto-sans">
+      
       <div className="bg-white rounded-lg overflow-hidden flex h-full flex-col">
         <div className="px-5 py-3">
           <div className="flex flex-row justify-between">
@@ -20,11 +60,16 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
                 <h1 className="text-black font-bold text-lg mr-2">
                   {detailCustomer.membership.toUpperCase()}
                 </h1>
-                <DropdownMenuExport />
+                <DropdownMenuExport2 
+                  export={exportAll}
+                  print={printAll}
+                  close={closeAll}
+                />
               </div>
             </div>
           </div>
           <h5 className="text-black text-lg mt-6">Order History</h5>
+          <div id="printArea" className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3 mb-8">
           <table className="mt-5 font-nunito-sans text-xs w-full overflow-y-scroll relative">
             <thead className="sticky top-0">
               <tr className="bg-[#F9F9FC] text-black text-left">
@@ -52,6 +97,7 @@ const CustomerDetail = ({detailCustomer, tabelDetailCustomer, modalDetail}) => {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

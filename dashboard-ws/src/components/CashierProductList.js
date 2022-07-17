@@ -26,7 +26,7 @@ const CashierProductList = ({dataProduct, selectProduct}) => {
                   src={
                     val.image ? val.image : "https://via.placeholder.com/150"
                   }
-                  alt="place holder"
+                  alt={val.name}
                   className="rounded-full w-[150px] h-[150px]"
                 />
                 <div className="ml-5 md:ml-0">

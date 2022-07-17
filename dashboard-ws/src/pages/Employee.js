@@ -50,7 +50,8 @@ const Employee = () => {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableData(pageData.data.data);
     } catch (err) {
@@ -63,7 +64,8 @@ const Employee = () => {
       const AllData = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setTableCount(AllData.data.meta.total);
     } catch (err) {
@@ -76,7 +78,8 @@ const Employee = () => {
       const CountPerPage = await axios.get(
         `https://api.kattohair.com/api/employees${
           search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        }`, Session()
+        }`,
+        Session()
       );
       setItemsPerPage(CountPerPage.data.meta.per_page);
     } catch (err) {
@@ -119,17 +122,22 @@ const Employee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`https://api.kattohair.com/api/employees/create`, {
-        name: name,
-        phone: phone,
-        job_id: job,
-      }, Session()
-    );
-    fetchData();
-    alert("Succesfully add employee, if employee data didn't show you must refresh your browser")
+      await axios.post(
+        `https://api.kattohair.com/api/employees/create`,
+        {
+          name: name,
+          phone: phone,
+          job_id: job,
+        },
+        Session()
+      );
+      fetchData();
+      alert(
+        "Succesfully add employee, if employee data didn't show you must refresh your browser"
+      );
     } catch ({response}) {
       console.log(response.message);
-      alert("Add employee failed")
+      alert("Add employee failed");
     }
   };
 
@@ -175,13 +183,16 @@ const Employee = () => {
           phone: phoneEdit,
           name: nameEdit,
           job_id: job_id,
-        }, Session()
+        },
+        Session()
       );
       fetchData();
-      alert("Succesfully update employee data, if data didn't update you must refresh your data")
+      alert(
+        "Succesfully update employee data, if data didn't update you must refresh your data"
+      );
     } catch (err) {
       console.log(err);
-      alert("Update data failed")
+      alert("Update data failed");
     }
   };
 
@@ -211,10 +222,10 @@ const Employee = () => {
       );
       fetchData();
       getTotalCount();
-      alert("Succesfully delete employee data")
+      alert("Succesfully delete employee data");
     } catch (err) {
       console.log(err);
-      alert("Delete employee data failed")
+      alert("Delete employee data failed");
     }
   };
 

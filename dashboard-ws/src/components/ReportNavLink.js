@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 
 const ReportNavLink = () => {
   return (
-    <div className="flex flex-row space-x-2">
+    <div className="flex flex-row space-x-2 h-full">
       <NavLink
         to="../order"
         className={({isActive}) =>

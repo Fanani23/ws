@@ -31,7 +31,10 @@ const CashierInput = () => {
   const closeAddCustomerModal = () => setOpenAddCustomer(false);
   const openAddCustomerModal = () => setOpenAddCustomer(true);
   const [openAlert, setOpenAlert] = useState(false);
-  const closeAlertModal = () => setOpenAlert(false);
+  const closeAlertModal = () => {
+    setOpenAlert(false);
+    setMessage("");
+  };
   const openAlertModal = () => setOpenAlert(true);
   // Search
   const [dataCategory, setDataCategory] = useState([]);
@@ -73,7 +76,14 @@ const CashierInput = () => {
       );
       setDataCategory(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -85,7 +95,14 @@ const CashierInput = () => {
       );
       setDataProduct(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -97,7 +114,14 @@ const CashierInput = () => {
       );
       setDataProduct(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -109,7 +133,14 @@ const CashierInput = () => {
       );
       setDataCustomer(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -121,7 +152,14 @@ const CashierInput = () => {
       );
       setActiveCustomerData(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -133,7 +171,14 @@ const CashierInput = () => {
       );
       setDataEmployee(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -151,8 +196,8 @@ const CashierInput = () => {
         Session()
       );
     } catch (err) {
-      console.log(err);
-      alert("Add customer failed");
+      setMessage("Add customer failed");
+      setOpenAlert(true);
     }
   };
 
@@ -179,7 +224,14 @@ const CashierInput = () => {
       );
       setSelectProduct(data.data);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -202,7 +254,14 @@ const CashierInput = () => {
       );
       addToCart(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -223,7 +282,14 @@ const CashierInput = () => {
       ]);
       setStylist("");
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -249,7 +315,14 @@ const CashierInput = () => {
       );
       setToCartEdit(data.data.name);
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
+      setOpenAlert(true);
     }
   };
 
@@ -276,35 +349,38 @@ const CashierInput = () => {
     setCart(data);
   };
 
-  const postCart = async (e) => {
-    e.preventDefault();
+  const postCart = async () => {
     try {
-      let data = {
-        user_id: getId(),
-        customer_id: parseInt(customerId),
-        discount_type: "percent",
-        discount_amount: "",
-        coupon_type: "nominal",
-        coupon_amount: "",
-        service_items: JSON.parse(localStorage.getItem("cart")),
-      };
       await axios.post(
         "https://api.kattohair.com/api/cashier/create",
-        data,
+        {
+          user_id: getId(),
+          customer_id: parseInt(customerId),
+          discount_type: "percent",
+          discount_amount: "",
+          coupon_type: "nominal",
+          coupon_amount: "",
+          service_items: JSON.parse(localStorage.getItem("cart")),
+        },
         Session()
       );
+      console.log("here");
     } catch (err) {
-      console.log(err);
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't post data");
+      }
+      setOpenAlert(true);
     }
   };
 
   const prepareConfirmPayment = () => {
+    // console.log(parseInt(customerId));
     postCart();
-    navigate(
-      "/cashier/confirmation",
-      {replace: true},
-      {state: {id: userOperator.id}}
-    );
+    navigate("/cashier/confirmation");
   };
 
   const clearCart = () => {
