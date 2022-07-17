@@ -22,22 +22,33 @@ import CashierInput from "./pages/CashierInput";
 import {getRole} from "./Session";
 
 function App() {
-  const [sidebar, setSidebar] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [displaySidebar, setDisplaySidebar] = useState(false);
 
-  const handleResize = () => {
-    if (window.innerWidth > 768) {
-      setSidebar(true);
-    } else if (window.innerWidth < 768) {
-      setSidebar(false);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
+    if (window.innerWidth < 1024) {
+      if (displaySidebar) {
+        setDisplaySidebar(false);
+      }
+    } else {
+      setDisplaySidebar(true);
     }
   };
 
   useEffect(() => {
-    handleResize();
+    handleWindowSizeChange();
   }, []);
 
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, [width]);
+
   const toggleSidebar = () => {
-    return setSidebar(!sidebar);
+    return setDisplaySidebar(!displaySidebar);
   };
 
   return (
@@ -46,7 +57,7 @@ function App() {
         <div className="flex flex-col bg-black h-screen">
           <Navbar toggleSidebar={toggleSidebar} />
           <div className="flex flex-row h-full mt-20 overflow-hidden">
-            <Sidebar show={sidebar} />
+            <Sidebar show={displaySidebar} />
             <div className="overflow-y-auto p-2 w-full text-white scrollbar-shown">
               <Routes>
                 <Route path="/">
@@ -91,7 +102,10 @@ function App() {
                         <Route path="jobs" element={<Jobs />} />
                         <Route path="list">
                           <Route index element={<Employee />} />
-                          <Route path=":employeeId" element={<EmployeeSingle />} />
+                          <Route
+                            path=":employeeId"
+                            element={<EmployeeSingle />}
+                          />
                         </Route>
                       </Route>
                       <Route path="setting">
