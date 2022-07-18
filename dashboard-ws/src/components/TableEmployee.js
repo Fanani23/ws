@@ -1,7 +1,6 @@
 import {MdModeEditOutline, MdDeleteOutline} from "react-icons/md";
-import {Link} from "react-router-dom";
 
-const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
+const TableEmployee = ({tableData, editRow, deleteRow, idTable, detail}) => {
   const capitalizeEachWord = (sentence) => {
     const words = sentence.split(" ");
     for (let i = 0; i < words.length; i++) {
@@ -42,11 +41,12 @@ const TableEmployee = ({tableData, editRow, deleteRow, idTable}) => {
                   <button onClick={() => deleteRow(row.id)}>
                     <MdDeleteOutline className="ml-2 text-red-500 hover:text-red-800" />
                   </button>
-                  <Link to={`${row.id}`}>
-                    <button className="px-3 ml-2 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2">
-                      See Detail
-                    </button>
-                  </Link>
+                  <button
+                    className="px-3 ml-2 py-2 bg-blue-100 hover:bg-blue-400 rounded-lg mr-2"
+                    onClick={() => detail(row.id)}
+                  >
+                    See Detail
+                  </button>
                 </td>
               </tr>
             ))}
