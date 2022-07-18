@@ -57,14 +57,15 @@ const CashierInput = () => {
   const [discountValueEdit, setDiscountValueEdit] = useState();
   // old customer
   const [categoryCustomer, setCategoryCustomer] = useState("new");
-  const [dataCustomer, setDataCustomer] = useState([]);
-  const [customerId, setCustomerId] = useState("");
   const [activeCustomerData, setActiveCustomerData] = useState();
   // new customer
-  const [newCustomerBirthday, setNewCustomerBirthday] = useState();
+  const [newCustomerBirthday, setNewCustomerBirthday] = useState("");
   const [newCustomerName, setNewCustomerName] = useState("");
-  const [newCustomerPhone, setNewCustomerPhone] = useState();
+  const [newCustomerPhone, setNewCustomerPhone] = useState(0);
   const [newCustomerMembership, setNewCustomerMembership] = useState("");
+  // old and new customer
+  const [customerId, setCustomerId] = useState("");
+  const [dataCustomer, setDataCustomer] = useState([]);
 
   const [message, setMessage] = useState("");
 
@@ -183,20 +184,33 @@ const CashierInput = () => {
   };
 
   const createNewCustomer = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      await axios.post(
-        "https://api.kattohair.com/api/customers/create",
-        {
-          birthday: newCustomerBirthday,
-          phone: newCustomerPhone,
-          name: newCustomerName,
-          membership: newCustomerMembership,
-        },
-        Session()
-      );
+      await axios
+        .post(
+          "https://api.kattohair.com/api/customers/create",
+          {
+            birthday: newCustomerBirthday,
+            phone: newCustomerPhone,
+            name: newCustomerName,
+            membership: newCustomerMembership,
+          },
+          Session()
+        )
+        .then((response) => {
+          setActiveCustomerData(response.data.data);
+          setCustomerId(response.data.data.id);
+          console.log(response.data.data);
+        });
     } catch (err) {
-      setMessage("Add customer failed");
+      closeAddCustomerModal();
+      if (!err?.response) {
+        setMessage("No Server Response");
+      } else if (err.response?.status === 401) {
+        setMessage("Unauthorized, please login again!");
+      } else {
+        setMessage("Can't get data");
+      }
       setOpenAlert(true);
     }
   };
