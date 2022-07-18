@@ -5,7 +5,7 @@ import TableEmployee from "../components/TableEmployee";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import axios from "axios";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import ModalCreateEmployee from "../components/ModalCreateEmployee";
 import ModalEditEmployee from "../components/ModalEditEmployee";
 import ModalDeleteEmployee from "../components/ModalDeleteEmployee";
@@ -13,6 +13,7 @@ import Session from "../Session";
 
 const Employee = () => {
   TabTitle("Employee - Kato Haircut");
+  let navigate = useNavigate();
   // Modal
   const [openAddEmployee, setOpenAddEmployee] = useState(false);
   const closeAddEmployeeModal = () => setOpenAddEmployee(false);
@@ -175,7 +176,6 @@ const Employee = () => {
           job_id = dataJob[i].id;
         }
       }
-      // console.log("job_id = "+job_id);
       await axios.put(
         `https://api.kattohair.com/api/employees/update/${idEdit}`,
         {
@@ -227,6 +227,10 @@ const Employee = () => {
       console.log(err);
       alert("Delete employee data failed");
     }
+  };
+
+  const handleSeeDetail = (id) => {
+    navigate("detail", {state: {employeeId: id}});
   };
 
   return (
@@ -288,6 +292,7 @@ const Employee = () => {
               idTable={idTable}
               editRow={prepareEdit}
               deleteRow={prepareDelete}
+              detail={handleSeeDetail}
             />
             <Pagination
               maxPage={Math.ceil(tableCount / itemsPerPage)}
