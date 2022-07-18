@@ -20,7 +20,7 @@ class CustomerController extends Controller
 
     public function create(CustomerRequest $request)
     {
-        Customer::create([
+        $customer = Customer::create([
             'code' => 'C'.$request->phone,
             'name' => $request->name,
             'phone' => $request->phone,
@@ -30,7 +30,8 @@ class CustomerController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Successfully created.'
+            'message' => 'Successfully created.',
+            'data' => $customer
         ]);
     }
 
