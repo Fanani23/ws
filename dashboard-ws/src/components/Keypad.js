@@ -12,6 +12,8 @@ const Keypad = ({paidValue, setPaidValue}) => {
           name="payment"
           id="payment"
           className="bg-transparent text-right border-2 border-gray w-full text-black text-lg font-bold rounded-lg px-3 py-2"
+          value={paidValue}
+          onChange={(e) => setPaidValue(e.target.value)}
         />
         <span className="absolute top-0 left-0 text-black pl-3 py-3 select-none font-semibold">
           Rp

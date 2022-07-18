@@ -1,5 +1,5 @@
 import {CashierSample} from "../data/CashierSample";
-import {MdDeleteOutline, MdClose} from "react-icons/md";
+import {MdDeleteOutline, MdClose, MdChevronLeft} from "react-icons/md";
 import success from "../img/payment-success.png";
 import {Fragment, useEffect, useState} from "react";
 import {Dialog, Transition} from "@headlessui/react";
@@ -8,23 +8,35 @@ import Session from "../Session";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import ModalAlert from "../components/ModalAlert";
+import Keypad from "../components/Keypad";
+import ModalBackCashier from "../components/ModalBackCashier";
+import ModalDeleteCashier from "../components/ModalDeleteCashier";
+import ModalSuccessCashier from "../components/ModalSuccessCashier";
 
 const CashierSingle = () => {
   const navigate = useNavigate();
-  const [inputNumber, setInputNumber] = useState(150000);
-  const [methodPayment, setMethodPayment] = useState("Cash");
+  const [inputNumber, setInputNumber] = useState(0);
+  const [methodPayment, setMethodPayment] = useState("");
 
+  // Modal Alert
   const [openAlert, setOpenAlert] = useState(false);
   const openAlertModal = () => setOpenAlert(true);
   const closeAlertModal = () => setOpenAlert(false);
 
-  // const [openConfirmation, setOpenConfirmation] = useState(false);
-  // const closeConfirmationModal = () => {
-  //   setOpenConfirmation(false);
-  // };
-  // const openConfirmationModal = () => {
-  //   setOpenConfirmation(true);
-  // };
+  // Modal Back
+  const [backAlert, setBackAlert] = useState(false);
+  const closeBackAlertModal = () => setBackAlert(false);
+
+  // Modal Delete
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const closeDeleteAlertModal = () => setDeleteAlert(false);
+
+  // Modal Success
+  const [successAlert, setSuccessAlert] = useState(false);
+  const closeSuccessAlertModal = () => {
+    setSuccessAlert(false);
+    navigate(-1);
+  };
 
   const [cart, setCart] = useState({});
   const [userId, setUserId] = useState();
@@ -63,12 +75,18 @@ const CashierSingle = () => {
   };
 
   const confirmPayment = async (val) => {
+    // console.log(
+    //   `https://api.kattohair.com/api/cashier/confirm/${val}`,
+    //   {method: methodPayment},
+    //   Session()
+    // );
     try {
       await axios.post(
         `https://api.kattohair.com/api/cashier/confirm/${val}`,
         {method: methodPayment},
         Session()
       );
+      setSuccessAlert(true);
     } catch (err) {
       console.log(err);
     }
@@ -80,7 +98,7 @@ const CashierSingle = () => {
     } else {
       console.log(methodPayment);
       console.log(userId);
-      confirmPayment(userId);
+      confirmPayment(cart.id);
     }
   };
 
@@ -113,6 +131,8 @@ const CashierSingle = () => {
           },
         }
       );
+      closeBackAlertModal();
+      closeDeleteAlertModal();
       navigate("/cashier/input", {replace: true});
     } catch (err) {
       console.log(err);
@@ -126,8 +146,25 @@ const CashierSingle = () => {
         show={openAlert}
         close={closeAlertModal}
       />
+      <ModalBackCashier
+        show={backAlert}
+        close={closeBackAlertModal}
+        submit={prepareDelete}
+      />
+      <ModalDeleteCashier
+        show={deleteAlert}
+        close={closeDeleteAlertModal}
+        submit={prepareDelete}
+      />
+      <ModalSuccessCashier show={successAlert} close={closeSuccessAlertModal} />
       <div className="relative flex flex-none">
-        <BackButton />
+        <button
+          className="flex items-center bg-white text-black px-3 py-2 rounded-lg font-semibold"
+          onClick={() => setBackAlert(true)}
+        >
+          <MdChevronLeft />
+          Back
+        </button>
       </div>
       {cart ? (
         <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown relative">
@@ -191,10 +228,13 @@ const CashierSingle = () => {
                     </div>
                     <div className="flex justify-between">
                       <h1>Balance</h1>
-                      <h1>Rp {addDots(cart.grand_total - inputNumber)}</h1>
+                      <h1>Rp {addDots(inputNumber - cart.grand_total)}</h1>
                     </div>
                   </div>
                   <button
+                    disabled={
+                      inputNumber - cart.grand_total < 0 && methodPayment === ""
+                    }
                     className="w-full bg-[#48C134] rounded-lg py-2"
                     onClick={handleConfirmPayment}
                   >
@@ -221,6 +261,9 @@ const CashierSingle = () => {
                     onChange={(e) => setMethodPayment(e.target.value)}
                     defaultValue="Cash"
                   >
+                    <option value="" disabled className="text-black">
+                      Select Payment Method...
+                    </option>
                     <option value="Cash" className="text-black">
                       Cash
                     </option>
@@ -230,7 +273,14 @@ const CashierSingle = () => {
                     <option value="BCA" className="text-black">
                       BCA DEBIT
                     </option>
+                    <option value="Other" className="text-black">
+                      Other
+                    </option>
                   </select>
+                  <Keypad
+                    paidValue={inputNumber}
+                    setPaidValue={setInputNumber}
+                  />
                 </div>
               </div>
             </div>
