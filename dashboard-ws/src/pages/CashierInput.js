@@ -200,7 +200,6 @@ const CashierInput = () => {
         .then((response) => {
           setActiveCustomerData(response.data.data);
           setCustomerId(response.data.data.id);
-          console.log(response.data.data);
         });
     } catch (err) {
       closeAddCustomerModal();
@@ -365,20 +364,21 @@ const CashierInput = () => {
 
   const postCart = async () => {
     try {
-      await axios.post(
-        "https://api.kattohair.com/api/cashier/create",
-        {
-          user_id: getId(),
-          customer_id: parseInt(customerId),
-          discount_type: "percent",
-          discount_amount: "",
-          coupon_type: "nominal",
-          coupon_amount: "",
-          service_items: JSON.parse(localStorage.getItem("cart")),
-        },
-        Session()
-      );
-      console.log("here");
+      await axios
+        .post(
+          "https://api.kattohair.com/api/cashier/create",
+          {
+            user_id: getId(),
+            customer_id: parseInt(customerId),
+            discount_type: "percent",
+            discount_amount: "",
+            coupon_type: "nominal",
+            coupon_amount: "",
+            service_items: JSON.parse(localStorage.getItem("cart")),
+          },
+          Session()
+        )
+        .then(() => clearCart());
     } catch (err) {
       if (!err?.response) {
         setMessage("No Server Response");
@@ -392,7 +392,6 @@ const CashierInput = () => {
   };
 
   const prepareConfirmPayment = () => {
-    // console.log(parseInt(customerId));
     postCart();
     navigate("/cashier/confirmation");
   };

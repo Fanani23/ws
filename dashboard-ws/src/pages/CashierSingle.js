@@ -1,9 +1,6 @@
-import {CashierSample} from "../data/CashierSample";
-import {MdDeleteOutline, MdClose, MdChevronLeft} from "react-icons/md";
+import {MdDeleteOutline, MdChevronLeft} from "react-icons/md";
 import success from "../img/payment-success.png";
-import {Fragment, useEffect, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
-import BackButton from "../components/BackButton";
+import {useEffect, useState} from "react";
 import Session from "../Session";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
@@ -40,6 +37,7 @@ const CashierSingle = () => {
 
   const [cart, setCart] = useState({});
   const [userId, setUserId] = useState();
+  const [custPhone, setCustPhone] = useState(0);
 
   const getCartData = async (val) => {
     try {
@@ -55,7 +53,6 @@ const CashierSingle = () => {
         }
       );
       setCart(data.data);
-      console.log(data.data);
     } catch (err) {
       console.log(err);
     }
@@ -75,11 +72,6 @@ const CashierSingle = () => {
   };
 
   const confirmPayment = async (val) => {
-    // console.log(
-    //   `https://api.kattohair.com/api/cashier/confirm/${val}`,
-    //   {method: methodPayment},
-    //   Session()
-    // );
     try {
       await axios.post(
         `https://api.kattohair.com/api/cashier/confirm/${val}`,
@@ -93,11 +85,9 @@ const CashierSingle = () => {
   };
 
   const handleConfirmPayment = () => {
-    if (methodPayment === null) {
+    if (methodPayment === "") {
       openAlertModal();
     } else {
-      console.log(methodPayment);
-      console.log(userId);
       confirmPayment(cart.id);
     }
   };
@@ -184,7 +174,7 @@ const CashierSingle = () => {
                   </div>
                   <button
                     className="p-3 bg-red-500 rounded-lg text-white"
-                    onClick={prepareDelete}
+                    onClick={() => setDeleteAlert(true)}
                   >
                     <MdDeleteOutline />
                   </button>
@@ -232,10 +222,12 @@ const CashierSingle = () => {
                     </div>
                   </div>
                   <button
-                    disabled={
-                      inputNumber - cart.grand_total < 0 && methodPayment === ""
-                    }
-                    className="w-full bg-[#48C134] rounded-lg py-2"
+                    disabled={inputNumber - cart.grand_total < 0}
+                    className={`${
+                      inputNumber - cart.grand_total < 0
+                        ? "bg-[#9dcf97] "
+                        : "bg-[#48C134] "
+                    } w-full rounded-lg py-2`}
                     onClick={handleConfirmPayment}
                   >
                     Confirm Payment

@@ -63,6 +63,7 @@ const CashierDataInput = ({
               </div>
             </>
           ))}
+        {!dataCashier[0] && <p className="text-gray-500">No data recorded</p>}
       </div>
       {dataCashier[0] && (
         <div className="sticky bottom-0 flex flex-col py-3 bg-white text-black">
@@ -79,10 +80,6 @@ const CashierDataInput = ({
           <div className="px-3 mt-3 flex justify-between">
             <h1>Total</h1>
             <h2>Rp {addDots(totalPrice)}</h2>
-          </div>
-          <div className="px-3 mt-3 flex justify-between">
-            <h1>Total</h1>
-            <h2>Rp {addDots()}</h2>
           </div>
           <div className="px-3">
             <button
