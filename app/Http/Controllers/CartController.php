@@ -55,7 +55,7 @@ class CartController extends Controller
             $discount_amount = 20;
             $discount_type = 'percent';
             $coupon_amount = 0;
-        } elseif ($request->discount_amount > 0) {
+        } elseif ($request->discount_amount > 0 || $request->coupon_amount > 0) {
             // discount all order
             if ($request->discount_type == 'nominal') {
                 $grand_total = $grand_total - $request->discount_amount;
@@ -98,7 +98,7 @@ class CartController extends Controller
             if ($product['commission_value'] > 0) {
                 if ($product->commission_type == 'percent') {
                     $fee = $product_price * ($product['commission_value'] / 100);
-                    
+
                 } elseif ($product->commission_type == 'nominal') {
                     $fee = $product['commission_value'];
                 }

@@ -18,9 +18,9 @@ class CreateTransactionsTable extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
             $table->string('code');
-            $table->enum('discount_type', ['percent', 'nominal'])->nullable();
+            $table->enum('discount_type', ['percent', 'nominal', 'null'])->nullable();
             $table->double('discount_amount')->nullable();
-            $table->enum('coupon_type', ['percent', 'nominal'])->nullable();
+            $table->enum('coupon_type', ['percent', 'nominal', 'null'])->nullable();
             $table->double('coupon_amount')->nullable();
             $table->double('subtotal')->nullable();
             $table->double('discount_total')->nullable();
