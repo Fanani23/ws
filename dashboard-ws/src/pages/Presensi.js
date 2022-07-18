@@ -9,6 +9,7 @@ import ModalDeletePresensi from "../components/ModalDeletePresensi";
 import PresensiDetail from "../components/PresensiDetail";
 import Session from "../Session";
 import ModalAlert from "../components/ModalAlert";
+import Clock from "react-live-clock";
 import FilterByDate from "../components/FilterByDate";
 
 const Presensi = () => {
@@ -29,6 +30,8 @@ const Presensi = () => {
   const openAlertModal = () => setOpenAlert(true);
   // Table & Pagination
   const [tableData, setTableData] = useState([]);
+  const [filterStart, setFilterStart] = useState("");
+  const [filterEnd, setFilterEnd] = useState("");
   const [tableCount, setTableCount] = useState(null);
   const [currentTablePage, setCurrentTablePage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(1);
@@ -43,15 +46,12 @@ const Presensi = () => {
   // Print Function
   const idTable = "tablePresensi";
   // Detail
-  const [detailShow, setDetailShow] = useState();
-  const [detailDateStart, setDetailDateStart] = useState();
-  const [detailDateEnd, setDetailDateEnd] = useState();
+  const [detailShow, setDetailShow] = useState(false);
+  const [detailDateStart, setDetailDateStart] = useState("");
+  const [detailDateEnd, setDetailDateEnd] = useState("");
   const [detailPresensi, setDetailPresensi] = useState();
-  const [activeId, setActiveId] = useState();
+  const [activeId, setActiveId] = useState("");
   const [activeEmployee, setActiveEmployee] = useState("");
-  const [dateStart, setDateStart] = useState();
-  const [dateEnd, setDateEnd] = useState();
-
 
   const getEmployeeData = async () => {
     try {
@@ -65,18 +65,19 @@ const Presensi = () => {
     }
   };
 
-  const fetchData = async (page = currentTablePage, search = "") => {
+  const fetchData = async (
+    page = currentTablePage,
+    dateStart = "",
+    dateEnd = ""
+  ) => {
     try {
       const pageData = await axios.get(
         `https://api.kattohair.com/api/presences${
-        //   search !== "" ? `?name=${search}&?page=${page}` : `?page=${page}`
-        // }`,
-        // Session()
-        dateStart !== "" && dateStart !== undefined
-          ? dateEnd !== "" && dateEnd !== undefined
-            ? `?from=${dateStart}&to=${dateEnd}`
-            : ``
-          : ``
+          dateStart !== "" && dateStart !== undefined
+            ? dateEnd !== "" && dateEnd !== undefined
+              ? `?from=${dateStart}&to=${dateEnd}`
+              : `?page=${page}`
+            : `?page=${page}`
         }`,
         Session()
       );
@@ -129,22 +130,24 @@ const Presensi = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
-        "https://api.kattohair.com/api/presences/create",
-        {
-          code: code,
-          shift: shift,
-          status: status,
-        },
-        Session()
-      );
-      // .then((response) => setMsgPresensi(response.message));
+      await axios
+        .post(
+          "https://api.kattohair.com/api/presences/create",
+          {
+            code: code,
+            shift: shift,
+            status: status,
+          },
+          Session()
+        )
+        .then((response) => {
+          setMsgPresensi(response.data.message);
+          setOpenAlert(true);
+        });
       fetchData();
       getTotalCount();
       getItemsPerPage();
     } catch (err) {
-      // console.log(err);
-      // alert("Presensi gagal");
       setMsgPresensi(err.response.data.message);
     }
   };
@@ -169,13 +172,17 @@ const Presensi = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(
-        `https://api.kattohair.com/api/presences/destroy/${idDelete}`,
-        Session()
-      );
+      await axios
+        .delete(
+          `https://api.kattohair.com/api/presences/destroy/${idDelete}`,
+          Session()
+        )
+        .then((response) => {
+          setMsgPresensi(response.data.message);
+          setOpenAlert(true);
+        });
       fetchData();
       getTotalCount();
-      alert("Succesfully delete presensi");
     } catch (err) {
       console.log(err);
       alert("Delete presensi failed");
@@ -190,6 +197,16 @@ const Presensi = () => {
   const prepareEnterDetailDateEnd = (val) => {
     setDetailDateEnd(val);
     fetchDetailData(activeId, detailDateStart, val);
+  };
+
+  const prepareEnterFilterDateStart = (val) => {
+    setFilterStart(val);
+    fetchData(currentTablePage, val, filterEnd);
+  };
+
+  const prepareEnterFilterDateEnd = (val) => {
+    setFilterEnd(val);
+    fetchData(currentTablePage, filterStart, val);
   };
 
   const fetchDetailData = async (id, detailDateStart, detailDateEnd) => {
@@ -220,6 +237,12 @@ const Presensi = () => {
     }
   };
 
+  const clearFilter = () => {
+    setFilterStart("");
+    setFilterEnd("");
+    fetchData();
+  };
+
   useEffect(() => {
     if (msgPresensi !== "") {
       openAlertModal();
@@ -228,13 +251,11 @@ const Presensi = () => {
 
   return (
     <div className="flex flex-col h-full font-noto-sans">
-      {msgPresensi && (
-        <ModalAlert
-          show={openAlert}
-          close={closeAlertModal}
-          message={msgPresensi}
-        />
-      )}
+      <ModalAlert
+        show={openAlert}
+        close={closeAlertModal}
+        message={msgPresensi}
+      />
       <ModalCreatePresensi
         show={openAddPresensi}
         close={closeAddPresensiModal}
@@ -251,31 +272,62 @@ const Presensi = () => {
         nameDeleteValue={nameDelete}
         submit={handleDelete}
       />
-      <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-auto scrollbar-shown">
+      <div className="w-full flex flex-col mt-3 md:flex-row grow overflow-y-auto scrollbar-shown">
         <div
           className={`
           basis-full${detailShow ? " md:basis-1/2 lg:basis-3/6" : ""}`}
         >
           <div className="bg-white relative rounded-lg overflow-hidden flex h-full flex-col p-3">
-            <div className="flex mt-2 relative">
-              <button
-                type="submit"
-                className="flex items-center ml-2 mb-2 px-3 py-2 bg-black rounded-lg"
-                onClick={openAddPresensiModal}
-              >
-                <MdAdd className="text-white mr-2" />
-                <span>Add Presensi</span>
-              </button>
+            <div className="flex flex-row my-2 justify-between relative">
+              <div className="flex flex-col gap-y-3 mb-3">
+                <div className="flex flex-col">
+                  <span className="not-italic font-semibold leading-7 text-black text-xl">
+                    Date & Time
+                  </span>
+                  <Clock
+                    format="ll, HH:mm:ss"
+                    interval={1000}
+                    ticking={true}
+                    className="h-10 text-3xl text-black font-semibold not-italic"
+                  />
+                </div>
+                <div className="flex flex-col gap-y-2 lg:flex-wrap lg:flex-row lg:gap-2">
+                  <button
+                    type="submit"
+                    className="flex items-center px-3 py-2 w-fit bg-black rounded-lg whitespace-nowrap"
+                    onClick={openAddPresensiModal}
+                  >
+                    <MdAdd className="text-white mr-2" />
+                    <span>Add Presensi Today</span>
+                  </button>
+                  <FilterByDate
+                    dateStart={filterStart}
+                    setDateStart={prepareEnterFilterDateStart}
+                    dateEnd={filterEnd}
+                    setDateEnd={prepareEnterFilterDateEnd}
+                  />
+                  {(filterStart !== "" || filterEnd !== "") && (
+                    <button
+                      className="flex items-center px-3 py-2 w-fit bg-black rounded-lg"
+                      onClick={clearFilter}
+                    >
+                      <span>Clear Filter</span>
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
             {tableCount ? (
               <>
-                <TablePresensi
-                  tableData={tableData}
-                  idTable={idTable}
-                  deleteRow={prepareDelete}
-                  detailData={detailData}
-                  setActiveEmployeeName={setActiveEmployee}
-                />
+                <div className="bg-white relative rounded-lg overflow-y-auto scrollbar-shown flex h-full flex-col mb-8">
+                  <TablePresensi
+                    tableData={tableData}
+                    idTable={idTable}
+                    deleteRow={prepareDelete}
+                    detailData={detailData}
+                    setActiveEmployeeName={setActiveEmployee}
+                  />
+                </div>
                 <Pagination
                   maxPage={Math.ceil(tableCount / itemsPerPage)}
                   currentPage={currentTablePage}
