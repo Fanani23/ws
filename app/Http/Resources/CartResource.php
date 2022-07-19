@@ -18,10 +18,12 @@ class CartResource extends JsonResource
         return [
             "id" => $this->id,
             "customer_name" => $this->customer->name,
+            "customer_phone" => $this->customer->phone,
             "code" => $this->code,
             "subtotal" => formatPrice($this->subtotal),
             "discount_total" => formatPrice($this->discount_total),
             "grand_total" => formatPrice($this->grand_total),
+            "grand_total_unformat" => intval($this->grand_total),
             "datetime" => $this->datetime,
             "service_items" => TransactionItemResource::collection($this->cartItems)
         ];
