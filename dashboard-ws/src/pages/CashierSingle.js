@@ -170,7 +170,9 @@ const CashierSingle = () => {
                     <h1 className="text-black font-bold">
                       {cart.customer_name}
                     </h1>
-                    <h2 className="text-gray-500 text-sm">#123</h2>
+                    <h2 className="text-gray-500 text-sm">
+                      #{cart.customer_phone}
+                    </h2>
                   </div>
                   <button
                     className="p-3 bg-red-500 rounded-lg text-white"
@@ -218,13 +220,15 @@ const CashierSingle = () => {
                     </div>
                     <div className="flex justify-between">
                       <h1>Balance</h1>
-                      <h1>Rp {addDots(inputNumber - cart.grand_total)}</h1>
+                      <h1>
+                        Rp {addDots(inputNumber - cart.grand_total_unformat)}
+                      </h1>
                     </div>
                   </div>
                   <button
-                    disabled={inputNumber - cart.grand_total < 0}
+                    disabled={inputNumber - cart.grand_total_unformat < 0}
                     className={`${
-                      inputNumber - cart.grand_total < 0
+                      inputNumber - cart.grand_total_unformat < 0
                         ? "bg-[#9dcf97] "
                         : "bg-[#48C134] "
                     } w-full rounded-lg py-2`}

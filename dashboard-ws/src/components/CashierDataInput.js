@@ -67,7 +67,7 @@ const CashierDataInput = ({
       </div>
       {dataCashier[0] && (
         <div className="sticky bottom-0 flex flex-col py-3 bg-white text-black">
-          <div className="px-3 flex justify-end">
+          {/* <div className="px-3 flex justify-end">
             {activeCustomerData?.membership !== "vip" && (
               <button className="bg-black text-white px-3 py-2 rounded-lg mr-1">
                 Discount
@@ -76,7 +76,7 @@ const CashierDataInput = ({
             <button className="bg-black text-white px-3 py-2 rounded-lg ml-1">
               Coupon
             </button>
-          </div>
+          </div> */}
           <div className="px-3 mt-3 flex justify-between">
             <h1>Total</h1>
             <h2>Rp {addDots(totalPrice)}</h2>
