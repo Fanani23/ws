@@ -12,6 +12,7 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'customer_id',
+        'payment_method_id',
         'code',
         'discount_type',
         'discount_amount',
@@ -20,7 +21,6 @@ class Transaction extends Model
         'subtotal',
         'discount_total',
         'grand_total',
-        'method',
         'status',
         'datetime',
     ];
@@ -38,5 +38,10 @@ class Transaction extends Model
     public function notification()
     {
         return $this->hasOne(Notification::class);
+    }
+
+    public function paymentMethod()
+    {
+        return $this->belongsTo(PaymentMethod::class);
     }
 }

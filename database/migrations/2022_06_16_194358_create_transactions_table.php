@@ -17,15 +17,15 @@ class CreateTransactionsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('customers')->onDelete('cascade');
+            $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('cascade');
             $table->string('code');
-            $table->enum('discount_type', ['percent', 'nominal', 'null'])->nullable();
+            $table->enum('discount_type', ['percent', 'nominal', 'none'])->nullable();
             $table->double('discount_amount')->nullable();
-            $table->enum('coupon_type', ['percent', 'nominal', 'null'])->nullable();
+            $table->enum('coupon_type', ['percent', 'nominal', 'none'])->nullable();
             $table->double('coupon_amount')->nullable();
             $table->double('subtotal')->nullable();
             $table->double('discount_total')->nullable();
             $table->double('grand_total')->nullable();
-            $table->string('method');
             $table->string('status');
             $table->dateTime('datetime');
             $table->timestamps();

@@ -19,6 +19,7 @@ class TransactionCollection extends ResourceCollection
                 return [
                     "id" => $transactions->id,
                     "customer_name" => $transactions->customer->name,
+                    "payment_method" => $transactions->paymentMethod->name,
                     "code" => $transactions->code,
                     "discount_type" => $transactions->discount_type,
                     "discount_amount" => $transactions->discount_amount,

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, NotificationController, TransactionController, UserController};
+use App\Http\Controllers\{CategoryController, CustomerController, EmployeeController, JobController, OrderController, PresenceController, ProductController, CartController, DashboardController, NotificationController, PaymentMethodController, TransactionController, UserController};
 use App\Http\Controllers\Auth\{LoginActivityController, LoginController, LogoutController, MeController, RegisterController};
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +72,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('/{user:id}', [UserController::class, 'show']);
         });
+    });
+
+    Route::prefix('payment-methods')->group(function () {
+        Route::get('', [PaymentMethodController::class, 'index']);
+        Route::post('/create', [PaymentMethodController::class, 'create']);
+        Route::put('/update/{paymentMethod:id}', [PaymentMethodController::class, 'update']);
+        Route::delete('/delete/{paymentMethod:id}', [PaymentMethodController::class, 'destroy']);
+        Route::get('{paymentMethod:id}', [PaymentMethodController::class, 'show']);
     });
 
     Route::prefix('cashier')->group(function () {

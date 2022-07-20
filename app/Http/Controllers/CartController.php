@@ -165,9 +165,14 @@ class CartController extends Controller
 
     public function confirm(Request $request, Cart $cart)
     {
+        $request->validate([
+            'payment_method_id' => 'required|exists:payment_methods,id',
+        ]);
+
         $transaction = Transaction::create([
             'user_id' => $cart->user_id,
             'customer_id' => $cart->customer_id,
+            'payment_method_id' => $request->payment_method_id,
             'code' => $cart->code,
             'discount_type' => $cart->discount_type,
             'discount_amount' => $cart->discount_amount,
@@ -177,7 +182,6 @@ class CartController extends Controller
             'discount_total' => $cart->discount_total,
             'grand_total' => $cart->grand_total,
             'datetime' => $cart->datetime,
-            'method' => $request->method,
             'status' => 'paid'
         ]);
 
