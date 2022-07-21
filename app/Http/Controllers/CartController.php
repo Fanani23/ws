@@ -32,14 +32,11 @@ class CartController extends Controller
 
             if ($customer_membership == 'vip') {
                 $price_after_discount[$key] = $product_price;
-
             } elseif ($request->discount_amount == '') {
                 if ($service['service_discount_type'] == 'nominal' && $service['service_discount_amount'] > 0) {
                     $price_after_discount[$key] = $product_price - $service['service_discount_amount'];
-
                 } elseif ($service['service_discount_type'] == 'percent' && $service['service_discount_amount'] > 0) {
                     $price_after_discount[$key] = $product_price - ($product_price * ($service['service_discount_amount'] / 100));
-
                 } else {
                     $price_after_discount[$key] = $product_price;
                 }
@@ -59,17 +56,14 @@ class CartController extends Controller
             // discount all order
             if ($request->discount_type == 'nominal') {
                 $grand_total = $grand_total - $request->discount_amount;
-
             } elseif ($request->discount_type == 'percent') {
                 $grand_total = $grand_total - ($grand_total * ($request->discount_amount / 100));
             }
 
             if ($request->coupon_type == 'nominal') {
                 $grand_total = $grand_total - $request->coupon_amount;
-
             } elseif ($request->coupon_type == 'percent') {
                 $grand_total = $grand_total - ($grand_total * ($request->coupon_amount / 100));
-
             }
         }
 
@@ -92,17 +86,6 @@ class CartController extends Controller
         foreach ($request->service_items as $key => $service) {
             $product = Product::where('id', $service['product_id'])->first();
             $product_price = $product['price'];
-
-            $fee = 0;
-
-            if ($product['commission_value'] > 0) {
-                if ($product->commission_type == 'percent') {
-                    $fee = $product_price * ($product['commission_value'] / 100);
-
-                } elseif ($product->commission_type == 'nominal') {
-                    $fee = $product['commission_value'];
-                }
-            }
 
             if ($customer_membership == 'vip') {
                 $service_discount_type = 'percent';
@@ -133,6 +116,16 @@ class CartController extends Controller
                     $service_discount_type = 'percent';
                     $service_discount_amount = $request->coupon_amount;
                     $price_after_discount_product = $product_price - ($product_price * ($request->coupon_amount / 100));
+                }
+            }
+
+            $fee = 0;
+
+            if ($product['commission_value'] > 0) {
+                if ($product->commission_type == 'percent') {
+                    $fee = $price_after_discount_product * ($product['commission_value'] / 100);
+                } elseif ($product->commission_type == 'nominal') {
+                    $fee = $product['commission_value'];
                 }
             }
 
