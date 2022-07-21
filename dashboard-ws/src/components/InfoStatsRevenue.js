@@ -2,6 +2,27 @@ import React from "react";
 import {MdTrendingUp, MdTrendingDown, MdOutlinePaid} from "react-icons/md";
 
 const InfoStatsRevenue = ({totalRevenue, growth, type}) => {
+  const addDots = (nStr) => {
+    nStr += "";
+    let x = nStr.split(".");
+    let x1 = x[0];
+    let x2 = x.length > 1 ? "." + x[1] : "";
+    let rgx = /(\d+)(\d{3})/;
+    while (rgx.test(x1)) {
+      x1 = x1.replace(rgx, "$1" + "." + "$2");
+    }
+    return x1 + x2;
+  };
+
+  const proses = (val) => {
+    if (val.length > 4) {
+      let x = val.replace("%", "");
+      let y = addDots(x);
+      return y;
+    } else {
+      return val;
+    }
+  };
   return (
     <>
       <div className="flex justify-between items-center">
@@ -23,7 +44,7 @@ const InfoStatsRevenue = ({totalRevenue, growth, type}) => {
             <MdTrendingDown className="text-[#C14040] mr-3" />
           </>
         )}
-        {growth} From Yesterday
+        {proses(growth)} From Yesterday
       </div>
     </>
   );
